@@ -6,3 +6,5 @@ title: Blogs
 
 ## Chinese Blogs 中文博客
 
+- [2025-05-24 建站纪念](https://Volodymyr2580.github.io/blogs/建站纪念.md)
+
