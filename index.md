@@ -4,7 +4,7 @@ layout: page
 
 # About Me
 
-<img src="https://caihanlin.com/caihanlin.jpg" class="floatpic">
+<img src="https://Volodymyr2580.github.io/wenzhe.jpg" class="floatpic">
 
 Here is **Wenzhe Sheng (Volodymyr, 盛文哲)**.<br>
 
@@ -20,15 +20,23 @@ If you are interested in any aspect of me, I am always open to discussions and c
 
 ## Research Interests
 
-- [Internet of Everything](https://scholar.google.com/citations?view_op=search_authors&hl=zh-CN&mauthors=label:internet_of_everything)
-- 
+- AI
+- Geophysics
+- Reinforcement Learning
+- Stochastic Analysis
+- Statistical Field Theory
 
 My current research focuses on deep learning methods for scientific problems, especially those related to geophysics. I'm currently studying geophysics and mathematics and researching on full waveform inversion techniques and its applications in ChangE'4 Lunar Penetrating Radar data.
 
-In the near future, I'll probably be working on reinforcement learning, stochastic analysis, stochastic mechanics and deep learning principles.
+In the near future, I'll probably be working on reinforcement learning, stochastic analysis, statistical mechanics and deep learning principles.
 
 ---
 
 ## News and Updates
+
+## About this homepage
+
+I'll be working on this homepage to keep track of my research and personal life since 05/24/2025. I'll be updating my notes, tutorials and some blogs.
+
 
 
