@@ -1,7 +1,7 @@
 ---
 layout: page
-permalink: /score_function/index.html
-title: Blogs
+permalink: /notes/AI/score_function/index.html
+title: score_function
 ---
 
 # 生成模型学习——Following Yang Song's blog
