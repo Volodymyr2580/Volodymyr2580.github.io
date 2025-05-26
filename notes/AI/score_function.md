@@ -1,3 +1,9 @@
+---
+layout: page
+permalink: /score_function/index.html
+title: Blogs
+---
+
 # 生成模型学习——Following Yang Song's blog
 本文参考Yang Song的博客https://yang-song.net/blog/2021/score/
 
