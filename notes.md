@@ -12,3 +12,6 @@ title: Notes
 
 ### 学习笔记
 
+#### Deep Learning
+- [基于score function的生成模型]()
+
