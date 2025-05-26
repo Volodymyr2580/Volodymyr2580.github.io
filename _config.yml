@@ -54,6 +54,9 @@ permalink:   /:categories/:title
 
 kramdown:
   math_engine: mathjax
+  math_engine_opts:
+    preview: false
+  syntax_highlighter: rouge
   auto_ids: true
   footnote_nr: 1
   entity_output: as_char
