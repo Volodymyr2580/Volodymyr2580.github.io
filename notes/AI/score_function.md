@@ -109,7 +109,9 @@ $$dx = [f(x,t)-g^2(t)\nabla_x log p_t(x)]dt+g(t)dw$$
 
 $$E_{t\in \mathcal{U}(0,T)}E_{p_t(x)}[\lambda(t)||\nabla_x log p_t(x)-s_\theta(x,t)||_2^2]$$
 
-通常权重因子选为$\lambda(t)\propto 1/E[||\nabla_{x(t)}log p(x(t)|x(0))||_2^2]$
+通常权重因子选为
+
+$$\lambda(t)\propto 1/E[||\nabla_{x(t)}log p(x(t)|x(0))||_2^2]$$
 
 将训练得到的$s_\theta(x,t)$代入Reverse SDE中的score function中，即可得到采样。
 
