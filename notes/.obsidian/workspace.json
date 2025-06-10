@@ -4,17 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "960ec4eb1911839c",
+        "id": "a559ce1c518d5c6a",
         "type": "tabs",
         "children": [
           {
-            "id": "a3edcb6a930231cc",
+            "id": "9b20bb561e86582e",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "AI/flow_matching_1.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "新标签页"
+              "title": "flow_matching_1"
             }
           }
         ]
@@ -74,7 +78,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 200,
+    "collapsed": true
   },
   "right": {
     "id": "c0ad50a20561da85",
@@ -161,8 +166,14 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "c4280e9f1835e47b",
+  "active": "9b20bb561e86582e",
   "lastOpenFiles": [
+    "AI/RL_1.md",
+    "AI/flow_matching_1.md",
+    "AI/flow_matching.asset/Pasted image 20250528165711.png",
+    "AI.md",
+    "AI/flow_matching.asset/Pasted image 20250528162144.png",
+    "AI/flow_matching.asset",
     "AI/score_function.md"
   ]
 }

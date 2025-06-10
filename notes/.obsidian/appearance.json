@@ -5,5 +5,6 @@
   "monospaceFontFamily": "Cambria Math",
   "textFontFamily": "Microsoft YaHei",
   "baseFontSize": 19,
-  "baseFontSizeAction": true
+  "baseFontSizeAction": true,
+  "cssTheme": "GitHub Theme"
 }
