@@ -167,12 +167,22 @@
   },
   "active": "263716dd5099f059",
   "lastOpenFiles": [
+    "textbooks/IntroductionToStochasticCalculus.pdf",
+    "textbooks/BrownianMotion.pdf",
+    "textbooks/Brownian Motion, Martingales, and Stochastic Calculus.pdf",
+    "textbooks/测度论基础与高等概率论下册 .pdf",
+    "textbooks/测度论基础与高等概率论上册.pdf",
+    "textbooks/测度论基础与高等概率论 上册 -- 袁德美 王学军 编著 -- 上, 2023 -- 科学出版社 -- .pdf",
+    "textbooks/测度论基础与高等概率论 下册 -- 袁德美 王学军 编著 -- 下, 2023 -- 科学出版社 -- .pdf",
+    "textbooks/Brownian Motion, Martingales, and Stochastic Calculus -- Jean-François Le Gall; Springer International Publishing -- Graduate Texts in Mathematics, -- 9783319310886 -- .pdf",
+    "textbooks/Introduction To Stochastic Calculus With Applications (3Rd -- Fima C_ Klebaner -- 3rd ed_, London, Singapore, Hackensack, NJ, England, 2012 -- 9781848168312 -- .pdf",
+    "textbooks",
+    "新建文件夹",
     "AI/flow_matching_1.md",
     "AI/RL_1.md",
     "AI/flow_matching.asset/graph1.png",
     "AI/flow_matching.asset/graph2.png",
     "AI.md",
-    "AI/flow_matching.asset",
     "AI/score_function.md"
   ]
 }
