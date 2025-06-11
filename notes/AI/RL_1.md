@@ -62,7 +62,7 @@ $$\text{discounted return} = \sum_{i=0}^{\infty}\gamma^ir_i$$
 书上提到有个概念叫episode,表示跟随一个policy后agent可能会停在某些terminal states，最终得到的trajectory称为an episode or a trial。在我看来和轨道的定义没有什么区别。
 
 
-第一章的最后提到一个Markov decision processes（MDPs) 
+第一章的最后提到一个Markov decision processes（MDPs）
 是在先前的模型上添加了马氏链的性质，即转移概率只依赖于上一步的状态和行为，和先前的历史没关系(memoryless property)，具体的数学表示都相当trivial。
 
 

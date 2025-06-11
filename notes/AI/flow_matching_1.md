@@ -37,7 +37,7 @@ $$X_t := \psi_t(X_0)\sim p_t \quad for\quad X_0\sim p_0$$
 第一步——构建概率路径
 我们把源分布取为高斯分布，$p := p_0 = \mathcal{N}(x|0,I)$，概率路径选为条件在目标分布的一个训练样本$x_1$上：
 
-$p_{t|1}(x|x_1)=\mathbb{N}(x|tx_1,(1-t^2)I$, so that:
+$$p_{t|1}(x|x_1)=\mathbb{N}(x|tx_1,(1-t^2)I)$$, so that:
 
 $$p_t(x)=\int p_{t|1}(x|x_1)q(x_1)dx_1,$$
 
