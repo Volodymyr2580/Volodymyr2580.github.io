@@ -12,6 +12,9 @@ title: Notes
 
 ## 学习笔记
 
+### 课内复习笔记
+- [中级宏观经济学期末部分复习](https://Volodymyr2580.github.io/notes/复习笔记/中宏复习笔记)
+
 ### Deep Learning
 
 #### 生成模型有关 about generative models
