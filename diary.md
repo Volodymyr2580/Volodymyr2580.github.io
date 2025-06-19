@@ -11,6 +11,7 @@ title: Diary
 
 开一个论文阅读的链接：
 - [论文阅读](https://Volodymyr2580.github.io/diary/paper)
+
 ## 2025年
 
 ### 六月
