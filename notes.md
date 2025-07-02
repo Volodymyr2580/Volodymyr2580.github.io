@@ -28,3 +28,6 @@ title: Notes
 
 - [强化学习的数学原理 2](https://Volodymyr2580.github.io/notes/AI/RL_2)
 
+- [强化学习的数学原理 3](https://Volodymyr2580.github.io/notes/AI/RL_3)
+
+- [强化学习的数学原理 4](https://Volodymyr2580.github.io/notes/AI/RL_4)

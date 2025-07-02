@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "devito.md",
+                "file": "AI/RL_4.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "devito"
+              "title": "RL_4"
             }
           }
         ]
@@ -78,8 +78,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "right": {
     "id": "c0ad50a20561da85",
@@ -168,24 +167,26 @@
   },
   "active": "1bc94b1c84291218",
   "lastOpenFiles": [
+    "AI/RL.asset/TPI.png",
+    "AI/RL.asset/piviprocess.png",
+    "AI/RL.asset/pi_vi.png",
+    "1054c5cbfa1ea456f48ac95610d401e7.jpg",
+    "AI/RL_3.md",
+    "AI/RL_4.md",
+    "AI/RL_2.md",
+    "AI/RL_1.md",
+    "devito.md",
+    "Pasted image 20250630091837.png",
+    "Pasted image 20250630090345.png",
+    "Pasted image 20250630090007.png",
     "Pasted image 20250621102235.png",
     "Pasted image 20250621102144.png",
-    "devito.md",
     "未命名",
-    "AI/RL_1.md",
-    "AI/RL_2.md",
     "AI/score_function.md",
     "AI/SFT_1.md",
     "复习笔记/中宏复习笔记.md",
     "Pasted image 20250613211851.png",
     "Pasted image 20250613211745.png",
-    "Pasted image 20250613211342.png",
-    "Pasted image 20250613210005.png",
-    "Pasted image 20250613200837.png",
-    "Pasted image 20250613200251.png",
-    "Pasted image 20250613195958.png",
-    "Pasted image 20250613194937.png",
-    "Pasted image 20250613193455.png",
     "复习笔记/macro.asset",
     "复习笔记",
     "AI/statistical.asset",

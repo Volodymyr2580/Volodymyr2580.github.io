@@ -2,8 +2,8 @@
 layout: page
 permalink: /notes/AI/RL_2/index.html
 title: 强化学习的数学原理 2
--
-
+---
+2
 
 
 
@@ -124,7 +124,14 @@ $$q_\pi(s,a)=\sum_{r \in \mathcal{R}}p(r|s,a)r+\gamma\sum_{s'\in \mathcal{S}}p(s
 
 $$q_\pi=\tilde{r}+\gamma P \Pi q_\pi$$
 
-其中：$[q_\pi]_{(s,a)}=q_\pi(s,a)$, $[\tilde{r}]_{(s,a)}=\sum_{r\in\mathcal{R}} p(r|s,a)r$,$[P]_{(s,a),s'}=p(s'|s,a)$,$\Pi$是一个分块对角阵，每一块是一个$1\times |\mathcal{A}|$的向量：$\Pi_{s',(s',a')}=\pi(a'|s')$
+其中：
+$$[q_\pi]_{(s,a)}=q_\pi(s,a)$$, 
+
+$$[\tilde{r}]_{(s,a)}=\sum_{r\in\mathcal{R}} p(r|s,a)r$$,
+
+$$[P]_{(s,a),s'}=p(s'|s,a)$$,
+
+$$\Pi$$是一个分块对角阵，每一块是一个$$1\times |\mathcal{A}|$$的向量：$$\Pi_{s',(s',a')}=\pi(a'|s')$$
 
 最后，从直观上来看，state value越大说明一个policy越优，但只是直观。
 

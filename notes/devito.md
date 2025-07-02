@@ -9,3 +9,10 @@ $$\begin{align*}
 ## PML层设置
 ![[Pasted image 20250621102144.png]]
 ![[Pasted image 20250621102235.png]]
+
+## EMFDTD
+![[Pasted image 20250630090007.png]]
+![[Pasted image 20250630090345.png]]
+m的取值位置与左端场分量位置相同
+
+![[Pasted image 20250630091837.png]]
