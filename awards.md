@@ -4,7 +4,7 @@ permalink: /awards/index.html
 title: Awards
 ---
 
-> Update: 24th May 2025
+> Update: 19th Feb 2026
 
 ## Scholarships
 - 2022~2023学年泰隆之星奖学金
