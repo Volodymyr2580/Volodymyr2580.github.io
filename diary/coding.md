@@ -7,6 +7,13 @@ title: coding
 # Coding Diary
 暂时先统一放在一个markdown文件中，后续如果发现某一板块的内容更新的较多了，翻看起来比较复杂，那再单独进行整理归档。
 
+### 服务器端操作
+nohup 运行python:
+nohup python your_script.py > output.log 2>&1 &
+查看进程：
+ps aux | grep your_script.py
+ps -p <PID>
+
 
 ### 在linux系统上配置conda
 

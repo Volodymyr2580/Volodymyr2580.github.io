@@ -3,8 +3,6 @@ layout: page
 permalink: /notes/AI/RL_2/index.html
 title: 强化学习的数学原理 2
 ---
-2
-
 
 
 上一节介绍了关于我们刻画一个agent与环境交互行为的基本概念。
