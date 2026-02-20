@@ -22,7 +22,9 @@ If you are interested in any aspect of me, I am always open to discussions and c
 如果您对我的任何方面感兴趣，欢迎通过邮箱或社交媒体与我联系。
 
 email: 2200012437@stu.pku.edu.cn
+
 qq: 2580232245
+
 ## Research Interests
 
 - AI
