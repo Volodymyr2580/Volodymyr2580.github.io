@@ -9,7 +9,8 @@ title: Blogs
 - [2025-05-24 建站纪念](https://Volodymyr2580.github.io/blogs/建站纪念)
 - [2025-05-27 怀旧有感](https://Volodymyr2580.github.io/blogs/怀旧有感)
 - [2026-02-19 高中回顾与思考](https://Volodymyr2580.github.io/blogs/高中回顾)
-- [2026-02-20 高考压轴题分享1](https://Volodymyr2580.github.io/blogs/压轴题分享1)
+- [2026-02-25 高考压轴题分享1](https://Volodymyr2580.github.io/blogs/压轴题分享1)
+- [2026-02-26 高考压轴题分享2](https://Volodymyr2580.github.io/blogs/高考压轴题分享2)
 
 ## 建站ideas
 
