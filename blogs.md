@@ -11,7 +11,7 @@ title: Blogs
 - [2026-02-19 高中回顾与思考](https://Volodymyr2580.github.io/blogs/高中回顾)
 - [2026-02-25 高考压轴题分享1](https://Volodymyr2580.github.io/blogs/压轴题分享1)
 - [2026-02-26 高考压轴题分享2](https://Volodymyr2580.github.io/blogs/高考压轴题分享2)
-
+- [2026-02-28 天平游戏](https://Volodymyr2580.github.io/blogs/天平游戏——博弈论)
 ## 建站ideas
 
 ###### 2025-06-11
