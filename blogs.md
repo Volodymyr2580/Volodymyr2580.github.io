@@ -12,6 +12,9 @@ title: Blogs
 - [2026-02-25 高考压轴题分享1](https://Volodymyr2580.github.io/blogs/压轴题分享1)
 - [2026-02-26 高考压轴题分享2](https://Volodymyr2580.github.io/blogs/高考压轴题分享2)
 - [2026-02-28 天平游戏](https://Volodymyr2580.github.io/blogs/天平游戏)
+- [2026-03-04 高考中的“齐次化”](https://Volodymyr2580.github.io/blogs/齐次化)
+
+
 ## 建站ideas
 
 ###### 2025-06-11
