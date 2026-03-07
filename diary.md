@@ -33,4 +33,88 @@ title: Diary
 
 与科研日志区分开的是学习日志。在这里会区别开我做的科研工作，我希望我能在完成科研任务的同时保持理论知识的学习，尤其是数学、物理和深度学习方向，也希望自己能在之后的生活中保证阅读量，所以也会记录一些读书的想法和读的书。
 
+## 体重记录与可视化
+
+<div id="weight-tracker" style="margin-top:1.5rem">
+  <div class="weight-form" style="display:flex;gap:.5rem;align-items:center;flex-wrap:wrap">
+    <label>日期：<input type="date" id="weight-date"></label>
+    <label>体重(kg)：<input type="number" id="weight-value" step="0.1" min="30" max="200" placeholder="例如 67.5"></label>
+    <button id="weight-add">添加记录</button>
+    <button id="weight-clear" style="margin-left:.5rem">清空本地数据</button>
+  </div>
+  <div style="margin-top:1rem">
+    <canvas id="weight-chart" height="140"></canvas>
+  </div>
+  <p style="font-size:12px;color:#666;margin-top:.5rem">说明：数据仅保存在当前浏览器的本地存储中；更换设备或清空浏览器数据会丢失。如需云端同步可后续升级。</p>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+(function(){
+  const LS_KEY = 'diary_weight_records';
+  function todayStr(){
+    const d = new Date();
+    const m = String(d.getMonth()+1).padStart(2,'0');
+    const day = String(d.getDate()).padStart(2,'0');
+    return `${d.getFullYear()}-${m}-${day}`;
+  }
+  function loadData(){
+    try {
+      const raw = localStorage.getItem(LS_KEY);
+      const arr = raw ? JSON.parse(raw) : [];
+      return arr.filter(r => r && r.date && r.weight !== undefined)
+                .sort((a,b)=> a.date.localeCompare(b.date));
+    } catch(e) { return []; }
+  }
+  function saveData(arr){ localStorage.setItem(LS_KEY, JSON.stringify(arr)); }
+  let records = loadData();
+  const dateEl = document.getElementById('weight-date');
+  const valEl = document.getElementById('weight-value');
+  dateEl.value = dateEl.value || todayStr();
+  let chart;
+  function render(){
+    const labels = records.map(r=>r.date);
+    const data = records.map(r=>+r.weight);
+    const minW = data.length? Math.min(...data) : 50;
+    const maxW = data.length? Math.max(...data) : 80;
+    const yMin = Math.floor(minW-1);
+    const yMax = Math.ceil(maxW+1);
+    if(!chart){
+      chart = new Chart(document.getElementById('weight-chart'), {
+        type: 'line',
+        data: { labels, datasets: [{ label: '体重(kg)', data, borderColor: '#2d6cdf', backgroundColor: 'rgba(45,108,223,0.15)', tension: 0.25, fill: true, pointRadius: 3 }] },
+        options: { responsive: true, plugins:{legend:{display:true}}, scales: { y: { min: yMin, max: yMax } } }
+      });
+    } else {
+      chart.data.labels = labels;
+      chart.data.datasets[0].data = data;
+      chart.options.scales.y.min = yMin;
+      chart.options.scales.y.max = yMax;
+      chart.update();
+    }
+  }
+  render();
+  document.getElementById('weight-add').addEventListener('click', function(){
+    const date = dateEl.value || todayStr();
+    const w = parseFloat(valEl.value);
+    if(!date){ alert('请输入日期'); return; }
+    if(isNaN(w)){ alert('请输入体重'); return; }
+    if(w < 30 || w > 200){ alert('体重范围30~200kg'); return; }
+    const idx = records.findIndex(r=>r.date === date);
+    if(idx >= 0){ records[idx].weight = w; } else { records.push({date, weight: w}); }
+    records.sort((a,b)=> a.date.localeCompare(b.date));
+    saveData(records);
+    render();
+    valEl.value = '';
+  });
+  document.getElementById('weight-clear').addEventListener('click', function(){
+    if(confirm('确定清空本地体重记录？此操作不可恢复。')){
+      records = [];
+      saveData(records);
+      render();
+    }
+  });
+})();
+</script>
+
 
