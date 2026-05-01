@@ -53,9 +53,7 @@ mathjax: true
 permalink:   /:categories/:title
 
 kramdown:
-  math_engine: mathjax
-  math_engine_opts:
-    preview: false
+  math_engine: null
   syntax_highlighter: rouge
   auto_ids: true
   footnote_nr: 1
@@ -63,9 +61,19 @@ kramdown:
   toc_levels: 1..6
   enable_coderay: false
 
-# disqus settings:
-disqus:
-  shortname: lancecai
+# giscus settings (基于 GitHub Discussions 的评论系统)
+# 去 https://giscus.app/zh-CN 获取 repo_id 和 category_id
+giscus:
+  repo: Volodymyr2580/Volodymyr2580.github.io
+  repo_id: "R_kgDOOvNN3A"           # 必填：去 giscus.app 获取
+  category: "Announcements"
+  category_id: "DIC_kwDOOvNN3M4C8IOG"       # 必填：去 giscus.app 获取
+  mapping: "pathname"
+  reactions_enabled: "1"
+  emit_metadata: "0"
+  input_position: "bottom"
+  theme: "preferred_color_scheme"
+  lang: "zh-CN"
 
 include: [".htaccess"]
 exclude: ["lib", "config.rb", "Capfile", "config", "log", "Rakefile", "Rakefile.rb", "tmp", "less", "minimal-mistakes.sublime-project", "minimal-mistakes.sublime-workspace"]

@@ -48,6 +48,13 @@
     <div class="article-wrap" itemprop="text">
       {{ content }}
     </div><!-- /.article-wrap -->
+    {% if page.comments != false %}
+    <div class="comments-section">
+      <hr>
+      <h3>Leave a Message</h3>
+      {% include disqus.html %}
+    </div>
+    {% endif %}
   </article>
 </div><!-- /#index -->
 
@@ -59,28 +66,6 @@
 
 {% include scripts.html %}
 
-<script type="text/javascript">
-  window.MathJax = {
-    tex: {
-      inlineMath: [['$', '$'], ['\\(', '\\)']],
-      displayMath: [['$$', '$$'], ['\\[', '\\]']],
-      processEscapes: true
-    },
-    svg: {
-      fontCache: 'global'
-    },
-    options: {
-      enableMenu: false
-    },
-    chtml: {
-      displayAlign: 'center',
-      displayIndent: '0em'
-    }
-  };
-</script>
-<script type="text/javascript" id="MathJax-script" async
-  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-</script>
 
 </body>
 </html>

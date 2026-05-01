@@ -1,13 +1,14 @@
 ---
 layout: page
-
 author_profile: true
-
 ---
 
 # About Me
 
-<img src="https://Volodymyr2580.github.io/wenzhe.jpg" class="floatpic">
+<div class="profile-section">
+<img src="https://Volodymyr2580.github.io/wenzhe.jpg" class="floatpic" alt="Wenzhe Sheng">
+
+<div class="intro-text">
 
 Here is **Wenzhe Sheng (Volodymyr, 盛文哲)**.<br>
 
@@ -24,6 +25,9 @@ If you are interested in any aspect of me, I am always open to discussions and c
 email: 2200012437@stu.pku.edu.cn
 
 qq: 2580232245
+
+</div>
+</div>
 
 ## Research Interests
 
@@ -44,6 +48,3 @@ In the near future, I'll probably be working on reinforcement learning, stochast
 ## About this homepage
 
 I'll be working on this homepage to keep track of my research and personal life since 05/24/2025. I'll be updating my notes, tutorials and some blogs.
-
-
-
