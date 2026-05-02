@@ -3,14 +3,18 @@ layout: page
 author_profile: true
 ---
 
-# About Me
+<div class="profile-card">
+<img src="https://Volodymyr2580.github.io/wenzhe.jpg" class="bio-photo-large" alt="Wenzhe Sheng">
+<h1>Wenzhe Sheng</h1>
+<p class="tagline">Undergraduate at Peking University · Earth & Space Sciences<br>Research interests in AI, Geophysics, and Reinforcement Learning</p>
+<p class="tagline">北京大学本科生 · 地球与空间科学学院</p>
+</div>
 
-<div class="profile-section">
-<img src="https://Volodymyr2580.github.io/wenzhe.jpg" class="floatpic" alt="Wenzhe Sheng">
+<div class="content-section">
 
-<div class="intro-text">
+## About Me
 
-Here is **Wenzhe Sheng (Volodymyr, 盛文哲)**.<br>
+Here is **Wenzhe Sheng (Volodymyr, 盛文哲)**.
 
 I am an undergraduate student in the School of Earth and Space Sciences at Peking University, China.
 
@@ -24,10 +28,9 @@ If you are interested in any aspect of me, I am always open to discussions and c
 
 email: 2200012437@stu.pku.edu.cn
 
-qq: 2580232245
+</div>
 
-</div>
-</div>
+<div class="content-section">
 
 ## Research Interests
 
@@ -41,10 +44,18 @@ My current research focuses on deep learning methods for scientific problems, es
 
 In the near future, I'll probably be working on reinforcement learning, stochastic analysis, statistical mechanics and deep learning principles.
 
----
+</div>
+
+<div class="content-section">
 
 ## News and Updates
+
+</div>
+
+<div class="content-section">
 
 ## About this homepage
 
 I'll be working on this homepage to keep track of my research and personal life since 05/24/2025. I'll be updating my notes, tutorials and some blogs.
+
+</div>
