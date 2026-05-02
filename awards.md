@@ -2,23 +2,22 @@
 layout: page
 permalink: /awards/index.html
 title: Awards
+comments: false
 ---
 
-> Update: 19th Feb 2026
+> Updated: 19 February 2026
 
 ## Scholarships
-- 2022~2023学年泰隆之星奖学金
-- 2022~2023学年北京大学学习进步奖
-- 2023~2024学年北京大学三好学生
-- 2023~2024学年工商银行工银星辰奖学金
-- 2024~2025学年北京大学三好学生
-- 2024~2025学年北京大学二等奖学金
+
+- 2022-2023 Academic Year: Tailong Star Scholarship
+- 2022-2023 Academic Year: Peking University Academic Progress Award
+- 2023-2024 Academic Year: Peking University Merit Student
+- 2023-2024 Academic Year: Industrial and Commercial Bank of China Scholarship
+- 2024-2025 Academic Year: Peking University Merit Student
+- 2024-2025 Academic Year: Peking University Second-class Scholarship
 
 ## Competitions
-- 获第三十二届北京大学‘挑战杯’三等奖
-- 第三十四届北京市大学生数学竞赛一等奖
-- 第三十五届北京市大学生数学竞赛一等奖
 
-
-
-<br>
+- Third Prize, 32nd Peking University Challenge Cup
+- First Prize, 34th Beijing College Student Mathematics Competition
+- First Prize, 35th Beijing College Student Mathematics Competition

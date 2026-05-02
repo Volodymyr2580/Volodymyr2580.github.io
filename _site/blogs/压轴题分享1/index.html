@@ -1,0 +1,397 @@
+<!-- Lastly modified by Hanlin CAI in 2023/04/26 -->
+<!-- It is not recommended to modify this code, unless you are a Pro-->
+
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+
+<head>
+<!-- It is not recommended to modify this code, unless you are a Pro-->
+<!-- Lastly modified by Hanlin CAI in 2023/04/26 -->
+
+<meta charset="utf-8">
+<title>压轴题分享1 &#8211; Wenzhe Sheng</title>
+
+
+
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="压轴题分享1 &#8211; Wenzhe Sheng">
+<meta property="og:description" content="看到一道有意思的题，因而分享。### 19. 错排问题源于伯努利和欧拉研究的“装错信封问题”。设将编号为 $1,2,3,\cdots,n$ 的 $n$ 个小球放入编号为 $1,2,3,\cdots,n$ 的 $n$ 个盒子中（每盒恰放...">
+<meta property="og:url" content="https://Volodymyr2580.github.io/blogs/压轴题分享1/index.html">
+<meta property="og:site_name" content="Wenzhe Sheng">
+
+
+
+
+
+<link rel="canonical" href="https://Volodymyr2580.github.io/blogs/压轴题分享1/">
+
+
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<!-- Google Webfonts -->
+<link href='https://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700|PT+Serif:400,700,400italic' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous" />
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css?v=20260502">
+
+<!--[if (lt IE 9) & (!IEMobile)]>
+<link rel="stylesheet" href="/assets/css/ie.css">
+<![endif]-->
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- Load Modernizr -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" integrity="sha512-3n19xznO0ubPpSwYCRRBgHh63DrV+bdZfHK52b1esvId4GsfwStQNPJFjeQos2h3JwCmZl0/LgLxSKMAI55hgw==" crossorigin="anonymous"></script>
+
+<!-- MathJax 3 -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true,
+    packages: {'[+]': ['ams', 'bm']},
+    macros: {
+      bm: ["\\boldsymbol{#1}", 1]
+    }
+  },
+  options: {
+    enableMenu: false,
+    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+    ignoreHtmlClass: 'tex2jax_ignore',
+    processHtmlClass: 'tex2jax_process'
+  },
+  chtml: {
+    fontCache: 'global',
+    displayAlign: 'center',
+    displayIndent: '0em',
+    scale: 1.0
+  },
+  startup: {
+    pageReady: function() {
+      return MathJax.startup.defaultPageReady();
+    }
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<!-- 16x16 -->
+<link rel="shortcut icon" href="https://Volodymyr2580.github.io/images/fav.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="https://Volodymyr2580.github.io/images/fav.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="https://Volodymyr2580.github.io/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://Volodymyr2580.github.io/images/fav.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://Volodymyr2580.github.io/images/fav.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://Volodymyr2580.github.io/images/fav.png">
+
+
+<script src="https://cdn.counter.dev/script.js" data-id="4c8f7caa-2b55-46cd-a995-2c4633303773" data-utcoffset="8"></script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T5N5JY1E21"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-T5N5JY1E21');
+</script>
+
+</head>
+
+
+<body class="page" itemscope itemtype="http://schema.org/WebPage">
+
+<!-- [if lt IE 6]><div class="chrome-frame alert alert-info"><strong>Your browser is really old!</strong> <a href="http://browsehappy.com/">Why not upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better enjoy this site?</div><![endif] -->
+
+<!-- It is not recommended to modify this code, unless you are a Pro-->
+<!-- Lastly modified by Hanlin CAI in 2023/01/15 -->
+
+<div class="navigation-wrapper">
+	<div class="site-name">
+		<a href="/">
+			<span class="site-mark">PKU</span>
+			<span class="site-brand-text">
+				<span class="site-title">Wenzhe Sheng</span>
+				<span class="site-subtitle">School of Earth and Space Sciences</span>
+			</span>
+		</a>
+	</div><!-- /.site-name -->
+  
+	<button class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false">
+		<span class="bar"></span>
+		<span class="bar"></span>
+		<span class="bar"></span>
+	</button>
+	<div class="top-navigation">
+		<nav role="navigation" itemscope itemtype="http://schema.org/SiteNavigationElement">
+		    <ul>
+		        
+            <li><a href="/" >About Me</a></li>
+		        
+            <li><a href="/publications/" >Publications</a></li>
+		        
+            <li><a href="/awards/" >Awards</a></li>
+		        
+            <li><a href="/diary/" >Diary</a></li>
+		        
+            <li><a href="/blogs/" >Blogs</a></li>
+		        
+            <li><a href="/notes/" >Notes</a></li>
+		        
+		    </ul>
+		</nav>
+		<div class="nav-social-links" aria-label="Contact links">
+			<a href="https://github.com/Volodymyr2580" aria-label="GitHub"><i class="icon-github"></i></a>
+			<a href="mailto:2200012437@stu.pku.edu.cn" aria-label="Email"><i class="icon-mail"></i></a>
+		</div>
+	</div><!-- /.top-navigation -->
+</div><!-- /.navigation-wrapper -->
+
+<!-- Lastly modified by Hanlin CAI in 2023/05/01 -->
+
+
+
+
+<div id="main" role="main"  itemprop="mainContentOfPage">
+  
+  <div class="article-author-top">
+    <img src="https://Volodymyr2580.github.io/images/bigheadwenzhe.jpg" class="bio-photo" alt="Wenzhe Sheng bio photo" width="100" height="100">
+
+<h4>Wenzhe Sheng</h4>
+
+<p>Undergraduate researcher at Peking University, School of Earth and Space Sciences.</p>
+
+<div class="social-links">
+<p><a href="mailto:2200012437@stu.pku.edu.cn" target="_blank"><i class="icon-mail"></i> Email</a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p><a href="https://github.com/Volodymyr2580"><i class="icon-github"></i> Github</a></p>
+
+
+
+
+
+
+
+
+
+<p><a href="https://www.zhihu.com/people/obtuse-4"><img src="https://caihanlin.com/images/logo/icons8-zhihu-96.png" width="15.8" height="15.8"></i> Zhihu</a></p>
+
+
+</div>
+
+<!-- Lastly modified by Hanlin CAI in 2023/10/15 -->
+
+  </div>
+  
+  <article itemscope itemtype="http://schema.org/CreativeWork">
+  
+    <div class="article-wrap" itemprop="text">
+      <p>看到一道有意思的题，因而分享。</p>
+
+<h3 id="19-错排问题源于伯努利和欧拉研究的装错信封问题">19. 错排问题源于伯努利和欧拉研究的“装错信封问题”。</h3>
+<p>设将编号为 $1,2,3,\cdots,n$ 的 $n$ 个小球放入编号为 $1,2,3,\cdots,n$ 的 $n$ 个盒子中（每盒恰放一球），若恰有 $m$ 个小球不在其对应编号的盒子中（即“错放”），则称这种情况数为错排数 $F(n,m)$，其中编号为 $i$ 的小球对应编号为 $i$ 的盒子。</p>
+
+<p>已知 $F(1,1)=0$，$F(2,2)=1$，规定 $F(0,0)=1$。</p>
+
+<p>(1) 直接写出 $F(3,3)$，$F(4,4)$ 的值；</p>
+
+<p>(2) 设 $F(n,n)=a_n$，$n \in \boldsymbol{N}^*$，证明数列 ${a_{n+1}-(n+1)a_n}$ 是等比数列；</p>
+
+<p>(3) 在高考英语中，“七选五”是一种常见题型。题目给出一篇缺少5个句子的短文，要求考生从文后的7个选项 $A、B、C、D、E、F、G$ 中选出5个最佳选项，填入文中空缺处，使文章完整、语义连贯。某考生由于平时不重视英语学习，于是在做此类题时采用“蒙题”的策略：5个空完全随机作答（选项不重复）。记蒙题答对的题数为随机变量 $X$，求 $X$ 的分布列和数学期望。</p>
+
+<p>Sol:</p>
+
+<p>(1) + (2)：错排数的求解有两种经典做法，一种是利用容斥原理，一种是像题(2)一样构造递推关系求解，我们这里不妨遵循出题人的思路采用第二种方法。</p>
+
+<p><strong>Step1: 建立$a_{n+1},a_n,a_{n-1}$之间的关系</strong>
+假设我们要计算$a_{n+1}$，手里有n+1个球，为了建立递推关系，我们必须先固定一个球的位置，如果我们先把1号球放在1号盒子，考虑剩下n个球的排列；</p>
+
+<p>Case1: 如果剩下n个球完全错排，有$a_n$种组合，这时将1号球与其中任意一个进行交换，仍得到n+1个球的错排，共有$n\times a_n$种情况</p>
+
+<p>Case2: 如果剩下n个球种恰有一个球i在对应的盒子i种，剩下n-1个球是错排，此时将球1和球i交换位置，得到n+1个球的错排，共有$n\times a_{n-1}$种情况。
+剩下n个球种恰有一个球</p>
+
+<p>Case3: 如果剩下n个球中有大于等于2个球在对应的盒子里，这里就无法在1步交换操作内实现n+1个球的错排，不考虑。</p>
+
+<p>因此，得到递推关系：
+<span class="kdmath">$a_{n+1}=na_n+na_{n-1}$</span>
+移项整理即得：
+<span class="kdmath">$a_{n+1}-(n+1)a_n=-(a_n-na_{n-1})$</span></p>
+
+<p>即得到${a_{n+1}-(n+1)a_n}$是以-1为公比的等比数列。</p>
+
+<p><strong>Step2: 求解$a_n$</strong></p>
+
+<p>易得:$a_1=0,a_2=1$</p>
+
+<p>所以，
+<span class="kdmath">$a_{n+1}-(n+1)a_n=(-1)^{n-1}$</span></p>
+
+<p>两边同除以$(n+1)!$，得到</p>
+
+<div class="kdmath">$$
+\frac{a_{n+1}}{(n+1)!}-\frac{a_{n}}{(n)!}=\frac{(-1)^{n+1}}{(n+1)!}
+$$</div>
+
+<p>求和易得：</p>
+
+<div class="kdmath">$$
+\frac{a_{n+1}}{(n+1)!}=\sum_{k=2}^{n+1}\frac{(-1)^{k}}{k!}
+$$</div>
+
+<p>所以，</p>
+
+<div class="kdmath">$$
+a_{n}=n!\sum_{k=2}^{n}\frac{(-1)^{k}}{k!}
+$$</div>
+
+<p>并验证$a_1=0$符合上式。</p>
+
+<p>自然有$a_3=2,a_4=9$</p>
+
+<p>(3): 七选五问题建模</p>
+
+<p>Idea:利用(1)(2)分别计算$P(X=k), k=0,1,2,3,4,5$</p>
+
+<p>为了用上错排数的已知内容，我们不妨把五个填空编号1,2,3,4,5；正确的5个选项依次为A,B,C,D,E,加上两个干扰项F,G;我们把问题建模为7个选项选5个随机排列，总共$A_7^5=2520$种组合。</p>
+
+<p>(i) $P(X=5)$</p>
+
+<p>最简单，只有1种组合。</p>
+
+<p>(ii) $P(X=4)$</p>
+
+<p>先选4个对的$C_5^4$,再选1个干扰项$C_2^1$，共10种可能。</p>
+
+<p>(iii) $P(X=3)$</p>
+
+<p>逻辑链是一样的，先选3个对的$C_5^3$,然后分3种情况，F,G选了0,1,2个，依次计算相加得到有$C_5^3\times(C_2^0a_2+C_2^1C_2^1+A_2^2)=70$种组合</p>
+
+<p>(iv) $P(X=2)$</p>
+
+<p>先选2个对的$C_5^2$,然后分3种情况，F,G选了0,1,2个，依次计算相加得到有$C_5^2\times(C_2^0a_3+C_2^1C_3^2(a_2+C_2^1)+C_2^2C_3^1C_2^1A_2^2)=320$种组合。</p>
+
+<p>(iv) $P(X=1)$
+先选1个对的$C_5^1$,然后分3种情况，F,G选了0,1,2个，依次计算相加得到有$C_5^1\times(C_2^0a_4+C_2^1C_4^3(a_3+C_3^1(a_2+C_2^1))+C_2^2C_4^2(a_2A_2^2+C_2^1C_2^1A_2^2+A_2^2A_2^2))=905$种组合。</p>
+
+<p>(v) $P(X=0)$
+分3种情况，F,G选了0,1,2个</p>
+
+<p>若F,G中选了0个，组合数就是5个选项错排$a_5$;</p>
+
+<p>若F,G中选了1个，假设是F，假设正确选项5选4选了A,B,C,D；分两种情况讨论，若F在位置5，则剩下是$a_4$种组合，若F不在位置5，相当于是5个选项的错排，即$a_5$种组合，因此该情况共有$C_2^1C_5^4(a_4+a_5)=530$种组合。</p>
+
+<p>若F,G中选了2个，类似讨论有$C_2^2C_5^3(a_3+a_4+a_4+a_5)=640$种组合。</p>
+
+<p>因此该情况的组合数一共1214种（验算各情况组合数相加是否为2520，当然如果你对前面的计算足够自信这里也可以直接用减法得到k=0的组合数）</p>
+
+<p>进而得到随机变量$X$的分布列，计算其数学期望应为
+<span class="kdmath">$EX=\frac{5}{7}$</span></p>
+
+
+    </div><!-- /.article-wrap -->
+    
+    <div class="comments-section">
+      <hr>
+      <h3>Leave a Message</h3>
+      <script src="https://giscus.app/client.js"
+        data-repo="Volodymyr2580/Volodymyr2580.github.io"
+        data-repo-id="R_kgDOOvNN3A"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOOvNN3M4C8IOG"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>
+
+    </div>
+    
+  </article>
+</div><!-- /#index -->
+
+<div class="footer-wrap">
+  <footer>
+    <h6>&copy; 2026 Wenzhe Sheng.
+  Published with <a href="https://pages.github.com/" rel="nofollow">GitHub Pages</a>,
+  powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a>,
+  based on the <a href="https://mademistakes.com/" rel="nofollow">Minimal Mistakes</a> theme.
+  Source code for this website can be found <a href="https://github.com/GuangLun2000/GuangLun2000.github.io" rel="nofollow">here</a>.
+
+  <!-- <script type="text/javascript" id="clstr_globe" src="//clustrmaps.com/globe.js?d=tGZ_4852x6Mm-PPomoo98e4y_CI8D9TmioGTO03Daik"></script> -->
+  
+</h6>
+
+
+<!-- Lastly modified by Hanlin CAI in 2023/03/16 -->
+  </footer>
+</div><!-- /.footer-wrap -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="https://Volodymyr2580.github.io/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="https://Volodymyr2580.github.io/assets/js/main.min.js"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'G-T5N5JY1E21', 'caihanlin.com');
+  ga('send', 'pageview');
+
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const menuToggle = document.querySelector('.menu-toggle');
+  const navMenu = document.querySelector('.top-navigation');
+  if (menuToggle && navMenu) {
+    menuToggle.addEventListener('click', function() {
+      navMenu.classList.toggle('active');
+      const expanded = navMenu.classList.contains('active');
+      menuToggle.setAttribute('aria-expanded', expanded);
+    });
+  }
+});
+</script>
+
+<!-- https://analytics.google.com/analytics.com/ -->
+<!-- Lastly modified by Hanlin CAI in 2023/01/15 -->
+
+
+
+</body>
+</html>

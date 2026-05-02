@@ -1,0 +1,361 @@
+<!-- Lastly modified by Hanlin CAI in 2023/04/26 -->
+<!-- It is not recommended to modify this code, unless you are a Pro-->
+
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+
+<head>
+<!-- It is not recommended to modify this code, unless you are a Pro-->
+<!-- Lastly modified by Hanlin CAI in 2023/04/26 -->
+
+<meta charset="utf-8">
+<title>强化学习的数学原理 1 &#8211; Wenzhe Sheng</title>
+
+
+
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="强化学习的数学原理 1 &#8211; Wenzhe Sheng">
+<meta property="og:description" content="RL系列这部分主要摘录的是我在学习《强化学习的数学原理》一书时做的笔记。原书的地址——https://github.com/MathFoundationRL/Book-Mathmatical-Foundation-of-Reinfor...">
+<meta property="og:url" content="https://Volodymyr2580.github.io/notes/AI/RL_1/index.html">
+<meta property="og:site_name" content="Wenzhe Sheng">
+
+
+
+
+
+<link rel="canonical" href="https://Volodymyr2580.github.io/notes/AI/RL_1/">
+
+
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<!-- Google Webfonts -->
+<link href='https://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700|PT+Serif:400,700,400italic' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous" />
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css?v=20260502">
+
+<!--[if (lt IE 9) & (!IEMobile)]>
+<link rel="stylesheet" href="/assets/css/ie.css">
+<![endif]-->
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- Load Modernizr -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" integrity="sha512-3n19xznO0ubPpSwYCRRBgHh63DrV+bdZfHK52b1esvId4GsfwStQNPJFjeQos2h3JwCmZl0/LgLxSKMAI55hgw==" crossorigin="anonymous"></script>
+
+<!-- MathJax 3 -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true,
+    packages: {'[+]': ['ams', 'bm']},
+    macros: {
+      bm: ["\\boldsymbol{#1}", 1]
+    }
+  },
+  options: {
+    enableMenu: false,
+    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+    ignoreHtmlClass: 'tex2jax_ignore',
+    processHtmlClass: 'tex2jax_process'
+  },
+  chtml: {
+    fontCache: 'global',
+    displayAlign: 'center',
+    displayIndent: '0em',
+    scale: 1.0
+  },
+  startup: {
+    pageReady: function() {
+      return MathJax.startup.defaultPageReady();
+    }
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<!-- 16x16 -->
+<link rel="shortcut icon" href="https://Volodymyr2580.github.io/images/fav.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="https://Volodymyr2580.github.io/images/fav.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="https://Volodymyr2580.github.io/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://Volodymyr2580.github.io/images/fav.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://Volodymyr2580.github.io/images/fav.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://Volodymyr2580.github.io/images/fav.png">
+
+
+<script src="https://cdn.counter.dev/script.js" data-id="4c8f7caa-2b55-46cd-a995-2c4633303773" data-utcoffset="8"></script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T5N5JY1E21"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-T5N5JY1E21');
+</script>
+
+</head>
+
+
+<body class="page" itemscope itemtype="http://schema.org/WebPage">
+
+<!-- [if lt IE 6]><div class="chrome-frame alert alert-info"><strong>Your browser is really old!</strong> <a href="http://browsehappy.com/">Why not upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better enjoy this site?</div><![endif] -->
+
+<!-- It is not recommended to modify this code, unless you are a Pro-->
+<!-- Lastly modified by Hanlin CAI in 2023/01/15 -->
+
+<div class="navigation-wrapper">
+	<div class="site-name">
+		<a href="/">
+			<span class="site-mark">PKU</span>
+			<span class="site-brand-text">
+				<span class="site-title">Wenzhe Sheng</span>
+				<span class="site-subtitle">School of Earth and Space Sciences</span>
+			</span>
+		</a>
+	</div><!-- /.site-name -->
+  
+	<button class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false">
+		<span class="bar"></span>
+		<span class="bar"></span>
+		<span class="bar"></span>
+	</button>
+	<div class="top-navigation">
+		<nav role="navigation" itemscope itemtype="http://schema.org/SiteNavigationElement">
+		    <ul>
+		        
+            <li><a href="/" >About Me</a></li>
+		        
+            <li><a href="/publications/" >Publications</a></li>
+		        
+            <li><a href="/awards/" >Awards</a></li>
+		        
+            <li><a href="/diary/" >Diary</a></li>
+		        
+            <li><a href="/blogs/" >Blogs</a></li>
+		        
+            <li><a href="/notes/" >Notes</a></li>
+		        
+		    </ul>
+		</nav>
+		<div class="nav-social-links" aria-label="Contact links">
+			<a href="https://github.com/Volodymyr2580" aria-label="GitHub"><i class="icon-github"></i></a>
+			<a href="mailto:2200012437@stu.pku.edu.cn" aria-label="Email"><i class="icon-mail"></i></a>
+		</div>
+	</div><!-- /.top-navigation -->
+</div><!-- /.navigation-wrapper -->
+
+<!-- Lastly modified by Hanlin CAI in 2023/05/01 -->
+
+
+
+
+<div id="main" role="main"  itemprop="mainContentOfPage">
+  
+  <div class="article-author-top">
+    <img src="https://Volodymyr2580.github.io/images/bigheadwenzhe.jpg" class="bio-photo" alt="Wenzhe Sheng bio photo" width="100" height="100">
+
+<h4>Wenzhe Sheng</h4>
+
+<p>Undergraduate researcher at Peking University, School of Earth and Space Sciences.</p>
+
+<div class="social-links">
+<p><a href="mailto:2200012437@stu.pku.edu.cn" target="_blank"><i class="icon-mail"></i> Email</a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p><a href="https://github.com/Volodymyr2580"><i class="icon-github"></i> Github</a></p>
+
+
+
+
+
+
+
+
+
+<p><a href="https://www.zhihu.com/people/obtuse-4"><img src="https://caihanlin.com/images/logo/icons8-zhihu-96.png" width="15.8" height="15.8"></i> Zhihu</a></p>
+
+
+</div>
+
+<!-- Lastly modified by Hanlin CAI in 2023/10/15 -->
+
+  </div>
+  
+  <article itemscope itemtype="http://schema.org/CreativeWork">
+  
+    <div class="article-wrap" itemprop="text">
+      <p>RL系列这部分主要摘录的是我在学习《强化学习的数学原理》一书时做的笔记。原书的地址——https://github.com/MathFoundationRL/Book-Mathmatical-Foundation-of-Reinforcement-Learning</p>
+
+<p>我在思考这类笔记的对外输出价值的时候想到，其实分享有多种形式，一种是直接翻译，但这就肯定不如去看原书了；一种是你已经熟练掌握或是已经学过一遍了，然后回过头来做梳理；另一种就是像我现在想做的，就是记录我的部分学习过程，这个学习过程不光是摘录原书中的重要知识点，也能记录我在学习过程中的一些思考和想法。我觉得这也是有意义有价值的。</p>
+
+<h2 id="基本概念">基本概念</h2>
+<p>强化学习的研究对象是agent在与环境的交互过程中如何学到最优策略。为此我们引入一些基本的概念。</p>
+
+<p>第一个概念是state, 描述agent的状态，比如位置。状态的全集叫状态空间(state space)，$\mathcal{S}$</p>
+
+<p>agent所能选择的行动集合由$\mathcal{A}$表示，称为行动空间(action space)，我们也可以定义一个$\mathcal{A}:\mathcal{S}\to2^\mathcal{A}$的映射，表示不同状态点上所能选择的不同的行动集合,比如$\mathcal{A}(s_1)={a_1,a_2}$</p>
+
+<p>当agent从一个状态移动到另一状态的过程称为state transition。我们可以用以下的符号表示agent从状态$s_1$选择行为$a_2$移动到了状态$s_2$：
+<span class="kdmath">$s_1\xrightarrow{a_2}s_2$</span></p>
+
+<p>那我们自然关心的问题就是我们在某个状态该选择什么样的行动才能更好地完成我们的目标——这就是策略(policy)。</p>
+
+<p>数学上，state transition和policy都可以用条件概率来表示，之后遇到stochastic的问题时候再回顾吧，当前考虑的policy都是deterministic的，但是学过博弈论的应该清楚很多时候我们需要混合策略才有best response。</p>
+
+<p>而奖励(reward)是强化学习中最独特的一个概念，在某个state上agent选择一个action之后会收到一个reward, 记作$r(s,a)$，作为环境或任务对其行为的反馈，是state和action的函数；这更多是人为设定的用于指引我们的agent针对任务和环境选择更好的策略。</p>
+
+<p>那一个很trivial的question便是，给定一个reward之后，如果让agent每一步贪心地选择最大reward执行，能否得到一个好的policy呢？这显然是不对的，因为我们不能只看当前步的reward,而是要考虑到后续的reward，or total reward。</p>
+
+<p>这里或者还有一个疑问在于，比如如果有两个状态$s_1,s_2$，他们有互通的行动使得$s_1\xrightarrow{a_1}s_2, s_2\xrightarrow{a_1}s_1$，并且这两种行动都会导致正的reward,那我的agent岂不是在这两个点之间反复横跳就行？</p>
+
+<p>一个轨道(trajectory)可以如下表示：</p>
+
+<div class="kdmath">$$
+s_1 \xrightarrow[r=0]{a_2} s_2 \xrightarrow[r=0]{a_3}s_5\xrightarrow[r=0]{a_3}s_8 \xrightarrow[r=1]{a_2}s_9
+$$</div>
+
+<p>记录了state transition和每一步的action and reward</p>
+
+<p>每条轨道的回报(return){也称total rewards or cumulative rewards}定义为每一步的reward的代数求和：</p>
+
+<div class="kdmath">$$
+return = 0+0+0+1=1
+$$</div>
+
+<p>我们可以根据轨道的return来评估我们的策略是否好。return包含了我们先前说的immediate reward和future rewards，前者指从初始状态开始第一个行动立刻能收到的reward，后者指离开后得到的所有rewards。</p>
+
+<p>那针对一个无穷长的轨道，如果我们单纯对reward做代数求和计算return很容易就会发散到无穷（比如我先前提起过的在两个点之间反复横跳），为此类似博弈论处理动态博弈(dynamic game)时候定义的贴现因子(discount factor)，我们通常计算一个贴现后的回报：</p>
+
+<div class="kdmath">$$
+\text{discounted return} = \sum_{i=0}^{\infty}\gamma^ir_i
+$$</div>
+
+<p>其中贴现因子$\gamma \in (0,1)$，学习过动态博弈的应该清楚这个贴现率会对子博弈完美均衡(SPE)有什么样重要的影响。直观来说，当贴现率很小的时候，我们的agent可能就不太关心后续的reward有多大，而更专注最大化眼前的收益，策略就越趋近于贪心算法。极端的，如果$\gamma=0$，那我们只需要考虑一步的最大化reward。</p>
+
+<p>书上提到有个概念叫episode,表示跟随一个policy后agent可能会停在某些terminal states，最终得到的trajectory称为an episode or a trial。在我看来和轨道的定义没有什么区别。</p>
+
+<p>第一章的最后提到一个Markov decision processes（MDPs）
+是在先前的模型上添加了马氏链的性质，即转移概率只依赖于上一步的状态和行为，和先前的历史没关系(memoryless property)，具体的数学表示都相当trivial。</p>
+
+<p>具体的元素为：状态空间$\mathcal{S}$,行动空间$\mathcal{A}$,奖励集合$\mathcal{R}(s,a)$ 
+模型需要定义：（1）转移概率$p(s’|s,a)$ 表示在状态s采取行动a会转移到状态s’的概率； （2）奖励概率$p(r|s,a)$表示在状态s采取行动a会得到奖励r的概率</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>则一个策略policy为——$\pi(a</td>
+      <td>s)$表示在状态s选择行动a的概率，策略就是每个状态点上的$\pi$的概率分布全体。</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>在QA环节提到一个有意思的问题，就是上面定义的奖励只是当前state和action的函数，但我们不应该也要关心我们去到的下一个state是什么吗？那自然地会想到奖励是不是该定义为当前状态、下一状态和行动的函数呢？但其实按照上面MDPs的模型，下一状态s’会概率依赖于s,a，所以可以显式地将奖励r只表示为s和a的函数。</p>
+
+    </div><!-- /.article-wrap -->
+    
+    <div class="comments-section">
+      <hr>
+      <h3>Leave a Message</h3>
+      <script src="https://giscus.app/client.js"
+        data-repo="Volodymyr2580/Volodymyr2580.github.io"
+        data-repo-id="R_kgDOOvNN3A"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOOvNN3M4C8IOG"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>
+
+    </div>
+    
+  </article>
+</div><!-- /#index -->
+
+<div class="footer-wrap">
+  <footer>
+    <h6>&copy; 2026 Wenzhe Sheng.
+  Published with <a href="https://pages.github.com/" rel="nofollow">GitHub Pages</a>,
+  powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a>,
+  based on the <a href="https://mademistakes.com/" rel="nofollow">Minimal Mistakes</a> theme.
+  Source code for this website can be found <a href="https://github.com/GuangLun2000/GuangLun2000.github.io" rel="nofollow">here</a>.
+
+  <!-- <script type="text/javascript" id="clstr_globe" src="//clustrmaps.com/globe.js?d=tGZ_4852x6Mm-PPomoo98e4y_CI8D9TmioGTO03Daik"></script> -->
+  
+</h6>
+
+
+<!-- Lastly modified by Hanlin CAI in 2023/03/16 -->
+  </footer>
+</div><!-- /.footer-wrap -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="https://Volodymyr2580.github.io/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="https://Volodymyr2580.github.io/assets/js/main.min.js"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'G-T5N5JY1E21', 'caihanlin.com');
+  ga('send', 'pageview');
+
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const menuToggle = document.querySelector('.menu-toggle');
+  const navMenu = document.querySelector('.top-navigation');
+  if (menuToggle && navMenu) {
+    menuToggle.addEventListener('click', function() {
+      navMenu.classList.toggle('active');
+      const expanded = navMenu.classList.contains('active');
+      menuToggle.setAttribute('aria-expanded', expanded);
+    });
+  }
+});
+</script>
+
+<!-- https://analytics.google.com/analytics.com/ -->
+<!-- Lastly modified by Hanlin CAI in 2023/01/15 -->
+
+
+
+</body>
+</html>

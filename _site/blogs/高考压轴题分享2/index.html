@@ -1,0 +1,427 @@
+<!-- Lastly modified by Hanlin CAI in 2023/04/26 -->
+<!-- It is not recommended to modify this code, unless you are a Pro-->
+
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+
+<head>
+<!-- It is not recommended to modify this code, unless you are a Pro-->
+<!-- Lastly modified by Hanlin CAI in 2023/04/26 -->
+
+<meta charset="utf-8">
+<title>高考压轴题分享2 &#8211; Wenzhe Sheng</title>
+
+
+
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="高考压轴题分享2 &#8211; Wenzhe Sheng">
+<meta property="og:description" content="今天分享的是两道有趣的函数、数列不等式压轴题，后者我觉得是有固定套路的。1. 已知函数 $f(x) = \ln x + ax$。(1) 当 $a = \mathrm{e}$ 时，求 $f(x)$ 的零点；(2) 给定数集 $A = (...">
+<meta property="og:url" content="https://Volodymyr2580.github.io/blogs/高考压轴题分享2/index.html">
+<meta property="og:site_name" content="Wenzhe Sheng">
+
+
+
+
+
+<link rel="canonical" href="https://Volodymyr2580.github.io/blogs/高考压轴题分享2/">
+
+
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<!-- Google Webfonts -->
+<link href='https://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700|PT+Serif:400,700,400italic' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous" />
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css?v=20260502">
+
+<!--[if (lt IE 9) & (!IEMobile)]>
+<link rel="stylesheet" href="/assets/css/ie.css">
+<![endif]-->
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- Load Modernizr -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" integrity="sha512-3n19xznO0ubPpSwYCRRBgHh63DrV+bdZfHK52b1esvId4GsfwStQNPJFjeQos2h3JwCmZl0/LgLxSKMAI55hgw==" crossorigin="anonymous"></script>
+
+<!-- MathJax 3 -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true,
+    packages: {'[+]': ['ams', 'bm']},
+    macros: {
+      bm: ["\\boldsymbol{#1}", 1]
+    }
+  },
+  options: {
+    enableMenu: false,
+    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+    ignoreHtmlClass: 'tex2jax_ignore',
+    processHtmlClass: 'tex2jax_process'
+  },
+  chtml: {
+    fontCache: 'global',
+    displayAlign: 'center',
+    displayIndent: '0em',
+    scale: 1.0
+  },
+  startup: {
+    pageReady: function() {
+      return MathJax.startup.defaultPageReady();
+    }
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<!-- 16x16 -->
+<link rel="shortcut icon" href="https://Volodymyr2580.github.io/images/fav.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="https://Volodymyr2580.github.io/images/fav.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="https://Volodymyr2580.github.io/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://Volodymyr2580.github.io/images/fav.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://Volodymyr2580.github.io/images/fav.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://Volodymyr2580.github.io/images/fav.png">
+
+
+<script src="https://cdn.counter.dev/script.js" data-id="4c8f7caa-2b55-46cd-a995-2c4633303773" data-utcoffset="8"></script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T5N5JY1E21"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-T5N5JY1E21');
+</script>
+
+</head>
+
+
+<body class="page" itemscope itemtype="http://schema.org/WebPage">
+
+<!-- [if lt IE 6]><div class="chrome-frame alert alert-info"><strong>Your browser is really old!</strong> <a href="http://browsehappy.com/">Why not upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better enjoy this site?</div><![endif] -->
+
+<!-- It is not recommended to modify this code, unless you are a Pro-->
+<!-- Lastly modified by Hanlin CAI in 2023/01/15 -->
+
+<div class="navigation-wrapper">
+	<div class="site-name">
+		<a href="/">
+			<span class="site-mark">PKU</span>
+			<span class="site-brand-text">
+				<span class="site-title">Wenzhe Sheng</span>
+				<span class="site-subtitle">School of Earth and Space Sciences</span>
+			</span>
+		</a>
+	</div><!-- /.site-name -->
+  
+	<button class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false">
+		<span class="bar"></span>
+		<span class="bar"></span>
+		<span class="bar"></span>
+	</button>
+	<div class="top-navigation">
+		<nav role="navigation" itemscope itemtype="http://schema.org/SiteNavigationElement">
+		    <ul>
+		        
+            <li><a href="/" >About Me</a></li>
+		        
+            <li><a href="/publications/" >Publications</a></li>
+		        
+            <li><a href="/awards/" >Awards</a></li>
+		        
+            <li><a href="/diary/" >Diary</a></li>
+		        
+            <li><a href="/blogs/" >Blogs</a></li>
+		        
+            <li><a href="/notes/" >Notes</a></li>
+		        
+		    </ul>
+		</nav>
+		<div class="nav-social-links" aria-label="Contact links">
+			<a href="https://github.com/Volodymyr2580" aria-label="GitHub"><i class="icon-github"></i></a>
+			<a href="mailto:2200012437@stu.pku.edu.cn" aria-label="Email"><i class="icon-mail"></i></a>
+		</div>
+	</div><!-- /.top-navigation -->
+</div><!-- /.navigation-wrapper -->
+
+<!-- Lastly modified by Hanlin CAI in 2023/05/01 -->
+
+
+
+
+<div id="main" role="main"  itemprop="mainContentOfPage">
+  
+  <div class="article-author-top">
+    <img src="https://Volodymyr2580.github.io/images/bigheadwenzhe.jpg" class="bio-photo" alt="Wenzhe Sheng bio photo" width="100" height="100">
+
+<h4>Wenzhe Sheng</h4>
+
+<p>Undergraduate researcher at Peking University, School of Earth and Space Sciences.</p>
+
+<div class="social-links">
+<p><a href="mailto:2200012437@stu.pku.edu.cn" target="_blank"><i class="icon-mail"></i> Email</a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p><a href="https://github.com/Volodymyr2580"><i class="icon-github"></i> Github</a></p>
+
+
+
+
+
+
+
+
+
+<p><a href="https://www.zhihu.com/people/obtuse-4"><img src="https://caihanlin.com/images/logo/icons8-zhihu-96.png" width="15.8" height="15.8"></i> Zhihu</a></p>
+
+
+</div>
+
+<!-- Lastly modified by Hanlin CAI in 2023/10/15 -->
+
+  </div>
+  
+  <article itemscope itemtype="http://schema.org/CreativeWork">
+  
+    <div class="article-wrap" itemprop="text">
+      <p>今天分享的是两道有趣的函数、数列不等式压轴题，后者我觉得是有固定套路的。</p>
+
+<ol>
+  <li>已知函数 $f(x) = \ln x + ax$。</li>
+</ol>
+
+<p>(1) 当 $a = \mathrm{e}$ 时，求 $f(x)$ 的零点；</p>
+
+<p>(2) 给定数集 $A = (0, +\infty)$，任给 $a \in A$，对应关系 $g$ 使函数 $f(x)$ 的零点 $x_0$ 与 $a$ 对应。
+① 证明：$x_0 = g(a)$ 是函数，并讨论该函数的单调性；
+② 若数列 ${a_n}$ 满足 $a_1(1 - a_2) = 1$，$a_{n+1} = 1 - g(a_n)$，证明：
+<span class="kdmath">$\sum_{i=1}^{n} (a_i - a_{i+1})g(a_i) < \frac{3}{2}.$</span></p>
+
+<p>Sol:</p>
+
+<p>(1) 送分题，$f’(x) = \frac{1}{x} + e&gt;0$, 所以$f(x)$是严格单增函数，注意到$f(\frac{1}{e})=-1+1=0$, 因此$f(x)$有唯一零点$x_0 = \frac{1}{e}$。</p>
+
+<p>(2)① 
+这题的设问很有意思，可能会有同学对函数的概念不清晰。函数本质就是一个集合与集合之间的对应关系，因此要证明$g$是一个函数，即要证明该对应关系$g$满足一个$a$只对应一个$g(a)$。</p>
+
+<p>这是显然的，因为$f’(x) = \frac{1}{x} + a&gt;0$,所以$f(x)$是严格单增函数, 且$f(1)=a&gt;0$,$f(e^{-a})=-a+ae^{-a}&lt;0$, 因此$f(x)$在$(e^{-a},1)$有唯一零点$x_0 = g(a)$。</p>
+
+<p>要研究函数$g(a)$的单调性，依据定义，对任意$0&lt;a&lt;b$,设$x_1=g(a),x_2=g(b)$, 则有$lnx_1+ax_1=lnx_2+bx_2=0$.
+<span class="kdmath">$-a=\frac{lnx_1}{x_1}, -b=\frac{lnx_2}{x_2}$</span></p>
+
+<p>因为$a&lt;b$, 有</p>
+
+<div class="kdmath">$$
+\frac{lnx_1}{x_1}>\frac{lnx_2}{x_2}
+$$</div>
+
+<p>令$h(x)=\frac{lnx}{x}$, $h’(x)=\frac{1-lnx}{x^2}&gt;0, \forall x \in (0,1)$，$h(x)$在$(0,1)$是严格单增函数。</p>
+
+<p>又有$h(x_1)&gt;h(x_2)$, 则$x_1&gt;x_2$,所以函数$g(a)$在$(0,+\infty)$上单调递减。</p>
+
+<p>② 我的观察是待证不等式左侧的n项求和中，每一项是数列$a_n$的一阶差分乘上一个$g(a_n)$,显然$g(a_n)$是正数，如果能把$g(a_n)$做一个常数放缩，那所得的求和式甚至不需要后续的裂项处理，简单且容易估计。</p>
+
+<p>为此我们需要先从条件出发研究一下数列$a_n$的性质。</p>
+
+<p>从条件$a_1(1-a_2)=1,a_2=1-g(a_1)$，可以立即得到（消元）：
+<span class="kdmath">$a_1g(a_1)=1,i.e. \quad-\frac{lnx_1}{x_1}\times x_1=-lnx_1=1$</span></p>
+
+<p>因此，$x_1=g(a_1)=\frac{1}{e}$, 由(1)和(2)① ,得$a_1=e,a_2=1-g(a_1)=1-\frac{1}{e}$</p>
+
+<p>由函数$g(a)$的定义可得，$lng(a_i)+a_ig(a_i)=0$, 
+即
+<span class="kdmath">$a_i=-\frac{lng(a_i)}{g(a_i)}$</span></p>
+
+<p>所以,
+<span class="kdmath">$a_i-a_{i+1}=-\frac{lng(a_i)}{g(a_i)}-(1-g(a_i))=\frac{g(a_i)^2-g(a_i)-lng(a_i)}{g(a_i)}$</span></p>
+
+<p>研究函数$c(x)=x^2-x-lnx$,
+<span class="kdmath">$c'(x)=2x-1-\frac{1}{x}=\frac{(x-1)(2x+1)}{x}<0, \forall x\in (0,1)$</span></p>
+
+<p>因而$c(x)$在$(0,1)$是严格单减函数，且$c(x)&gt;c(1)=0$，所以$a_i-a_{i+1}&gt;0$，数列$a_n$是严格单调递减的。</p>
+
+<p>到此对数列性质的研究就差不多了，之后对不等式的处理直接放缩，因为$a_i&gt;a_{i+1}$, 有$0&lt;g(a_i)&lt;1$</p>
+
+<p>所以有最简单的尝试
+<span class="kdmath">$\sum_{i=1}^{n} (a_i - a_{i+1})g(a_i)<\sum_{i=1}^{n} (a_i - a_{i+1})=a_1-a_{n+1}<a_1=e>\frac{3}{2}$</span></p>
+
+<p>发现放过头了，这时候只需要微调放缩的项数，尝试从第二项开始放缩，
+<span class="kdmath">$LHS<(a_1-a_2)g(a_1)+\sum_{i=2}^{n} (a_i - a_{i+1})=(a_1-a_2)g(a_1)+a_2-a_{n+1}\\
+<(e-1+e^{-1})e^{-1}+1-e^{-1}=1+(1-e^{-1})^2<1+(1-\frac{1}{3})^2<\frac{3}{2}$</span>
+得证。</p>
+
+<ol>
+  <li>已知函数 $f(x) = (x - a)\mathrm{e}^x - bx^2 + a$，$a,b \in \mathbb{R}$。</li>
+</ol>
+
+<p>(1) 当 $b = 0$ 时，若 $f(x)$ 的图像与 $x$ 轴相切，求 $a$ 的值；</p>
+
+<p>(2) 当 $a = 1$ 时，若 $f(x)$ 在 $(0, +\infty)$ 有一个零点，求 $b$ 的取值范围；</p>
+
+<p>(3) 设数列 ${x_n}$ 满足 $x_1 = 1$，$x_{n+1} = 1 - \mathrm{e}^{-x_n}$。证明：
+<span class="kdmath">$x_{2n} + x_{2n+2} + \cdots + x_{4n-2} > \frac{1}{2}\ln 2.$</span></p>
+
+<p>Sol:</p>
+
+<p>(1)(2) 前两问的讨论并不复杂这里就跳过啦，我们主要讨论第三问中数列不等式的做法。</p>
+
+<p>不过第一问的与x轴相切会给出一个可用到的不等式
+<span class="kdmath">$f(x)=xe^x-(e^x-1)\geq0,x>0$</span></p>
+
+<p>即</p>
+
+<div class="kdmath">$$
+e^{-x}\geq 1-x, x>0
+$$</div>
+
+<p>类似第三小问这类题其实有固定的做法，这限制于函数不等式只能对单元处理，不涉及任何的多元不等式，所以就有了我称之为<strong>逐项放缩</strong>的方法，</p>
+
+<p>观察待证不等式的左侧是n项求和，如果要逐项处理，右侧最好的形式就是拆成n项。</p>
+
+<p>那面对像$ln(n+1),ln(2n+1),ln2$这类数，我们都有利用对数性质从1项拆分为n项的手段（也是常考的考点），即
+<span class="kdmath">$ln(n+1)=ln(\frac{n+1}{n}\times \frac{n}{n-1}\times\cdots\times \frac{2}{1})=\sum_{i=1}^{n}ln(i+1)-ln(i)$</span>
+<span class="kdmath">$ln(2n+1)=ln(\frac{2n+1}{2n-1}\times \cdots\times \frac{3}{1})=\sum_{i=1}^{n}ln(2i+1)-ln(2i-1)$</span>
+<span class="kdmath">$ln2=ln\frac{2n}{n}=ln(\frac{2n}{2n-1}\times \frac{2n-1}{2n-2}\times\cdots\times \frac{n+1}{n})
+=\sum_{i=1}^{n}ln(n+i)-ln(n+i-1)$</span></p>
+
+<p>因此，作为原命题的充分条件，我们只需要证明
+<span class="kdmath">$2x_{2(n+k)}>ln(n+k+1)-ln(n+k)=ln(1+\frac{1}{n+k})$</span></p>
+
+<p>由熟知不等式$lnx \leq x-1$, $ln(1+\frac{1}{n+k})\leq \frac{1}{n+k}$</p>
+
+<p>再做加强，我们只需证明
+<span class="kdmath">$2x_{2(n+k)}>\frac{1}{n+k}, i.e., x_n>\frac{1}{n}$</span>
+即可得原命题。</p>
+
+<p>先简单研究下数列本身的性质，由$x_{n+1}=1-e^{-x_n}\leq 1-(1-x_n)=x_n$, $x_1=1$，不难归纳得到$0&lt;x_n\leq1$，且单调递减。</p>
+
+<p>另一方面,$x_{n+1}=1-e^{-x_n}\geq 1-\frac{1}{1-(-x_n)}=\frac{x_n}{1+x_n}$</p>
+
+<p>因此，
+<span class="kdmath">$\frac{1}{x_{n+1}}-\frac{1}{x_{n}}\leq1$</span></p>
+
+<p>累加得，
+<span class="kdmath">$\frac{1}{x_n}\leq n$</span>
+即得所求不等式。</p>
+
+<p>最后整理一下，
+<span class="kdmath">$\sum_{k=0}^{n-1}x_{2n+2k}>\sum_{k=0}^{n-1}\frac{1}{2(n+k)}>\frac{1}{2}\sum_{k=0}^{n-1}ln(1+\frac{1}{n+k})=\frac{1}{2}ln2$</span></p>
+
+<p><strong>Sum up</strong>
+因此这类函数数列不等式题型其实有通解，</p>
+
+<p>1是找原函数性质引出的函数不等式（可能是不等式恒成立，也可能是单调性导出区间上的不等式），</p>
+
+<p>2是对不等式进行n项拆解对应的处理，找到“充分条件”，</p>
+
+<p>3是利用函数不等式代入，证明“充分条件”。</p>
+
+
+    </div><!-- /.article-wrap -->
+    
+    <div class="comments-section">
+      <hr>
+      <h3>Leave a Message</h3>
+      <script src="https://giscus.app/client.js"
+        data-repo="Volodymyr2580/Volodymyr2580.github.io"
+        data-repo-id="R_kgDOOvNN3A"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOOvNN3M4C8IOG"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>
+
+    </div>
+    
+  </article>
+</div><!-- /#index -->
+
+<div class="footer-wrap">
+  <footer>
+    <h6>&copy; 2026 Wenzhe Sheng.
+  Published with <a href="https://pages.github.com/" rel="nofollow">GitHub Pages</a>,
+  powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a>,
+  based on the <a href="https://mademistakes.com/" rel="nofollow">Minimal Mistakes</a> theme.
+  Source code for this website can be found <a href="https://github.com/GuangLun2000/GuangLun2000.github.io" rel="nofollow">here</a>.
+
+  <!-- <script type="text/javascript" id="clstr_globe" src="//clustrmaps.com/globe.js?d=tGZ_4852x6Mm-PPomoo98e4y_CI8D9TmioGTO03Daik"></script> -->
+  
+</h6>
+
+
+<!-- Lastly modified by Hanlin CAI in 2023/03/16 -->
+  </footer>
+</div><!-- /.footer-wrap -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="https://Volodymyr2580.github.io/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="https://Volodymyr2580.github.io/assets/js/main.min.js"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'G-T5N5JY1E21', 'caihanlin.com');
+  ga('send', 'pageview');
+
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const menuToggle = document.querySelector('.menu-toggle');
+  const navMenu = document.querySelector('.top-navigation');
+  if (menuToggle && navMenu) {
+    menuToggle.addEventListener('click', function() {
+      navMenu.classList.toggle('active');
+      const expanded = navMenu.classList.contains('active');
+      menuToggle.setAttribute('aria-expanded', expanded);
+    });
+  }
+});
+</script>
+
+<!-- https://analytics.google.com/analytics.com/ -->
+<!-- Lastly modified by Hanlin CAI in 2023/01/15 -->
+
+
+
+</body>
+</html>

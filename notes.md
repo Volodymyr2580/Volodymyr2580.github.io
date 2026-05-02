@@ -2,32 +2,39 @@
 layout: page
 permalink: /notes/index.html
 title: Notes
+comments: false
 ---
 
-## 北京大学考试题回忆
-- [2025春应用随机过程期中 葛颢](https://Volodymyr2580.github.io/notes/exams/25春期中%20葛颢.pdf)
+## Notes
 
-- [2024秋 地球重力学期末 盖增喜](https://Volodymyr2580.github.io/notes/exams/24秋_重力学期末.pdf )
+This page is the entrance to study notes, course reviews, technical summaries, and reference materials. I keep the original file paths stable so existing links remain usable.
 
+## AI and Machine Learning
 
-## 学习笔记
+- [AI overview]({{ '/notes/0_ai' | relative_url }})
+- [Score-function based generative models]({{ '/notes/AI/score_function' | relative_url }})
+- [Flow Matching 1]({{ '/notes/AI/flow_matching_1' | relative_url }})
+- [Reinforcement Learning 1]({{ '/notes/AI/RL_1' | relative_url }})
+- [Reinforcement Learning 2]({{ '/notes/AI/RL_2' | relative_url }})
+- [Reinforcement Learning 3]({{ '/notes/AI/RL_3' | relative_url }})
+- [Reinforcement Learning 4]({{ '/notes/AI/RL_4' | relative_url }})
+- [Statistical Field Theory 1]({{ '/notes/AI/SFT_1' | relative_url }})
 
-### 课内复习笔记
-- [中级宏观经济学期末部分复习](https://Volodymyr2580.github.io/notes/复习笔记/中宏复习笔记)
+## Geophysics and Planetary Science
 
-### Deep Learning
+- [Hybrid Optimization for FWI]({{ '/notes/FWI/混合优化算法 Hybrid Optimization' | relative_url }})
+- [Planetary Science Note 1]({{ '/notes/行星科学基础/note1' | relative_url }})
+- [Devito Notes]({{ '/notes/杂/devito' | relative_url }})
 
-#### 生成模型有关 about generative models
-- [基于score function的生成模型](https://Volodymyr2580.github.io/notes/AI/score_function)
+## Course Review and Teaching
 
-- [flow matching 1](https://Volodymyr2580.github.io/notes/AI/flow_matching_1)
+- [中宏复习笔记]({{ '/notes/复习笔记/中宏复习笔记' | relative_url }})
+- [函数基本性质 1.10]({{ '/notes/备课教案/函数基本性质 1.10' | relative_url }})
+- [出题 1]({{ '/notes/出题/出题1' | relative_url }})
+- [西方政治思想导言]({{ '/notes/西方政治思想/导言' | relative_url }})
 
-#### 强化学习有关 about reinforcement learning
+## Exam Materials
 
-- [强化学习的数学原理 1](https://Volodymyr2580.github.io/notes/AI/RL_1)
+- [Exam materials folder]({{ '/notes/exams/' | relative_url }})
 
-- [强化学习的数学原理 2](https://Volodymyr2580.github.io/notes/AI/RL_2)
-
-- [强化学习的数学原理 3](https://Volodymyr2580.github.io/notes/AI/RL_3)
-
-- [强化学习的数学原理 4](https://Volodymyr2580.github.io/notes/AI/RL_4)
+Some files in this area are personal learning materials. I will continue cleaning titles and summaries gradually.

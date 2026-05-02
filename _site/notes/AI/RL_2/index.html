@@ -1,0 +1,498 @@
+<!-- Lastly modified by Hanlin CAI in 2023/04/26 -->
+<!-- It is not recommended to modify this code, unless you are a Pro-->
+
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+
+<head>
+<!-- It is not recommended to modify this code, unless you are a Pro-->
+<!-- Lastly modified by Hanlin CAI in 2023/04/26 -->
+
+<meta charset="utf-8">
+<title>强化学习的数学原理 2 &#8211; Wenzhe Sheng</title>
+
+
+
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="强化学习的数学原理 2 &#8211; Wenzhe Sheng">
+<meta property="og:description" content="上一节介绍了关于我们刻画一个agent与环境交互行为的基本概念。这一章笔记的记法会有所不同，我决定先按照书本学习一遍，然后再做笔记梳理，这样思路会按照我的习惯来，并不会follow原书的chain。# State Values and...">
+<meta property="og:url" content="https://Volodymyr2580.github.io/notes/AI/RL_2/index.html">
+<meta property="og:site_name" content="Wenzhe Sheng">
+
+
+
+
+
+<link rel="canonical" href="https://Volodymyr2580.github.io/notes/AI/RL_2/">
+
+
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<!-- Google Webfonts -->
+<link href='https://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700|PT+Serif:400,700,400italic' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous" />
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css?v=20260502">
+
+<!--[if (lt IE 9) & (!IEMobile)]>
+<link rel="stylesheet" href="/assets/css/ie.css">
+<![endif]-->
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- Load Modernizr -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" integrity="sha512-3n19xznO0ubPpSwYCRRBgHh63DrV+bdZfHK52b1esvId4GsfwStQNPJFjeQos2h3JwCmZl0/LgLxSKMAI55hgw==" crossorigin="anonymous"></script>
+
+<!-- MathJax 3 -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true,
+    packages: {'[+]': ['ams', 'bm']},
+    macros: {
+      bm: ["\\boldsymbol{#1}", 1]
+    }
+  },
+  options: {
+    enableMenu: false,
+    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+    ignoreHtmlClass: 'tex2jax_ignore',
+    processHtmlClass: 'tex2jax_process'
+  },
+  chtml: {
+    fontCache: 'global',
+    displayAlign: 'center',
+    displayIndent: '0em',
+    scale: 1.0
+  },
+  startup: {
+    pageReady: function() {
+      return MathJax.startup.defaultPageReady();
+    }
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<!-- 16x16 -->
+<link rel="shortcut icon" href="https://Volodymyr2580.github.io/images/fav.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="https://Volodymyr2580.github.io/images/fav.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="https://Volodymyr2580.github.io/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://Volodymyr2580.github.io/images/fav.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://Volodymyr2580.github.io/images/fav.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://Volodymyr2580.github.io/images/fav.png">
+
+
+<script src="https://cdn.counter.dev/script.js" data-id="4c8f7caa-2b55-46cd-a995-2c4633303773" data-utcoffset="8"></script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T5N5JY1E21"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-T5N5JY1E21');
+</script>
+
+</head>
+
+
+<body class="page" itemscope itemtype="http://schema.org/WebPage">
+
+<!-- [if lt IE 6]><div class="chrome-frame alert alert-info"><strong>Your browser is really old!</strong> <a href="http://browsehappy.com/">Why not upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better enjoy this site?</div><![endif] -->
+
+<!-- It is not recommended to modify this code, unless you are a Pro-->
+<!-- Lastly modified by Hanlin CAI in 2023/01/15 -->
+
+<div class="navigation-wrapper">
+	<div class="site-name">
+		<a href="/">
+			<span class="site-mark">PKU</span>
+			<span class="site-brand-text">
+				<span class="site-title">Wenzhe Sheng</span>
+				<span class="site-subtitle">School of Earth and Space Sciences</span>
+			</span>
+		</a>
+	</div><!-- /.site-name -->
+  
+	<button class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false">
+		<span class="bar"></span>
+		<span class="bar"></span>
+		<span class="bar"></span>
+	</button>
+	<div class="top-navigation">
+		<nav role="navigation" itemscope itemtype="http://schema.org/SiteNavigationElement">
+		    <ul>
+		        
+            <li><a href="/" >About Me</a></li>
+		        
+            <li><a href="/publications/" >Publications</a></li>
+		        
+            <li><a href="/awards/" >Awards</a></li>
+		        
+            <li><a href="/diary/" >Diary</a></li>
+		        
+            <li><a href="/blogs/" >Blogs</a></li>
+		        
+            <li><a href="/notes/" >Notes</a></li>
+		        
+		    </ul>
+		</nav>
+		<div class="nav-social-links" aria-label="Contact links">
+			<a href="https://github.com/Volodymyr2580" aria-label="GitHub"><i class="icon-github"></i></a>
+			<a href="mailto:2200012437@stu.pku.edu.cn" aria-label="Email"><i class="icon-mail"></i></a>
+		</div>
+	</div><!-- /.top-navigation -->
+</div><!-- /.navigation-wrapper -->
+
+<!-- Lastly modified by Hanlin CAI in 2023/05/01 -->
+
+
+
+
+<div id="main" role="main"  itemprop="mainContentOfPage">
+  
+  <div class="article-author-top">
+    <img src="https://Volodymyr2580.github.io/images/bigheadwenzhe.jpg" class="bio-photo" alt="Wenzhe Sheng bio photo" width="100" height="100">
+
+<h4>Wenzhe Sheng</h4>
+
+<p>Undergraduate researcher at Peking University, School of Earth and Space Sciences.</p>
+
+<div class="social-links">
+<p><a href="mailto:2200012437@stu.pku.edu.cn" target="_blank"><i class="icon-mail"></i> Email</a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p><a href="https://github.com/Volodymyr2580"><i class="icon-github"></i> Github</a></p>
+
+
+
+
+
+
+
+
+
+<p><a href="https://www.zhihu.com/people/obtuse-4"><img src="https://caihanlin.com/images/logo/icons8-zhihu-96.png" width="15.8" height="15.8"></i> Zhihu</a></p>
+
+
+</div>
+
+<!-- Lastly modified by Hanlin CAI in 2023/10/15 -->
+
+  </div>
+  
+  <article itemscope itemtype="http://schema.org/CreativeWork">
+  
+    <div class="article-wrap" itemprop="text">
+      <p>上一节介绍了关于我们刻画一个agent与环境交互行为的基本概念。
+这一章笔记的记法会有所不同，我决定先按照书本学习一遍，然后再做笔记梳理，这样思路会按照我的习惯来，并不会follow原书的chain。</p>
+<h1 id="state-values-and-bellman-equation">State Values and Bellman Equation</h1>
+
+<p>这一节的核心概念是state value——the average reward that an agent can obtain if it follows a given policy. state value越大，相应的policy越优。分析state value的工具是贝尔曼方程(Bellman equation)，这一过程被称为policy evaluation。</p>
+
+<p>回忆上一讲中介绍的一个基本概念return,是我的某一条确定性轨道上每一步的奖励乘上贴现因子的代数和：</p>
+
+<div class="kdmath">$$
+\text{discounted return} = \sum_{i=0}^{\infty}\gamma^ir_i
+$$</div>
+
+<p>但这个定义不适用于我们上一节最后提到的MDPs模型，并且为了复杂化和自然化我们的policy，我们往往是需要做混合的（这里混合mix其实用了博弈论的表述习惯，意思是每一步的action和reward都会取成一个随机变量(Random Variable, R.V.)）。因此，我们需要引入state value和action value两个概念。</p>
+
+<h2 id="state-value--action-value">State value &amp; Action value</h2>
+<p>需要先引入必要的记号：考虑时间步$t=0,1,2,\cdots$ ，在时间步t，agent位于状态$S_t$，根据选定的某个policy $\pi$ ,下一个action是$A_t$，状态为$S_{t+1}$，得到的immediate reward是$R_{t+1}$</p>
+
+<div class="kdmath">$$
+S_t\xrightarrow[]{A_t}S_{t+1},R_{t+1}
+$$</div>
+
+<p>上式中涉及的四个都是R.V.。$S_t,S_{t+1}\in \mathcal{S},A_t\in\mathcal{A}(S_t),R_{t+1}\in\mathcal{R}(S_t,A_t)$</p>
+
+<p>从t开始，我们能得到一个state-action-reward轨道：</p>
+
+<div class="kdmath">$$
+S_t\xrightarrow[]{A_t}S_{t+1},R_{t+1}\xrightarrow[]{A_{t+1}}S_{t+2},R_{t+2}\xrightarrow \cdots
+$$</div>
+
+<p>根据定义，沿着轨道的贴现回报(discounted return)：</p>
+
+<div class="kdmath">$$
+G_t=R_{t+1}+\gamma R_{t+2}+\gamma^2R_{t+3}+\cdots
+$$</div>
+
+<p>注意$G_t$也是一个R.V.，因此我们可以把state value定义为它的期望：</p>
+
+<div class="kdmath">$$
+v_\pi(s) =\mathbb{E}[G_t|S_t=s]
+$$</div>
+
+<p>注意$v_\pi(s)$是一个依赖于policy $\pi$和状态s的函数，但与时间步t无关，并且要注意这里取的期望是对action,state和reward同时取的期望。</p>
+
+<p>进一步，我们可以定义在状态s执行action a之后的期望回报，也就是action value:</p>
+
+<div class="kdmath">$$
+q_\pi(s,a)=\mathbb{E}[G_t|S_t=s,A_t=a]
+$$</div>
+
+<p>这个定义是自然的。
+根据条件期望的性质，自然有以下式子成立：</p>
+
+<p><span class="kdmath">$v_\pi(s)=\sum_{a\in \mathcal{A}}\pi(a|s)q_\pi(s,a)$</span></p>
+<h2 id="bellman-equation">Bellman equation</h2>
+<p>贝尔曼方程的推导是极其自然的，类比随机过程中处理马氏过程我们常用的首步分析法，我们可以将两个状态之间的state value或者action value通过递推的方法关联起来，从而解出我们的state value or action value.</p>
+
+<p>接下来我们推导贝尔曼方程，显然有(by definition)</p>
+
+<div class="kdmath">$$
+G_t=R_{t+1}+\gamma G_{t+1}
+$$</div>
+
+<p>Thus,</p>
+
+<div class="kdmath">$$
+v_\pi(s)=\mathbb{E}[G_t|S_t=s]=\mathbb{E}[R_{t+1}|S_t=s]+\gamma\mathbb{E}[G_{t+1}|S_t=s]
+$$</div>
+
+<p>利用全概率公式：</p>
+
+<p><span class="kdmath">$\mathbb{E}[R_{t+1}|S_t=s]=\sum_{a\in\mathcal{A}}\pi(a|s)\mathbb{E}[R_{t+1}|S_t=s,A_t=a]=\sum_{a\in\mathcal{A}}\pi(a|s)\sum_{r\in\mathcal{R}}p(r|s,a)r$</span><span class="kdmath">$\begin{align}
+\mathbb{E}[G_{t+1}|S_t=s]&=\sum_{s'\in\mathcal{S}}\mathbb{E}[G_{t+1}|S_t=s,S_{t+1}=s']p(s'|s)\\
+&=\sum_{s'\in\mathcal{S}}\mathbb{E}[G_{t+1}|S_{t+1}=s']p(s'|s) \quad \text{due to Markov property} \\
+&=\sum_{s'\in\mathcal{S}}v_\pi(s')p(s'|s)\\
+&=\sum_{s'\in\mathcal{S}}v_\pi(s')\sum_{a\in\mathcal{A}}p(s'|s,a)\pi(a|s)
+\end{align}$</span></p>
+
+<p>代入原式就得到了贝尔曼方程（上述的代换是自然的，把未知的条件期望转化为显式的由待求量$v_\pi$和已知的转移概率组成的方程）</p>
+
+<div class="kdmath">$$
+v_\pi(s)=\sum_{a\in\mathcal{A}}\pi(a|s)[\sum_{r\in\mathcal{R}}p(r|s,a)r+\gamma\sum_{s'\in\mathcal{S}}p(s'|s,a)v_\pi(s')], \text{for all }s\in \mathcal{S}
+$$</div>
+
+<p>上式还可以改写为：</p>
+
+<div class="kdmath">$$
+v_\pi(s)=\sum_{a\in\mathcal{A}}\pi(a|s)\sum_{r\in\mathcal{R}}\sum_{s'\in\mathcal{S}}p(s',r|s,a)[r+\gamma v_\pi(s')],
+$$</div>
+
+<p>Or</p>
+
+<div class="kdmath">$$
+\begin{align}
+v_\pi(s)&=\sum_{a\in\mathcal{A}}\pi(a|s)\sum_{r\in\mathcal{R}}p(r|s,a)r+\gamma\sum_{a\in\mathcal{A}}\pi(a|s)\sum_{s'\in\mathcal{S}}p(s'|s,a)v_\pi(s'), \\
+&=r_\pi(s)+\gamma\sum_{s'\in\mathcal{S}}p_\pi(s'|s)v_\pi(s')
+\end{align}
+$$</div>
+
+<table>
+  <tbody>
+    <tr>
+      <td>其中：$p_\pi(s’</td>
+      <td>s)=\sum_{a\in\mathcal{A}}\pi(a</td>
+      <td>s)p(s’</td>
+      <td>s,a)$，这一形式中，$r_\pi(s)$表示在s处的所有即时奖励(immediate rewards)的平均，$p_\pi(s’</td>
+      <td>s)$则是在policy $\pi$下从状态$s\to s’$的转移概率。</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>我们可以根据这种表达式写出贝尔曼方程的矩阵形式。
+把状态依次标为：$s_i, i=1,2,\cdots,n$，$n=|\mathcal{S}|$ , let $v_\pi=[v_\pi(s_1),v_\pi(s_2),\cdots,v_\pi(s_n)]^T \in \mathbb{R}^n$,$r_\pi=[r_\pi(s_1),r_\pi(s_2),\cdots,r_\pi(s_n)]^T \in \mathbb{R}^n$ and $P_\pi \in \mathbb{R}^{n\times n}$
+其中$[P_\pi]<em>{ij}=p</em>\pi(s_j|s_i)$</p>
+
+<p>则矩阵形式的贝尔曼方程为：</p>
+
+<div class="kdmath">$$
+v_\pi=r_\pi+\gamma P_\pi v_\pi
+$$</div>
+
+<p>其中$P_\pi$就是转移概率矩阵(conditioned on policy $\pi$)</p>
+
+<p>如此贝尔曼方程的解就可以表达为：</p>
+
+<div class="kdmath">$$
+v_\pi =(I-\gamma P_\pi)^{-1}r_\pi
+$$</div>
+
+<table>
+  <tbody>
+    <tr>
+      <td>这个前提是矩阵$(I-\gamma P_\pi)$可逆，由于$\gamma \in(0,1)$并且$P_\pi$是转移概率矩阵。根据Gershgorin圆盘定理，矩阵的每一个复特征值都位于至少一个Gershgorin圆盘内，而第i个圆盘的中心位于$1-\gamma p_\pi(s_i</td>
+      <td>s_i)$，半径大小等于第i行非对角线元素的绝对值之和$R_i=\sum_{j\neq i}\gamma p_\pi(s_j</td>
+      <td>s_i)&lt;1-\gamma p_\pi(s_i</td>
+      <td>s_i)$</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>其中小于号是利用了矩阵$P_\pi$第i行的元素和为1</p>
+
+<p>所以没有0特征值，因此可逆。</p>
+
+<p>此外，</p>
+
+<div class="kdmath">$$
+(I-\gamma P_\pi)^{-1}=I+\gamma P_\pi+(\gamma P_\pi)^2+\cdots\geq I\geq 0
+$$</div>
+
+<p>这里的大于等于号是逐元素比较的。</p>
+
+<p>但上式涉及到矩阵求逆，当我们状态数n增大时，这会导致巨大的计算消耗。相应地有迭代解：</p>
+
+<div class="kdmath">$$
+v_{k+1}=r_\pi+\gamma P_\pi v_k, k=0,1,2,\cdots
+$$</div>
+
+<p>对应地也有action value的贝尔曼方程：</p>
+
+<div class="kdmath">$$
+q_\pi(s,a)=\sum_{r \in \mathcal{R}}p(r|s,a)r+\gamma\sum_{s'\in \mathcal{S}}p(s'|s,a)\sum_{a' \in \mathcal{A}(s')}\pi(a'|s')q_\pi(s',a')
+$$</div>
+
+<p>其矩阵形式是：</p>
+
+<div class="kdmath">$$
+q_\pi=\tilde{r}+\gamma P \Pi q_\pi
+$$</div>
+
+<p>其中：
+<span class="kdmath">$[q_\pi]_{(s,a)}=q_\pi(s,a)$</span>,</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>$$[\tilde{r}]<em>{(s,a)}=\sum</em>{r\in\mathcal{R}} p(r</td>
+      <td>s,a)r$$,</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>$$[P]_{(s,a),s’}=p(s’</td>
+      <td>s,a)$$,</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td><span class="kdmath">$\Pi$</span>是一个分块对角阵，每一块是一个$$1\times</td>
+      <td>\mathcal{A}</td>
+      <td><span class="kdmath">$的向量：$</span>\Pi_{s’,(s’,a’)}=\pi(a’</td>
+      <td>s’)$$</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>最后，从直观上来看，state value越大说明一个policy越优，但只是直观。</p>
+
+
+    </div><!-- /.article-wrap -->
+    
+    <div class="comments-section">
+      <hr>
+      <h3>Leave a Message</h3>
+      <script src="https://giscus.app/client.js"
+        data-repo="Volodymyr2580/Volodymyr2580.github.io"
+        data-repo-id="R_kgDOOvNN3A"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOOvNN3M4C8IOG"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>
+
+    </div>
+    
+  </article>
+</div><!-- /#index -->
+
+<div class="footer-wrap">
+  <footer>
+    <h6>&copy; 2026 Wenzhe Sheng.
+  Published with <a href="https://pages.github.com/" rel="nofollow">GitHub Pages</a>,
+  powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a>,
+  based on the <a href="https://mademistakes.com/" rel="nofollow">Minimal Mistakes</a> theme.
+  Source code for this website can be found <a href="https://github.com/GuangLun2000/GuangLun2000.github.io" rel="nofollow">here</a>.
+
+  <!-- <script type="text/javascript" id="clstr_globe" src="//clustrmaps.com/globe.js?d=tGZ_4852x6Mm-PPomoo98e4y_CI8D9TmioGTO03Daik"></script> -->
+  
+</h6>
+
+
+<!-- Lastly modified by Hanlin CAI in 2023/03/16 -->
+  </footer>
+</div><!-- /.footer-wrap -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="https://Volodymyr2580.github.io/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="https://Volodymyr2580.github.io/assets/js/main.min.js"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'G-T5N5JY1E21', 'caihanlin.com');
+  ga('send', 'pageview');
+
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const menuToggle = document.querySelector('.menu-toggle');
+  const navMenu = document.querySelector('.top-navigation');
+  if (menuToggle && navMenu) {
+    menuToggle.addEventListener('click', function() {
+      navMenu.classList.toggle('active');
+      const expanded = navMenu.classList.contains('active');
+      menuToggle.setAttribute('aria-expanded', expanded);
+    });
+  }
+});
+</script>
+
+<!-- https://analytics.google.com/analytics.com/ -->
+<!-- Lastly modified by Hanlin CAI in 2023/01/15 -->
+
+
+
+</body>
+</html>

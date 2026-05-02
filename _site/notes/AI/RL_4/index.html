@@ -1,0 +1,464 @@
+<!-- Lastly modified by Hanlin CAI in 2023/04/26 -->
+<!-- It is not recommended to modify this code, unless you are a Pro-->
+
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+
+<head>
+<!-- It is not recommended to modify this code, unless you are a Pro-->
+<!-- Lastly modified by Hanlin CAI in 2023/04/26 -->
+
+<meta charset="utf-8">
+<title>强化学习的数学原理 4 &#8211; Wenzhe Sheng</title>
+
+
+
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="强化学习的数学原理 4 &#8211; Wenzhe Sheng">
+<meta property="og:description" content="上一章我们定义了Optimal Policy和optimal value两个用于求解最优策略的核心概念和手段——BOE。本章节我们进一步介绍3个算法——value iteration, policy iteration & trunc...">
+<meta property="og:url" content="https://Volodymyr2580.github.io/notes/AI/RL_4/index.html">
+<meta property="og:site_name" content="Wenzhe Sheng">
+
+
+
+
+
+<link rel="canonical" href="https://Volodymyr2580.github.io/notes/AI/RL_4/">
+
+
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<!-- Google Webfonts -->
+<link href='https://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700|PT+Serif:400,700,400italic' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous" />
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css?v=20260502">
+
+<!--[if (lt IE 9) & (!IEMobile)]>
+<link rel="stylesheet" href="/assets/css/ie.css">
+<![endif]-->
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- Load Modernizr -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" integrity="sha512-3n19xznO0ubPpSwYCRRBgHh63DrV+bdZfHK52b1esvId4GsfwStQNPJFjeQos2h3JwCmZl0/LgLxSKMAI55hgw==" crossorigin="anonymous"></script>
+
+<!-- MathJax 3 -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true,
+    packages: {'[+]': ['ams', 'bm']},
+    macros: {
+      bm: ["\\boldsymbol{#1}", 1]
+    }
+  },
+  options: {
+    enableMenu: false,
+    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+    ignoreHtmlClass: 'tex2jax_ignore',
+    processHtmlClass: 'tex2jax_process'
+  },
+  chtml: {
+    fontCache: 'global',
+    displayAlign: 'center',
+    displayIndent: '0em',
+    scale: 1.0
+  },
+  startup: {
+    pageReady: function() {
+      return MathJax.startup.defaultPageReady();
+    }
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<!-- 16x16 -->
+<link rel="shortcut icon" href="https://Volodymyr2580.github.io/images/fav.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="https://Volodymyr2580.github.io/images/fav.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="https://Volodymyr2580.github.io/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://Volodymyr2580.github.io/images/fav.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://Volodymyr2580.github.io/images/fav.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://Volodymyr2580.github.io/images/fav.png">
+
+
+<script src="https://cdn.counter.dev/script.js" data-id="4c8f7caa-2b55-46cd-a995-2c4633303773" data-utcoffset="8"></script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T5N5JY1E21"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-T5N5JY1E21');
+</script>
+
+</head>
+
+
+<body class="page" itemscope itemtype="http://schema.org/WebPage">
+
+<!-- [if lt IE 6]><div class="chrome-frame alert alert-info"><strong>Your browser is really old!</strong> <a href="http://browsehappy.com/">Why not upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better enjoy this site?</div><![endif] -->
+
+<!-- It is not recommended to modify this code, unless you are a Pro-->
+<!-- Lastly modified by Hanlin CAI in 2023/01/15 -->
+
+<div class="navigation-wrapper">
+	<div class="site-name">
+		<a href="/">
+			<span class="site-mark">PKU</span>
+			<span class="site-brand-text">
+				<span class="site-title">Wenzhe Sheng</span>
+				<span class="site-subtitle">School of Earth and Space Sciences</span>
+			</span>
+		</a>
+	</div><!-- /.site-name -->
+  
+	<button class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false">
+		<span class="bar"></span>
+		<span class="bar"></span>
+		<span class="bar"></span>
+	</button>
+	<div class="top-navigation">
+		<nav role="navigation" itemscope itemtype="http://schema.org/SiteNavigationElement">
+		    <ul>
+		        
+            <li><a href="/" >About Me</a></li>
+		        
+            <li><a href="/publications/" >Publications</a></li>
+		        
+            <li><a href="/awards/" >Awards</a></li>
+		        
+            <li><a href="/diary/" >Diary</a></li>
+		        
+            <li><a href="/blogs/" >Blogs</a></li>
+		        
+            <li><a href="/notes/" >Notes</a></li>
+		        
+		    </ul>
+		</nav>
+		<div class="nav-social-links" aria-label="Contact links">
+			<a href="https://github.com/Volodymyr2580" aria-label="GitHub"><i class="icon-github"></i></a>
+			<a href="mailto:2200012437@stu.pku.edu.cn" aria-label="Email"><i class="icon-mail"></i></a>
+		</div>
+	</div><!-- /.top-navigation -->
+</div><!-- /.navigation-wrapper -->
+
+<!-- Lastly modified by Hanlin CAI in 2023/05/01 -->
+
+
+
+
+<div id="main" role="main"  itemprop="mainContentOfPage">
+  
+  <div class="article-author-top">
+    <img src="https://Volodymyr2580.github.io/images/bigheadwenzhe.jpg" class="bio-photo" alt="Wenzhe Sheng bio photo" width="100" height="100">
+
+<h4>Wenzhe Sheng</h4>
+
+<p>Undergraduate researcher at Peking University, School of Earth and Space Sciences.</p>
+
+<div class="social-links">
+<p><a href="mailto:2200012437@stu.pku.edu.cn" target="_blank"><i class="icon-mail"></i> Email</a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p><a href="https://github.com/Volodymyr2580"><i class="icon-github"></i> Github</a></p>
+
+
+
+
+
+
+
+
+
+<p><a href="https://www.zhihu.com/people/obtuse-4"><img src="https://caihanlin.com/images/logo/icons8-zhihu-96.png" width="15.8" height="15.8"></i> Zhihu</a></p>
+
+
+</div>
+
+<!-- Lastly modified by Hanlin CAI in 2023/10/15 -->
+
+  </div>
+  
+  <article itemscope itemtype="http://schema.org/CreativeWork">
+  
+    <div class="article-wrap" itemprop="text">
+      <p>上一章我们定义了Optimal Policy和optimal value两个用于求解最优策略的核心概念和手段——BOE。本章节我们进一步介绍3个算法——value iteration, policy iteration &amp; truncated policy iteration</p>
+
+<h3 id="value-iteration">Value iteration</h3>
+<p>回忆：</p>
+
+<div class="kdmath">$$
+v_{k+1}=\max_{\pi \in \Pi}(r_\pi+\gamma P_\pi v_k)
+$$</div>
+
+<p>每一步更新都要分两步走，第一步先根据$v_k$算出$\pi_{k+1}$, 称为policy update; 第二步是value update：</p>
+
+<div class="kdmath">$$
+v_{k+1} = r_{\pi_{k+1}} + \gamma P_{\pi_{k+1}} v_k,
+$$</div>
+
+<p>下面我们逐元素地来细看一下：
+第一步：</p>
+
+<div class="kdmath">$$
+\pi_{k+1}(s) = \arg\max_\pi \sum_a \pi(a|s) \left( \underbrace{\sum_r p(r|s, a)r + \gamma \sum_{s'} p(s'|s, a)v_k(s')}_{q_k(s, a)} \right), \quad s \in \mathcal{S}.
+$$</div>
+
+<p>而上式的解其实是：</p>
+
+<div class="kdmath">$$
+\pi_{k+1}(a|s) = \begin{cases} 
+1, & a = a_k^*(s), \\
+0, & a \neq a_k^*(s),
+\end{cases}
+$$</div>
+
+<p>其中$a_k^*(s)=arg max_a q_k(s,a)$ ,如果a有多解的话，可以任选一个，不会影响收敛过程。可见新的policy $\pi_{k+1}$选择的是使得$q_k(s,a)$最大的action，这样的policy叫做greedy</p>
+
+<p>第二步：</p>
+
+<p><span class="kdmath">$v_{k+1}(s) = \sum_a \pi_{k+1}(a|s) \left( \underbrace{\sum_r p(r|s, a)r + \gamma \sum_{s'} p(s'|s, a)v_k(s')}_{q_k(s, a)} \right), \quad s \in \mathcal{S}.$</span>
+即：</p>
+
+<div class="kdmath">$$
+v_{k+1}(s)=\max_a q_k(s,a)
+$$</div>
+
+<p>总结来说，上述步骤可以表示为：</p>
+
+<div class="kdmath">$$
+v_k(s) \rightarrow q_k(s, a) \rightarrow \text{new greedy policy } \pi_{k+1}(s) \rightarrow \text{new value } v_{k+1}(s) = \max_a q_k(s, a)
+$$</div>
+
+<p>这里需要注意的问题是，虽然$v_k$最终会收敛到optimal state value，但过程的中间量$v_k$不一定是一个state value,相应的$q_k$也不一定是一个action value</p>
+
+<h3 id="policy-iteration">Policy iteration</h3>
+<p>每个迭代分两步走，第一步叫做policy evaluation，即根据当前的policy计算state value</p>
+
+<div class="kdmath">$$
+v_{\pi_k} = r_{\pi_k} + \gamma P_{\pi_k} v_{\pi_k},
+$$</div>
+
+<p>第二步叫做policy improvement，计算到$v_k$之后，就可以得到$\pi_{k+1}$</p>
+
+<div class="kdmath">$$
+\pi_{k+1} = \arg\max_\pi (r_\pi + \gamma P_\pi v_{\pi_k}).
+$$</div>
+
+<p>注意这里和value iteration有本质的区别，我们的更新主体是policy。但自然会有以下疑问：（1）$v_{\pi_k}$如何计算 （2）为什么$\pi_{k+1}$会优于$\pi_k$ （3）这样的迭代策略为什么会收敛到optimal policy?</p>
+
+<h4 id="1-solve-v_pi_k">（1） solve $v_{\pi_k}$</h4>
+<p>我们在第二章中介绍过Bellman equation的两种解法。第一种是闭式解——$v_{\pi_k}=(I-\gamma P_{\pi_k})^{-1}r_{\pi_k}$,但计算矩阵逆会消耗大量计算量。
+第二种是迭代解，</p>
+
+<div class="kdmath">$$
+v_{\pi_k}^{(j+1)} = r_{\pi_k} + \gamma P_{\pi_k} v_{\pi_k}^{(j)}, \quad j = 0, 1, 2, \ldots
+$$</div>
+
+<table>
+  <tbody>
+    <tr>
+      <td>也就是在整个迭代过程中还嵌套了一个迭代解对象，并且理论上要趋于无穷时才会收敛，但实际上会设置一个标准，比如$</td>
+      <td> </td>
+      <td>v_{\pi_k}^{(j+1)} -v_{\pi_k}^{(j)}</td>
+      <td> </td>
+      <td>$小于某个阈值或者迭代次数j超过某个限定数后。</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="2">(2)</h4>
+<p>引理：(Policy improvement) 如果$\pi_{k+1} = argmax_\pi (r_\pi +\gamma P_\pi v_{\pi_k})$, 则$v_{\pi_{k+1}}\geq v_{\pi_k}$。
+Proof:
+state values满足Bellman equations</p>
+
+<p><span class="kdmath">$v_{\pi_{k+1}} = r_{\pi_{k+1}} + \gamma P_{\pi_{k+1}} v_{\pi_{k+1}},  v_{\pi_k} = r_{\pi_k} + \gamma P_{\pi_k} v_{\pi_k}.$</span>
+根据$\pi_{k+1}$的定义：</p>
+
+<div class="kdmath">$$
+r_{\pi_{k+1}} + \gamma P_{\pi_{k+1}} v_{\pi_k} \geq r_{\pi_k} + \gamma P_{\pi_k} v_{\pi_k}.
+$$</div>
+
+<p>Then,</p>
+
+<p><span class="kdmath">$\begin{align}
+  v_{\pi_k} - v_{\pi_{k+1}} &= (r_{\pi_k} + \gamma P_{\pi_k} v_{\pi_k}) - (r_{\pi_{k+1}} + \gamma P_{\pi_{k+1}} v_{\pi_{k+1}}) \\
+& \leq (r_{\pi_{k+1}} + \gamma P_{\pi_{k+1}} v_{\pi_k}) - (r_{\pi_{k+1}} + \gamma P_{\pi_{k+1}} v_{\pi_{k+1}}) \\
+&\leq \gamma P_{\pi_{k+1}} (v_{\pi_k} - v_{\pi_{k+1}}). 
+ \end{align}$</span>
+ 因此，</p>
+
+<div class="kdmath">$$
+\begin{align}
+  v_{\pi_k} - v_{\pi_{k+1}} &\leq \gamma^2 P_{\pi_{k+1}}^2 (v_{\pi_k} - v_{\pi_{k+1}}) \leq \ldots \leq \gamma^n P_{\pi_{k+1}}^n (v_{\pi_k} - v_{\pi_{k+1}}) \\  
+  &\leq \lim_{n \to \infty} \gamma^n P_{\pi_{k+1}}^n (v_{\pi_k} - v_{\pi_{k+1}}) = 0. 
+  \end{align}
+$$</div>
+
+<h4 id="3">(3)</h4>
+<p>我们有:</p>
+
+<div class="kdmath">$$
+v_{\pi_0} \leq v_{\pi_1} \leq v_{\pi_2} \leq \ldots \leq v_{\pi_k} \leq \ldots \leq v^*.
+$$</div>
+
+<p>根据单调有界收敛，${v_{\pi_k}}$序列收敛到一个常数$v_\infty$，下面一个定理说明了$v_\infty=v^<em>$
+Theorem (Convergence of policy iteration) policy iteration产生的state value sequence ${v_{\pi_k}}_{k=0}^\infty \to v^</em>$,且${\pi_{k}}$收敛到一个optimal policy</p>
+
+<p>这个定理也会得到一个有意思的结论：即从同一个initial guess出发，policy iteration会比value iteration收敛得更快。</p>
+
+<p>事实上，我们可以通过value iteration的收敛性来说明policy iteration的收敛性，我们再引入一个序列${v_{\pi_k}}$由下式生成</p>
+
+<p><span class="kdmath">$v_{k+1} = f(v_k) = \max_\pi (r_\pi + \gamma P_\pi v_k).$</span>
+即value iteration</p>
+
+<p>By induction, for k=0, we can always find a $v_0$ such that $v_{\pi_0} \geq v_0$ for any $\pi_0$</p>
+
+<p>for $k \geq 0$, suppose that $v_{\pi_k}\geq v_k$</p>
+
+<p>for k+1, we have</p>
+
+<div class="kdmath">$$
+\begin{align}
+v_{\pi_{k+1}} - v_{k+1} &= (r_{\pi_{k+1}} + \gamma P_{\pi_{k+1}} v_{\pi_{k+1}}) - \max\limits_{\pi} (r_\pi + \gamma P_\pi v_k) \\
+& \geq (r_{\pi_{k+1}} + \gamma P_{\pi_{k+1}} v_{\pi_k}) - \max\limits_{\pi} (r_\pi + \gamma P_\pi v_k) \\
+& = (r_{\pi_{k+1}} + \gamma P_{\pi_{k+1}} v_{\pi_k}) - (r_{\pi_k'} + \gamma P_{\pi_k'} v_k) \quad (\text{suppose } \pi_k' = \arg\max\limits_{\pi} (r_\pi + \gamma P_\pi v_k)) \\
+& \geq (r_{\pi_k'} + \gamma P_{\pi_k'} v_{\pi_k}) - (r_{\pi_k'} + \gamma P_{\pi_k'} v_k) \quad (\text{because } \pi_{k+1} = \arg\max\limits_{\pi} (r_\pi + \gamma P_\pi v_{\pi_k})) \\
+&= \gamma P_{\pi_k'} (v_{\pi_k} - v_k). 
+\end{align}
+$$</div>
+
+<p>由于$v_{\pi_k}-v_k \geq 0$, $P_{\pi_k’}$ 非负，则$v_{\pi_{k+1}} - v_{k+1} \geq 0$</p>
+
+<p>所以由数学归纳法，$v_k \leq v_{\pi_k} \leq v^*$for any $k\geq 0$
+因此policy iteration必收敛，且收敛得更快</p>
+
+<h4 id="elementwise-implementation">Elementwise implementation</h4>
+<p>第一步：</p>
+
+<p><span class="kdmath">$v_{\pi_k}^{(j+1)}(s) = \sum_a \pi_k(a|s) \left( \sum_r p(r|s, a)r + \gamma \sum_{s'} p(s'|s, a)v_{\pi_k}^{(j)}(s') \right), \quad s \in \mathcal{S},$</span>
+迭代计算$v_{\pi_k}$</p>
+
+<p>第二步</p>
+
+<p><span class="kdmath">$\pi_{k+1}(s) = \arg\max\limits_{\pi} \sum_a \pi(a|s) \left( \underbrace{\sum_r p(r|s, a)r + \gamma \sum_{s'} p(s'|s, a)v_{\pi_k}(s')}_{q_{\pi_k}(s, a)} \right), \quad s \in \mathcal{S},$</span>
+更新Policy</p>
+
+<h3 id="truncated-policy-iteration">Truncated policy iteration</h3>
+<p>前两者的比较
+![[RL.asset/pi_vi.png]]
+![[RL.asset/piviprocess.png]]
+所谓截断truncated,其实就是在policy iteration计算$v_{\pi_k}$的过程中计算了几步的问题？如果计算无穷步，则趋近理论的policy iteration,如果只计算一步，其实计算得到的就是value iteration的$v_1$,所以当计算有限步长时，是介于两者之间的某种算法。</p>
+
+<p>![[RL.asset/TPI.png]]</p>
+
+    </div><!-- /.article-wrap -->
+    
+    <div class="comments-section">
+      <hr>
+      <h3>Leave a Message</h3>
+      <script src="https://giscus.app/client.js"
+        data-repo="Volodymyr2580/Volodymyr2580.github.io"
+        data-repo-id="R_kgDOOvNN3A"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOOvNN3M4C8IOG"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>
+
+    </div>
+    
+  </article>
+</div><!-- /#index -->
+
+<div class="footer-wrap">
+  <footer>
+    <h6>&copy; 2026 Wenzhe Sheng.
+  Published with <a href="https://pages.github.com/" rel="nofollow">GitHub Pages</a>,
+  powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a>,
+  based on the <a href="https://mademistakes.com/" rel="nofollow">Minimal Mistakes</a> theme.
+  Source code for this website can be found <a href="https://github.com/GuangLun2000/GuangLun2000.github.io" rel="nofollow">here</a>.
+
+  <!-- <script type="text/javascript" id="clstr_globe" src="//clustrmaps.com/globe.js?d=tGZ_4852x6Mm-PPomoo98e4y_CI8D9TmioGTO03Daik"></script> -->
+  
+</h6>
+
+
+<!-- Lastly modified by Hanlin CAI in 2023/03/16 -->
+  </footer>
+</div><!-- /.footer-wrap -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="https://Volodymyr2580.github.io/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="https://Volodymyr2580.github.io/assets/js/main.min.js"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'G-T5N5JY1E21', 'caihanlin.com');
+  ga('send', 'pageview');
+
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const menuToggle = document.querySelector('.menu-toggle');
+  const navMenu = document.querySelector('.top-navigation');
+  if (menuToggle && navMenu) {
+    menuToggle.addEventListener('click', function() {
+      navMenu.classList.toggle('active');
+      const expanded = navMenu.classList.contains('active');
+      menuToggle.setAttribute('aria-expanded', expanded);
+    });
+  }
+});
+</script>
+
+<!-- https://analytics.google.com/analytics.com/ -->
+<!-- Lastly modified by Hanlin CAI in 2023/01/15 -->
+
+
+
+</body>
+</html>

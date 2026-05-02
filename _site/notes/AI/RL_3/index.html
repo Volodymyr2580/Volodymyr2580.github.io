@@ -1,0 +1,542 @@
+<!-- Lastly modified by Hanlin CAI in 2023/04/26 -->
+<!-- It is not recommended to modify this code, unless you are a Pro-->
+
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+
+<head>
+<!-- It is not recommended to modify this code, unless you are a Pro-->
+<!-- Lastly modified by Hanlin CAI in 2023/04/26 -->
+
+<meta charset="utf-8">
+<title>强化学习的数学原理 3 &#8211; Wenzhe Sheng</title>
+
+
+
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="强化学习的数学原理 3 &#8211; Wenzhe Sheng">
+<meta property="og:description" content="上一章我们学习了贝尔曼方程和State Value强化学习的最终目的是要找到某种最优策略。本章我们将引入optimal state value和optimal policies两个核心概念以及Bellman optimality eq...">
+<meta property="og:url" content="https://Volodymyr2580.github.io/notes/AI/RL_3/index.html">
+<meta property="og:site_name" content="Wenzhe Sheng">
+
+
+
+
+
+<link rel="canonical" href="https://Volodymyr2580.github.io/notes/AI/RL_3/">
+
+
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<!-- Google Webfonts -->
+<link href='https://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700|PT+Serif:400,700,400italic' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous" />
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css?v=20260502">
+
+<!--[if (lt IE 9) & (!IEMobile)]>
+<link rel="stylesheet" href="/assets/css/ie.css">
+<![endif]-->
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- Load Modernizr -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" integrity="sha512-3n19xznO0ubPpSwYCRRBgHh63DrV+bdZfHK52b1esvId4GsfwStQNPJFjeQos2h3JwCmZl0/LgLxSKMAI55hgw==" crossorigin="anonymous"></script>
+
+<!-- MathJax 3 -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true,
+    packages: {'[+]': ['ams', 'bm']},
+    macros: {
+      bm: ["\\boldsymbol{#1}", 1]
+    }
+  },
+  options: {
+    enableMenu: false,
+    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+    ignoreHtmlClass: 'tex2jax_ignore',
+    processHtmlClass: 'tex2jax_process'
+  },
+  chtml: {
+    fontCache: 'global',
+    displayAlign: 'center',
+    displayIndent: '0em',
+    scale: 1.0
+  },
+  startup: {
+    pageReady: function() {
+      return MathJax.startup.defaultPageReady();
+    }
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<!-- 16x16 -->
+<link rel="shortcut icon" href="https://Volodymyr2580.github.io/images/fav.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="https://Volodymyr2580.github.io/images/fav.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="https://Volodymyr2580.github.io/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://Volodymyr2580.github.io/images/fav.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://Volodymyr2580.github.io/images/fav.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://Volodymyr2580.github.io/images/fav.png">
+
+
+<script src="https://cdn.counter.dev/script.js" data-id="4c8f7caa-2b55-46cd-a995-2c4633303773" data-utcoffset="8"></script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T5N5JY1E21"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-T5N5JY1E21');
+</script>
+
+</head>
+
+
+<body class="page" itemscope itemtype="http://schema.org/WebPage">
+
+<!-- [if lt IE 6]><div class="chrome-frame alert alert-info"><strong>Your browser is really old!</strong> <a href="http://browsehappy.com/">Why not upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better enjoy this site?</div><![endif] -->
+
+<!-- It is not recommended to modify this code, unless you are a Pro-->
+<!-- Lastly modified by Hanlin CAI in 2023/01/15 -->
+
+<div class="navigation-wrapper">
+	<div class="site-name">
+		<a href="/">
+			<span class="site-mark">PKU</span>
+			<span class="site-brand-text">
+				<span class="site-title">Wenzhe Sheng</span>
+				<span class="site-subtitle">School of Earth and Space Sciences</span>
+			</span>
+		</a>
+	</div><!-- /.site-name -->
+  
+	<button class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false">
+		<span class="bar"></span>
+		<span class="bar"></span>
+		<span class="bar"></span>
+	</button>
+	<div class="top-navigation">
+		<nav role="navigation" itemscope itemtype="http://schema.org/SiteNavigationElement">
+		    <ul>
+		        
+            <li><a href="/" >About Me</a></li>
+		        
+            <li><a href="/publications/" >Publications</a></li>
+		        
+            <li><a href="/awards/" >Awards</a></li>
+		        
+            <li><a href="/diary/" >Diary</a></li>
+		        
+            <li><a href="/blogs/" >Blogs</a></li>
+		        
+            <li><a href="/notes/" >Notes</a></li>
+		        
+		    </ul>
+		</nav>
+		<div class="nav-social-links" aria-label="Contact links">
+			<a href="https://github.com/Volodymyr2580" aria-label="GitHub"><i class="icon-github"></i></a>
+			<a href="mailto:2200012437@stu.pku.edu.cn" aria-label="Email"><i class="icon-mail"></i></a>
+		</div>
+	</div><!-- /.top-navigation -->
+</div><!-- /.navigation-wrapper -->
+
+<!-- Lastly modified by Hanlin CAI in 2023/05/01 -->
+
+
+
+
+<div id="main" role="main"  itemprop="mainContentOfPage">
+  
+  <div class="article-author-top">
+    <img src="https://Volodymyr2580.github.io/images/bigheadwenzhe.jpg" class="bio-photo" alt="Wenzhe Sheng bio photo" width="100" height="100">
+
+<h4>Wenzhe Sheng</h4>
+
+<p>Undergraduate researcher at Peking University, School of Earth and Space Sciences.</p>
+
+<div class="social-links">
+<p><a href="mailto:2200012437@stu.pku.edu.cn" target="_blank"><i class="icon-mail"></i> Email</a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p><a href="https://github.com/Volodymyr2580"><i class="icon-github"></i> Github</a></p>
+
+
+
+
+
+
+
+
+
+<p><a href="https://www.zhihu.com/people/obtuse-4"><img src="https://caihanlin.com/images/logo/icons8-zhihu-96.png" width="15.8" height="15.8"></i> Zhihu</a></p>
+
+
+</div>
+
+<!-- Lastly modified by Hanlin CAI in 2023/10/15 -->
+
+  </div>
+  
+  <article itemscope itemtype="http://schema.org/CreativeWork">
+  
+    <div class="article-wrap" itemprop="text">
+      <p>上一章我们学习了贝尔曼方程和State Value</p>
+
+<p>强化学习的最终目的是要找到某种最优策略。本章我们将引入optimal state value和optimal policies两个核心概念以及Bellman optimality equation一个重要的工具。</p>
+
+<p>一种trivial的想法是利用上一章中定义的action value，我们对某个状态，考虑每一种action对应的action value，如果有某个action能带来最大的action value，我们可以直观认为这是一个Optimal action</p>
+
+<h3 id="optimal-state-values-and-optimal-policies">Optimal state values and optimal policies</h3>
+
+<p>考虑两个policies $\pi_1$和$\pi_2$，如果：</p>
+
+<div class="kdmath">$$
+v_{\pi_1}(s)\geq v_{\pi_2}(s), \forall s\in\mathcal{S}
+$$</div>
+
+<p>我们认为$\pi_1$要优于$\pi_2$，进一步，如果有一个policy比其他每一个都要优，自然是optimal policy。数学上表述为：</p>
+
+<p><strong>Def 3.1</strong> A policy $\pi^<em>$ is optimal if $v_{\pi^</em>}(s) \geq v_\pi(s), \text{for all }s\in \mathcal{S} \text{ and for any other policy } \pi$ 。The state values of $\pi^*$ are the optimal state values.</p>
+
+<p>自然的问题是：这样的policy一定存在吗？若存在，其唯一吗？策略应该混合吗？如何得到这样的optimal policy？</p>
+
+<h3 id="bellman-optimality-equation">Bellman optimality equation</h3>
+
+<p>BOE，研究最优策略的工具。
+对每一个state $s\in \mathcal{S}$, BOE的逐元素表达式为：</p>
+
+<div class="kdmath">$$
+\begin{align}
+v(s) &= \max_{\pi(s) \in \Pi(s)} \sum_{a \in \mathcal{A}} \pi(a|s) \left( \sum_{r \in \mathcal{R}} p(r|s, a)r + \gamma \sum_{s' \in \mathcal{S}} p(s'|s, a)v(s') \right)\\
+& = 
+\max_{\pi(s) \in \Pi(s)} \sum_{a \in \mathcal{A}} \pi(a|s)q(s, a)
+
+\end{align}
+$$</div>
+
+<p>其中$v(s),v(s’)$都是待求解的量。</p>
+
+<div class="kdmath">$$
+q(s, a) \doteq \sum_{r \in \mathcal{R}} p(r|s, a)r + \gamma \sum_{s' \in \mathcal{S}} p(s'|s, a)v(s')
+$$</div>
+
+<table>
+  <tbody>
+    <tr>
+      <td>第一步是求解max，考虑到$\sum_a \pi(a</td>
+      <td>s) =1$</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="kdmath">$$
+\sum_{a\in\mathcal{A}} \pi(a|s)q(s,a) \leq \sum_{a\in\mathcal{A}}\pi(a|s) \max_{a\in\mathcal{A}} q(s,a)=\max_{a\in\mathcal{A}} q(s,a)
+$$</div>
+
+<p>Suppose $a^*=\text{arg } max_a q(s,a)$，上式的等号取自</p>
+
+<div class="kdmath">$$
+\pi(a|s) = \begin{cases} 
+1, & a = a^*, \\
+0, & a \neq a^*.
+\end{cases}
+$$</div>
+
+<p>总结来说, optimal policy是那个选择了拥有最大$q(s,a)$的action的policy</p>
+
+<p>将逐state的方程组合起来会得到BOE的矩阵形式：</p>
+
+<div class="kdmath">$$
+v = \max_{\pi \in \Pi}(r_\pi+\gamma P_\pi v)
+$$</div>
+
+<p>其中v表示state value的向量，max是逐元素取max。</p>
+
+<div class="kdmath">$$
+[r_\pi]_s \doteq \sum_{a \in \mathcal{A}} \pi(a|s) \sum_{r \in \mathcal{R}} p(r|s, a)r
+$$</div>
+
+<div class="kdmath">$$
+[P_\pi]_{s,s'} = p(s'|s) \doteq \sum_{a \in \mathcal{A}} \pi(a|s)p(s'|s, a)
+$$</div>
+
+<p>考虑上式右侧所得到的optimal policy $\pi$实际上取决于v，因此可以表示为v的函数</p>
+
+<div class="kdmath">$$
+f(v) \doteq \max_{\pi \in \Pi}(r_\pi + \gamma P_\pi v)
+$$</div>
+
+<p>因此BOE的简洁形式为：</p>
+
+<div class="kdmath">$$
+v=f(v)
+$$</div>
+
+<p>即f的一个不动点。</p>
+
+<p>根据压缩映射原理(contraction mapping theorem), 若映射f 是压缩映射——即$\forall x_1, x_2, \exists \gamma \in (0,1)$，使得</p>
+
+<div class="kdmath">$$
+||f(x_1)-f(x_2)||\leq \gamma||x_1-x_2||
+$$</div>
+
+<p>则其存在唯一的不动点$x^*$，且可以通过迭代$x_{k+1}=f(x_k)$得到。</p>
+
+<p>那BOE右侧的函数f是不是一个压缩映射呢？答案是肯定的。</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>实际上max对应的就是$L_{\infty}$范数，因此有for any $v_1,v_2 \in \mathbb{R}^{</td>
+      <td>S</td>
+      <td>}$,</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="kdmath">$$
+||f(v_1)-f(v_2)||_{\infty}\leq \gamma||v_1-v_2||_{\infty}
+$$</div>
+
+<p>Proof:</p>
+
+<p>Suppose $\pi_1^* \doteq \text{arg }max_\pi (r_\pi+\gamma P_\pi v_1)$ and $\pi_2^* \doteq \text{arg }max_\pi (r_\pi+\gamma P_\pi v_2)$</p>
+
+<div class="kdmath">$$
+\begin{align}
+f(v_1) &= \max_\pi (r_\pi + \gamma P_\pi v_1) = r_{\pi_1^*} + \gamma P_{\pi_1^*} v_1 \geq r_{\pi_2^*} + \gamma P_{\pi_2^*} v_1, \\
+
+f(v_2) &= \max_\pi (r_\pi + \gamma P_\pi v_2) = r_{\pi_2^*} + \gamma P_{\pi_2^*} v_2 \geq r_{\pi_1^*} + \gamma P_{\pi_1^*} v_2,
+\end{align}
+$$</div>
+
+<p>Thus,</p>
+
+<div class="kdmath">$$
+\begin{align}
+f(v_1) - f(v_2) &= r_{\pi_1^*} + \gamma P_{\pi_1^*} v_1 - (r_{\pi_2^*} + \gamma P_{\pi_2^*} v_2) \\ 
+&\leq r_{\pi_1^*} + \gamma P_{\pi_1^*} v_1 - (r_{\pi_1^*} + \gamma P_{\pi_1^*} v_2) 
+&= \gamma P_{\pi_1^*} (v_1 - v_2)\\
+\end{align}
+$$</div>
+
+<p>Similarly,</p>
+
+<div class="kdmath">$$
+f(v_2) - f(v_1) \leq \gamma P_{\pi_2^*} (v_2 - v_1)
+$$</div>
+
+<p>Define</p>
+
+<div class="kdmath">$$
+z \doteq \max \left\{ |\gamma P_{\pi_2^*}(v_1 - v_2)|, |\gamma P_{\pi_1^*}(v_1 - v_2)| \right\} \in \mathbb{R}^{|\mathcal{S}|}
+$$</div>
+
+<p>上式中出现的运算符都是elementwise的，容易看到</p>
+
+<p><span class="kdmath">$-z \leq \gamma P_{\pi_2^*}(v_1 - v_2) \leq f(v_1) - f(v_2) \leq \gamma P_{\pi_1^*}(v_1 - v_2) \leq z,$</span>
+so,</p>
+
+<p><span class="kdmath">$|f(v_1) - f(v_2)| \leq z.$</span>
+which means,</p>
+
+<div class="kdmath">$$
+\|f(v_1) - f(v_2)\|_\infty \leq \|z\|_\infty,
+$$</div>
+
+<p>另一方面,</p>
+
+<div class="kdmath">$$
+z_i = \max \{\gamma |p_i^T(v_1 - v_2)|, \gamma |q_i^T(v_1 - v_2)|\}
+$$</div>
+
+<p>其中,$p_i^T,q_i^T$分别是$P_{\pi_1^<em>},P_{\pi_2^</em>}$的第i行，其各个元素非负且和为1，则</p>
+
+<div class="kdmath">$$
+|p_i^T(v_1 - v_2)| \leq p_i^T|v_1 - v_2| \leq \|v_1 - v_2\|_\infty.
+$$</div>
+
+<p>类似有</p>
+
+<div class="kdmath">$$
+|q_i^T(v_1 - v_2)| \leq q_i^T|v_1 - v_2| \leq \|v_1 - v_2\|_\infty
+$$</div>
+
+<table>
+  <tbody>
+    <tr>
+      <td>Thus, $z_i \leq \gamma</td>
+      <td> </td>
+      <td>v_1-v_2</td>
+      <td> </td>
+      <td>_{\infty}$</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="kdmath">$$
+\|f(v_1) - f(v_2)\|_\infty \leq \gamma \|v_1 - v_2\|_\infty,
+$$</div>
+
+<h4 id="boe求解最优策略">BOE求解最优策略</h4>
+<p>从上一节的数学原理可以看到，我们只需从一个initial guess $v_0$出发，然后做迭代$v_{k+1}=f(v_k)$即可收敛到唯一存在的不动点$v^*$，即最优state value vector</p>
+
+<p>这一迭代策略有一个单独名字叫value iteration。一旦$v^<em>$求解出来，optimal policy $\pi^</em> = \text{arg } \max_{\pi \in \Pi}(r_\pi+\gamma P_\pi v^*)$</p>
+
+<p>In fact, 还有一条性质</p>
+
+<div class="kdmath">$$
+\text{for any policy} \pi, v^* = v_{\pi^*} \geq v_\pi
+$$</div>
+
+<p>we can see it from the following facts:</p>
+
+<div class="kdmath">$$
+v^* - v_\pi \geq (r_\pi + \gamma P_\pi v^*) - (r_\pi + \gamma P_\pi v_\pi) = \gamma P_\pi (v^* - v_\pi)
+$$</div>
+
+<div class="kdmath">$$
+v^* - v_\pi \geq \gamma P_\pi (v^* - v_\pi)\geq \gamma^2 P_\pi^2 (v^* - v_\pi)\geq \cdots\geq 
+\lim_{n \to \infty} \gamma^n P_\pi^n (v^* - v_\pi) = 0
+$$</div>
+
+<p>有一个自然的问题是，贪心算法是不是Optimal的？下面一个定理回答了这个问题</p>
+
+<p>Theorem 3.5 (Greedy optimal policy).} For any $s \in \mathcal{S}$, the deterministic greedy policy</p>
+
+<div class="kdmath">$$
+\pi^*(a|s) = \begin{cases} 
+1, & a = a^*(s), \\
+0, & a \neq a^*(s),
+\end{cases}
+$$</div>
+
+<p>是一个optimal policy，其中</p>
+
+<div class="kdmath">$$
+a^*(s)= \text{arg } \max_a q^*(a,s)
+$$</div>
+
+<div class="kdmath">$$
+q^*(s, a) \doteq \sum_{r \in \mathcal{R}} p(r|s, a)r + \gamma \sum_{s' \in \mathcal{S}} p(s'|s, a)v^*(s').
+$$</div>
+
+<p>这其实可以从elementwise的BOE解形式得到：</p>
+
+<p><span class="kdmath">$\pi^*(s) = \arg\max_{\pi \in \Pi} \sum_{a \in \mathcal{A}} \pi(a|s) \left( \underbrace{\sum_{r \in \mathcal{R}} p(r|s, a)r + \gamma \sum_{s' \in \mathcal{S}} p(s'|s, a)v^*(s')}_{q^*(s, a)} \right), \quad s \in \mathcal{S}.$</span>
+It is clear that RHS is maximized if $\pi(s)$ selects the action with the greatest $q^*(s,a)$</p>
+
+<p>总结来说，最优的optimal value是唯一存在的，但其对应的optimal policy 解可以有无穷多。贴现因子、回报值、和一些概率分布都会影响BOE的解。</p>
+
+    </div><!-- /.article-wrap -->
+    
+    <div class="comments-section">
+      <hr>
+      <h3>Leave a Message</h3>
+      <script src="https://giscus.app/client.js"
+        data-repo="Volodymyr2580/Volodymyr2580.github.io"
+        data-repo-id="R_kgDOOvNN3A"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOOvNN3M4C8IOG"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>
+
+    </div>
+    
+  </article>
+</div><!-- /#index -->
+
+<div class="footer-wrap">
+  <footer>
+    <h6>&copy; 2026 Wenzhe Sheng.
+  Published with <a href="https://pages.github.com/" rel="nofollow">GitHub Pages</a>,
+  powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a>,
+  based on the <a href="https://mademistakes.com/" rel="nofollow">Minimal Mistakes</a> theme.
+  Source code for this website can be found <a href="https://github.com/GuangLun2000/GuangLun2000.github.io" rel="nofollow">here</a>.
+
+  <!-- <script type="text/javascript" id="clstr_globe" src="//clustrmaps.com/globe.js?d=tGZ_4852x6Mm-PPomoo98e4y_CI8D9TmioGTO03Daik"></script> -->
+  
+</h6>
+
+
+<!-- Lastly modified by Hanlin CAI in 2023/03/16 -->
+  </footer>
+</div><!-- /.footer-wrap -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="https://Volodymyr2580.github.io/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="https://Volodymyr2580.github.io/assets/js/main.min.js"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'G-T5N5JY1E21', 'caihanlin.com');
+  ga('send', 'pageview');
+
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const menuToggle = document.querySelector('.menu-toggle');
+  const navMenu = document.querySelector('.top-navigation');
+  if (menuToggle && navMenu) {
+    menuToggle.addEventListener('click', function() {
+      navMenu.classList.toggle('active');
+      const expanded = navMenu.classList.contains('active');
+      menuToggle.setAttribute('aria-expanded', expanded);
+    });
+  }
+});
+</script>
+
+<!-- https://analytics.google.com/analytics.com/ -->
+<!-- Lastly modified by Hanlin CAI in 2023/01/15 -->
+
+
+
+</body>
+</html>

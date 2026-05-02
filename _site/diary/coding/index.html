@@ -1,0 +1,410 @@
+<!-- Lastly modified by Hanlin CAI in 2023/04/26 -->
+<!-- It is not recommended to modify this code, unless you are a Pro-->
+
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+
+<head>
+<!-- It is not recommended to modify this code, unless you are a Pro-->
+<!-- Lastly modified by Hanlin CAI in 2023/04/26 -->
+
+<meta charset="utf-8">
+<title>coding &#8211; Wenzhe Sheng</title>
+
+
+
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="coding &#8211; Wenzhe Sheng">
+<meta property="og:description" content="# Coding Diary暂时先统一放在一个markdown文件中，后续如果发现某一板块的内容更新的较多了，翻看起来比较复杂，那再单独进行整理归档。### 服务器端操作nohup 运行python:nohup python your...">
+<meta property="og:url" content="https://Volodymyr2580.github.io/diary/coding/index.html">
+<meta property="og:site_name" content="Wenzhe Sheng">
+
+
+
+
+
+<link rel="canonical" href="https://Volodymyr2580.github.io/diary/coding/">
+
+
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<!-- Google Webfonts -->
+<link href='https://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700|PT+Serif:400,700,400italic' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous" />
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css?v=20260502">
+
+<!--[if (lt IE 9) & (!IEMobile)]>
+<link rel="stylesheet" href="/assets/css/ie.css">
+<![endif]-->
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- Load Modernizr -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" integrity="sha512-3n19xznO0ubPpSwYCRRBgHh63DrV+bdZfHK52b1esvId4GsfwStQNPJFjeQos2h3JwCmZl0/LgLxSKMAI55hgw==" crossorigin="anonymous"></script>
+
+<!-- MathJax 3 -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true,
+    packages: {'[+]': ['ams', 'bm']},
+    macros: {
+      bm: ["\\boldsymbol{#1}", 1]
+    }
+  },
+  options: {
+    enableMenu: false,
+    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+    ignoreHtmlClass: 'tex2jax_ignore',
+    processHtmlClass: 'tex2jax_process'
+  },
+  chtml: {
+    fontCache: 'global',
+    displayAlign: 'center',
+    displayIndent: '0em',
+    scale: 1.0
+  },
+  startup: {
+    pageReady: function() {
+      return MathJax.startup.defaultPageReady();
+    }
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<!-- 16x16 -->
+<link rel="shortcut icon" href="https://Volodymyr2580.github.io/images/fav.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="https://Volodymyr2580.github.io/images/fav.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="https://Volodymyr2580.github.io/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://Volodymyr2580.github.io/images/fav.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://Volodymyr2580.github.io/images/fav.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://Volodymyr2580.github.io/images/fav.png">
+
+
+<script src="https://cdn.counter.dev/script.js" data-id="4c8f7caa-2b55-46cd-a995-2c4633303773" data-utcoffset="8"></script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T5N5JY1E21"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-T5N5JY1E21');
+</script>
+
+</head>
+
+
+<body class="page" itemscope itemtype="http://schema.org/WebPage">
+
+<!-- [if lt IE 6]><div class="chrome-frame alert alert-info"><strong>Your browser is really old!</strong> <a href="http://browsehappy.com/">Why not upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better enjoy this site?</div><![endif] -->
+
+<!-- It is not recommended to modify this code, unless you are a Pro-->
+<!-- Lastly modified by Hanlin CAI in 2023/01/15 -->
+
+<div class="navigation-wrapper">
+	<div class="site-name">
+		<a href="/">
+			<span class="site-mark">PKU</span>
+			<span class="site-brand-text">
+				<span class="site-title">Wenzhe Sheng</span>
+				<span class="site-subtitle">School of Earth and Space Sciences</span>
+			</span>
+		</a>
+	</div><!-- /.site-name -->
+  
+	<button class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false">
+		<span class="bar"></span>
+		<span class="bar"></span>
+		<span class="bar"></span>
+	</button>
+	<div class="top-navigation">
+		<nav role="navigation" itemscope itemtype="http://schema.org/SiteNavigationElement">
+		    <ul>
+		        
+            <li><a href="/" >About Me</a></li>
+		        
+            <li><a href="/publications/" >Publications</a></li>
+		        
+            <li><a href="/awards/" >Awards</a></li>
+		        
+            <li><a href="/diary/" >Diary</a></li>
+		        
+            <li><a href="/blogs/" >Blogs</a></li>
+		        
+            <li><a href="/notes/" >Notes</a></li>
+		        
+		    </ul>
+		</nav>
+		<div class="nav-social-links" aria-label="Contact links">
+			<a href="https://github.com/Volodymyr2580" aria-label="GitHub"><i class="icon-github"></i></a>
+			<a href="mailto:2200012437@stu.pku.edu.cn" aria-label="Email"><i class="icon-mail"></i></a>
+		</div>
+	</div><!-- /.top-navigation -->
+</div><!-- /.navigation-wrapper -->
+
+<!-- Lastly modified by Hanlin CAI in 2023/05/01 -->
+
+
+
+
+<div id="main" role="main"  itemprop="mainContentOfPage">
+  
+  <div class="article-author-top">
+    <img src="https://Volodymyr2580.github.io/images/bigheadwenzhe.jpg" class="bio-photo" alt="Wenzhe Sheng bio photo" width="100" height="100">
+
+<h4>Wenzhe Sheng</h4>
+
+<p>Undergraduate researcher at Peking University, School of Earth and Space Sciences.</p>
+
+<div class="social-links">
+<p><a href="mailto:2200012437@stu.pku.edu.cn" target="_blank"><i class="icon-mail"></i> Email</a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p><a href="https://github.com/Volodymyr2580"><i class="icon-github"></i> Github</a></p>
+
+
+
+
+
+
+
+
+
+<p><a href="https://www.zhihu.com/people/obtuse-4"><img src="https://caihanlin.com/images/logo/icons8-zhihu-96.png" width="15.8" height="15.8"></i> Zhihu</a></p>
+
+
+</div>
+
+<!-- Lastly modified by Hanlin CAI in 2023/10/15 -->
+
+  </div>
+  
+  <article itemscope itemtype="http://schema.org/CreativeWork">
+  
+    <div class="article-wrap" itemprop="text">
+      <h1 id="coding-diary">Coding Diary</h1>
+<p>暂时先统一放在一个markdown文件中，后续如果发现某一板块的内容更新的较多了，翻看起来比较复杂，那再单独进行整理归档。</p>
+
+<h3 id="服务器端操作">服务器端操作</h3>
+<p>nohup 运行python:
+nohup python your_script.py &gt; output.log 2&gt;&amp;1 &amp;
+查看进程：
+ps aux | grep your_script.py
+ps -p <PID></PID></p>
+
+<h3 id="在linux系统上配置conda">在linux系统上配置conda</h3>
+
+<h5 id="下载miniconda安装脚本python-39版本">下载Miniconda安装脚本（Python 3.9版本）</h5>
+<p>wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh</p>
+
+<h5 id="赋予执行权限">赋予执行权限</h5>
+<p>chmod +x Miniconda3-latest-Linux-x86_64.sh</p>
+
+<h5 id="运行安装程序-b静默安装-p指定路径">运行安装程序（-b静默安装，-p指定路径）</h5>
+<p>./Miniconda3-latest-Linux-x86_64.sh</p>
+
+<h5 id="激活配置或重启终端">激活配置（或重启终端）</h5>
+<p>source ~/.bashrc</p>
+
+<h3 id="windows命令行">Windows命令行</h3>
+<p>关于cmd有关的操作归纳在这块</p>
+<h4 id="-文件与目录操作">📁 文件与目录操作</h4>
+<pre><code class="language-cmd">dir                # 列出目录内容
+cd &lt;目录&gt;          # 切换目录
+cd ..              # 返回上级目录
+mkdir &lt;目录名&gt;     # 创建目录
+rmdir /s /q &lt;目录&gt; # 强制删除目录及内容
+copy &lt;源&gt; &lt;目标&gt;   # 复制文件
+xcopy &lt;源&gt; &lt;目标&gt;  # 复制目录（含子目录）
+del &lt;文件名&gt;       # 删除文件
+move &lt;源&gt; &lt;目标&gt;   # 移动/重命名
+type &lt;文件名&gt;      # 查看文本内容
+ren &lt;旧名&gt; &lt;新名&gt;  # 重命名文件
+</code></pre>
+<h4 id="系统管理">系统管理</h4>
+<pre><code class="language-cmd">systeminfo         # 显示系统信息
+tasklist           # 列出运行进程
+taskkill /IM &lt;进程名&gt; /F  # 终止进程
+shutdown /s /t 0   # 立即关机
+shutdown /r        # 重启
+wmic cpu get name  # 查询CPU信息
+wmic memorychip get capacity # 查看内存大小
+</code></pre>
+<h4 id="实用工具">实用工具</h4>
+<pre><code class="language-cmd">cls                # 清屏
+echo &gt; file.txt    # 创建文件
+findstr "文本" 文件 # 搜索文本
+start &lt;文件&gt;       # 打开文件
+sfc /scannow       # 扫描修复系统文件
+</code></pre>
+
+<h3 id="linux命令行">linux命令行</h3>
+<h4 id="文件与目录操作">文件与目录操作</h4>
+<p>ls                 # 列出目录内容
+cd <目录>          # 切换目录
+cd ~               # 返回家目录
+pwd                # 显示当前路径
+mkdir <目录名>     # 创建目录
+rm -r <目录>       # 删除目录及内容
+cp <源> <目标>     # 复制文件/目录
+mv <源> <目标>     # 移动/重命名
+rm <文件>          # 删除文件
+cat <文件>         # 查看文件内容
+touch <文件名>     # 创建空文件</文件名></文件></文件></目标></源></目标></源></目录></目录名></目录></p>
+
+<h4 id="系统管理-1">系统管理</h4>
+<p>top                # 动态查看进程（类似任务管理器）
+htop               # 增强版top（需安装）
+ps aux             # 查看所有进程
+kill -9 <PID>      # 强制终止进程
+uname -a           # 查看系统信息
+free -h            # 查看内存使用
+df -h              # 查看磁盘空间
+curl <URL>         # 网络数据传输
+wget <URL>         # 下载文件</URL></URL></PID></p>
+
+<h4 id="文本处理">文本处理</h4>
+<p>grep “文本” 文件   # 搜索文本
+nano <文件>        # 简单文本编辑
+vim <文件>         # 高级文本编辑
+head -n 5 <文件>   # 显示文件前5行
+tail -f <日志文件> # 实时查看日志、</日志文件></文件></文件></文件></p>
+
+<h4 id="权限管理">权限管理</h4>
+<p>chmod 755 <文件>   # 修改文件权限
+chown 用户:组 <文件> # 修改文件所有者
+sudo <命令>        # 以管理员身份执行
+su -               # 切换为root用户</命令></文件></文件></p>
+
+<h4 id="实用工具-1">实用工具</h4>
+<p>clear              # 清屏
+man <命令>         # 查看命令手册
+history            # 查看命令历史
+echo $PATH         # 查看环境变量
+tar -xzvf file.tar.gz # 解压tar包
+apt install <包名> # 安装软件（Debian/Ubuntu）
+yum install <包名> # 安装软件（CentOS/RHEL）</包名></包名></命令></p>
+
+<h3 id="devito">devito</h3>
+
+<h3 id="python-basic">python basic</h3>
+
+<h4 id="画图-matplotlib">画图 matplotlib</h4>
+
+<h4 id="numpy">Numpy</h4>
+
+<h4 id="pandas">Pandas</h4>
+
+<h4 id="torch">torch</h4>
+
+
+    </div><!-- /.article-wrap -->
+    
+    <div class="comments-section">
+      <hr>
+      <h3>Leave a Message</h3>
+      <script src="https://giscus.app/client.js"
+        data-repo="Volodymyr2580/Volodymyr2580.github.io"
+        data-repo-id="R_kgDOOvNN3A"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOOvNN3M4C8IOG"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>
+
+    </div>
+    
+  </article>
+</div><!-- /#index -->
+
+<div class="footer-wrap">
+  <footer>
+    <h6>&copy; 2026 Wenzhe Sheng.
+  Published with <a href="https://pages.github.com/" rel="nofollow">GitHub Pages</a>,
+  powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a>,
+  based on the <a href="https://mademistakes.com/" rel="nofollow">Minimal Mistakes</a> theme.
+  Source code for this website can be found <a href="https://github.com/GuangLun2000/GuangLun2000.github.io" rel="nofollow">here</a>.
+
+  <!-- <script type="text/javascript" id="clstr_globe" src="//clustrmaps.com/globe.js?d=tGZ_4852x6Mm-PPomoo98e4y_CI8D9TmioGTO03Daik"></script> -->
+  
+</h6>
+
+
+<!-- Lastly modified by Hanlin CAI in 2023/03/16 -->
+  </footer>
+</div><!-- /.footer-wrap -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="https://Volodymyr2580.github.io/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="https://Volodymyr2580.github.io/assets/js/main.min.js"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'G-T5N5JY1E21', 'caihanlin.com');
+  ga('send', 'pageview');
+
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const menuToggle = document.querySelector('.menu-toggle');
+  const navMenu = document.querySelector('.top-navigation');
+  if (menuToggle && navMenu) {
+    menuToggle.addEventListener('click', function() {
+      navMenu.classList.toggle('active');
+      const expanded = navMenu.classList.contains('active');
+      menuToggle.setAttribute('aria-expanded', expanded);
+    });
+  }
+});
+</script>
+
+<!-- https://analytics.google.com/analytics.com/ -->
+<!-- Lastly modified by Hanlin CAI in 2023/01/15 -->
+
+
+
+</body>
+</html>

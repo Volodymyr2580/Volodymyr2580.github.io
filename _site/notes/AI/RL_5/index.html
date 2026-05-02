@@ -1,0 +1,362 @@
+<!-- Lastly modified by Hanlin CAI in 2023/04/26 -->
+<!-- It is not recommended to modify this code, unless you are a Pro-->
+
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+
+<head>
+<!-- It is not recommended to modify this code, unless you are a Pro-->
+<!-- Lastly modified by Hanlin CAI in 2023/04/26 -->
+
+<meta charset="utf-8">
+<title>强化学习的数学原理 5 &#8211; Wenzhe Sheng</title>
+
+
+
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="强化学习的数学原理 5 &#8211; Wenzhe Sheng">
+<meta property="og:description" content="上一章我们讲了基于模型寻找最优策略的方法，value iteration和policy iteration，我们证明了policy iteration能够比value iteration更快得收敛，其中可控的参数是在每一步迭代中计算$...">
+<meta property="og:url" content="https://Volodymyr2580.github.io/notes/AI/RL_5/index.html">
+<meta property="og:site_name" content="Wenzhe Sheng">
+
+
+
+
+
+<link rel="canonical" href="https://Volodymyr2580.github.io/notes/AI/RL_5/">
+
+
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<!-- Google Webfonts -->
+<link href='https://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700|PT+Serif:400,700,400italic' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous" />
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css?v=20260502">
+
+<!--[if (lt IE 9) & (!IEMobile)]>
+<link rel="stylesheet" href="/assets/css/ie.css">
+<![endif]-->
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- Load Modernizr -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" integrity="sha512-3n19xznO0ubPpSwYCRRBgHh63DrV+bdZfHK52b1esvId4GsfwStQNPJFjeQos2h3JwCmZl0/LgLxSKMAI55hgw==" crossorigin="anonymous"></script>
+
+<!-- MathJax 3 -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true,
+    packages: {'[+]': ['ams', 'bm']},
+    macros: {
+      bm: ["\\boldsymbol{#1}", 1]
+    }
+  },
+  options: {
+    enableMenu: false,
+    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+    ignoreHtmlClass: 'tex2jax_ignore',
+    processHtmlClass: 'tex2jax_process'
+  },
+  chtml: {
+    fontCache: 'global',
+    displayAlign: 'center',
+    displayIndent: '0em',
+    scale: 1.0
+  },
+  startup: {
+    pageReady: function() {
+      return MathJax.startup.defaultPageReady();
+    }
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<!-- 16x16 -->
+<link rel="shortcut icon" href="https://Volodymyr2580.github.io/images/fav.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="https://Volodymyr2580.github.io/images/fav.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="https://Volodymyr2580.github.io/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://Volodymyr2580.github.io/images/fav.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://Volodymyr2580.github.io/images/fav.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://Volodymyr2580.github.io/images/fav.png">
+
+
+<script src="https://cdn.counter.dev/script.js" data-id="4c8f7caa-2b55-46cd-a995-2c4633303773" data-utcoffset="8"></script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T5N5JY1E21"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-T5N5JY1E21');
+</script>
+
+</head>
+
+
+<body class="page" itemscope itemtype="http://schema.org/WebPage">
+
+<!-- [if lt IE 6]><div class="chrome-frame alert alert-info"><strong>Your browser is really old!</strong> <a href="http://browsehappy.com/">Why not upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better enjoy this site?</div><![endif] -->
+
+<!-- It is not recommended to modify this code, unless you are a Pro-->
+<!-- Lastly modified by Hanlin CAI in 2023/01/15 -->
+
+<div class="navigation-wrapper">
+	<div class="site-name">
+		<a href="/">
+			<span class="site-mark">PKU</span>
+			<span class="site-brand-text">
+				<span class="site-title">Wenzhe Sheng</span>
+				<span class="site-subtitle">School of Earth and Space Sciences</span>
+			</span>
+		</a>
+	</div><!-- /.site-name -->
+  
+	<button class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false">
+		<span class="bar"></span>
+		<span class="bar"></span>
+		<span class="bar"></span>
+	</button>
+	<div class="top-navigation">
+		<nav role="navigation" itemscope itemtype="http://schema.org/SiteNavigationElement">
+		    <ul>
+		        
+            <li><a href="/" >About Me</a></li>
+		        
+            <li><a href="/publications/" >Publications</a></li>
+		        
+            <li><a href="/awards/" >Awards</a></li>
+		        
+            <li><a href="/diary/" >Diary</a></li>
+		        
+            <li><a href="/blogs/" >Blogs</a></li>
+		        
+            <li><a href="/notes/" >Notes</a></li>
+		        
+		    </ul>
+		</nav>
+		<div class="nav-social-links" aria-label="Contact links">
+			<a href="https://github.com/Volodymyr2580" aria-label="GitHub"><i class="icon-github"></i></a>
+			<a href="mailto:2200012437@stu.pku.edu.cn" aria-label="Email"><i class="icon-mail"></i></a>
+		</div>
+	</div><!-- /.top-navigation -->
+</div><!-- /.navigation-wrapper -->
+
+<!-- Lastly modified by Hanlin CAI in 2023/05/01 -->
+
+
+
+
+<div id="main" role="main"  itemprop="mainContentOfPage">
+  
+  <div class="article-author-top">
+    <img src="https://Volodymyr2580.github.io/images/bigheadwenzhe.jpg" class="bio-photo" alt="Wenzhe Sheng bio photo" width="100" height="100">
+
+<h4>Wenzhe Sheng</h4>
+
+<p>Undergraduate researcher at Peking University, School of Earth and Space Sciences.</p>
+
+<div class="social-links">
+<p><a href="mailto:2200012437@stu.pku.edu.cn" target="_blank"><i class="icon-mail"></i> Email</a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p><a href="https://github.com/Volodymyr2580"><i class="icon-github"></i> Github</a></p>
+
+
+
+
+
+
+
+
+
+<p><a href="https://www.zhihu.com/people/obtuse-4"><img src="https://caihanlin.com/images/logo/icons8-zhihu-96.png" width="15.8" height="15.8"></i> Zhihu</a></p>
+
+
+</div>
+
+<!-- Lastly modified by Hanlin CAI in 2023/10/15 -->
+
+  </div>
+  
+  <article itemscope itemtype="http://schema.org/CreativeWork">
+  
+    <div class="article-wrap" itemprop="text">
+      <p>上一章我们讲了基于模型寻找最优策略的方法，value iteration和policy iteration，我们证明了policy iteration能够比value iteration更快得收敛，其中可控的参数是在每一步迭代中计算$v_\pi$时需要启动一个新的迭代，而这一步往往采用截断的手段，我们说明了如果只计算一步，truncated policy iteration退化为value iteration，而如果计算无限步，则趋于理论的policy iteration。</p>
+
+<p>本章我们要介绍的概念是一种不依赖于模型的强化学习算法——蒙特卡洛法。
+当我们没有模型的时候，我们就需要大量的agent与环境交互的数据。如果数据和模型都没有，那就别做了。</p>
+
+<h3 id="mc-basic">MC Basic</h3>
+<p>将policy iteration转变为model-free版本：
+回忆policy iteration每一个迭代有两步，第一步是policy evaluation, 我们通过计算state value $v_{\pi_k}$得到，第二步是policy improvement，计算$v_{\pi_k}$对应的greedy policy：
+<span class="kdmath">$\begin{align}
+\pi_{k+1}(s) &= \arg\max_{\pi} \sum_a \pi(a|s) \left[ \sum_r p(r|s, a)r + \gamma \sum_{s'} p(s'|s, a)v_{\pi_k}(s') \right]  \\
+ &= \arg\max\limits_{\pi} \sum_a \pi(a|s) q_{\pi_k}(s, a), \quad s \in \mathcal{S}
+ \end{align}$</span>
+ 注意action values在两步中起到关键的作用，回忆action values的两种计算方法：
+ （1） 基于模型, 先从Bellman equation解出$v_{\pi_k}$，然后根据下式计算action values
+ <span class="kdmath">$q_{\pi_k}(s, a) = \sum_r p(r|s, a)r + \gamma \sum_{s'} p(s'|s, a)v_{\pi_k}(s').$</span>
+ （2） model-free approach, 回忆action value的定义是给定状态s，选择action a后得到的期望回报：
+ <span class="kdmath">$\begin{align} q_{\pi_k}(s, a) &= \mathbb{E}[G_t|S_t = s, A_t = a] \\
+&= \mathbb{E}[R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + \ldots |S_t = s, A_t = a], \end{align}$</span>
+既然是期望值，就可以通过MC的方法求得——从(s,a)出发，agent根据policy$\pi_k$与环境交互n个episodes（每个episode要和环境交互若干次直到轨道结束），action value就可以估计为：
+<span class="kdmath">$q_{\pi_k}(s, a) = \mathbb{E}[G_t|S_t = s, A_t = a] \approx \frac{1}{n} \sum_{i=1}^n g_{\pi_k}^{(i)}(s, a).$</span>
+其中, $g_{\pi_k}^{(i)}(s, a)$是第i个episode交互得到的return，根据强大数律，当交互次数足够多时，上式几乎处处收敛。</p>
+
+<p>因此，MC Basic Algorithm从初始policy $\pi_0$出发，每一步iteration有两小步
+（1）Policy evaluation
+（2）Policy improvement
+![[MCBasic.png]]</p>
+
+<h3 id="mc-exploring-starts">MC Exploring Starts</h3>
+<p>如何更有效地利用我们的samples呢？
+假设根据某一个policy $\pi$我们得到了an episode of samples:
+<span class="kdmath">$s_1 \xrightarrow{a_2} s_2 \xrightarrow{a_4} s_1  \xrightarrow{a_2} s_2 \xrightarrow {a_3}s_5  \xrightarrow{a_1} \cdots$</span>
+每一次一对(state, action)出现，就称一次访问(visit)。MC Basic算法采用的是initial-visit strategy, 即这个episode只用于估计起始访问对的action value。但实际上也可以用于计算其他的点对，如下式分解：
+<span class="kdmath">$\begin{align}
+ s_1 \xrightarrow{a_2} s_2 \xrightarrow {a_4} s_1 \xrightarrow{a_2} s_2 \xrightarrow{a_3} &s_5 \xrightarrow{a_1} \cdots \quad \text{[original episode]} \\
+ s_2 \xrightarrow{a_4} s_1 \xrightarrow{a_2} s_2  \xrightarrow{a_3} &s_5 \xrightarrow{a_1}  \cdots \quad \text{subepisode starting from } (s_2, a_4) \\
+ s_1 \xrightarrow{a_2} s_2  \xrightarrow{a_3} &s_5 \xrightarrow{a_1}  \cdots \quad \text{subepisode starting from } (s_1, a_2) \\
+ s_2 \xrightarrow{a_3} &s_5  \xrightarrow{a_1}  \ldots \quad \text{subepisode starting from} (s_2, a_3) ]\\
+ &s_5 \xrightarrow{a_1}  \cdots \quad \text{subepisode starting from } (s_5, a_1) 
+\end{align}$</span>
+这条轨道上的每一个pair都可以看做一个新的episode的起点。显然，同一对(s,a)在一个轨道上可能出现多次，如果我们只考虑第一次，就是first-visit strategy,如果考虑每一次，就是every-visit策略。后者显然在利用效率上更优。</p>
+
+<p>接下来是如何更有效率地更新policy?</p>
+
+<p>之前的想法必须等到全部的episodes跑完才能更新，因为需要计算平均值。现在的想法是只跑一个episode直接更新。
+![[MCefficient.png]]</p>
+
+<h3 id="mc-epsilon-greedy">MC $\epsilon$-Greedy</h3>
+<p>一个策略称为软(soft)的，若在任一状态，有正概率取各个行动。这种情况下，如果我们跑了一个足够长的episode,就应该能访问各个pair足够多次。</p>
+
+<p>一种常见的软策略是$\epsilon$-greedy策略。Suppose $\epsilon \in [0,1]$,
+<span class="kdmath">$\pi(a|s) = \begin{cases} 
+1 - \frac{\epsilon}{|\mathcal{A}(s)|}(|\mathcal{A}(s)| - 1), & \text{for the greedy action}, \\
+\frac{\epsilon}{|\mathcal{A}(s)|}, & \text{for the other } |\mathcal{A}(s)| - 1 \text{ actions},
+\end{cases}$</span>
+其中$|\mathcal{A}(s)|$指代的是state s相关的行为数。</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>如何实现这一策略呢？我们可以取一个服从$[0,1]$均匀分布的随机数x，如果$x\geq \epsilon$，选择greedy action, 否则，以$1/</td>
+      <td>\mathcal{A}(s)</td>
+      <td>$的概率随机选择一个行为。</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>![[MCGreedy.png]]</p>
+
+    </div><!-- /.article-wrap -->
+    
+    <div class="comments-section">
+      <hr>
+      <h3>Leave a Message</h3>
+      <script src="https://giscus.app/client.js"
+        data-repo="Volodymyr2580/Volodymyr2580.github.io"
+        data-repo-id="R_kgDOOvNN3A"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOOvNN3M4C8IOG"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>
+
+    </div>
+    
+  </article>
+</div><!-- /#index -->
+
+<div class="footer-wrap">
+  <footer>
+    <h6>&copy; 2026 Wenzhe Sheng.
+  Published with <a href="https://pages.github.com/" rel="nofollow">GitHub Pages</a>,
+  powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a>,
+  based on the <a href="https://mademistakes.com/" rel="nofollow">Minimal Mistakes</a> theme.
+  Source code for this website can be found <a href="https://github.com/GuangLun2000/GuangLun2000.github.io" rel="nofollow">here</a>.
+
+  <!-- <script type="text/javascript" id="clstr_globe" src="//clustrmaps.com/globe.js?d=tGZ_4852x6Mm-PPomoo98e4y_CI8D9TmioGTO03Daik"></script> -->
+  
+</h6>
+
+
+<!-- Lastly modified by Hanlin CAI in 2023/03/16 -->
+  </footer>
+</div><!-- /.footer-wrap -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="https://Volodymyr2580.github.io/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="https://Volodymyr2580.github.io/assets/js/main.min.js"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'G-T5N5JY1E21', 'caihanlin.com');
+  ga('send', 'pageview');
+
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const menuToggle = document.querySelector('.menu-toggle');
+  const navMenu = document.querySelector('.top-navigation');
+  if (menuToggle && navMenu) {
+    menuToggle.addEventListener('click', function() {
+      navMenu.classList.toggle('active');
+      const expanded = navMenu.classList.contains('active');
+      menuToggle.setAttribute('aria-expanded', expanded);
+    });
+  }
+});
+</script>
+
+<!-- https://analytics.google.com/analytics.com/ -->
+<!-- Lastly modified by Hanlin CAI in 2023/01/15 -->
+
+
+
+</body>
+</html>
