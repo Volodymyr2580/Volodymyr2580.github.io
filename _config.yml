@@ -39,6 +39,8 @@ links:
     # url: /startups/
   - title: Blogs
     url: /blogs/
+  - title: Research Log
+    url: /research/
   - title: Notes
     url: /notes/
 
@@ -76,6 +78,6 @@ giscus:
   lang: "zh-CN"
 
 include: [".htaccess"]
-exclude: ["lib", "config.rb", "Capfile", "config", "log", "Rakefile", "Rakefile.rb", "tmp", "less", "minimal-mistakes.sublime-project", "minimal-mistakes.sublime-workspace", "AGENTS.md"]
+exclude: ["lib", "config.rb", "Capfile", "config", "log", "Rakefile", "Rakefile.rb", "tmp", "less", "minimal-mistakes.sublime-project", "minimal-mistakes.sublime-workspace", "AGENTS.md", "design-previews"]
 
 # Latest update in 2023/12/10 by Hanlin Cai.

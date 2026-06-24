@@ -1,0 +1,36 @@
+<!doctype html>
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+{% include head.html %}
+<link rel="stylesheet" href="{{ '/assets/css/lab-notebook.css?v=20260624' | relative_url }}">
+</head>
+
+<body class="lab-notebook" itemscope itemtype="http://schema.org/WebPage">
+{% include chrome-frame.html %}
+
+<main class="lab-notebook-page" role="main" itemprop="mainContentOfPage">
+  <header class="lab-topbar">
+    <a class="lab-brand" href="{{ '/' | relative_url }}">
+      <span class="lab-brand-mark" aria-hidden="true"></span>
+      <span>
+        <strong>{{ site.owner.name | default: site.title }}</strong>
+        <span>{{ page.lab_subtitle | default: 'blue-sky lab notebook' }}</span>
+      </span>
+    </a>
+    <nav class="lab-nav" aria-label="Primary">
+      {% for link in site.links %}
+        {% assign is_active = false %}
+        {% if page.lab_nav == link.title %}
+          {% assign is_active = true %}
+        {% endif %}
+        <a href="{{ link.url | relative_url }}"{% if is_active %} class="active"{% endif %}>{{ link.title }}</a>
+      {% endfor %}
+    </nav>
+  </header>
+
+  {{ content }}
+</main>
+
+{% include scripts.html %}
+</body>
+</html>
