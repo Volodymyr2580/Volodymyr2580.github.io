@@ -1,3 +1,9 @@
+---
+layout: page
+permalink: /notes/杂/devito/index.html
+title: Devito Notes
+---
+
 本篇用于学习使用devito完成FWI的方法
 ## 模型 setup
 $$\begin{align*}
@@ -16,3 +22,8 @@ $$\begin{align*}
 m的取值位置与左端场分量位置相同
 
 ![[Pasted image 20250630091837.png]]
+---
+layout: page
+permalink: /notes/杂/devito/index.html
+title: Devito Notes
+---

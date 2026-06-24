@@ -1,27 +1,64 @@
 ---
-layout: page
+layout: lab
 permalink: /diary/index.html
 title: Diary
 comments: false
+lab_nav: Diary
+lab_subtitle: personal logbook
 ---
 
-# Diary
+<section class="lab-hero" aria-labelledby="diary-title">
+  <p class="lab-eyebrow">Diary / 日志</p>
+  <h1 id="diary-title">Diary</h1>
+  <p class="lab-lead">A less formal archive for research progress, learning plans, technical problems, and occasional reflections.</p>
+</section>
 
-This diary records research progress, learning plans, technical problems, and occasional reflections. It is less formal than the blog section and is mainly used as a long-term personal archive.
+<div class="lab-workspace">
+  <aside class="lab-rail">
+    <section class="lab-rail-box">
+      <h2>Diary Rule</h2>
+      <p>Diary entries are lighter than Research Log pages. They are useful for quick records before something becomes structured.</p>
+    </section>
+  </aside>
 
-## Research Diary
-
-I plan to record paper reading, experiment ideas, and research notes here. The goal is to reduce repeated work and make my thinking easier to review later.
-
-- [Paper Reading]({{ '/diary/paper' | relative_url }})
-- [Graduation Project]({{ '/diary/毕业设计' | relative_url }})
-
-## Coding Diary
-
-When doing research, programming issues can easily become hidden time costs. I use this section to record server-side work, Linux notes, Python problems, and library usage.
-
-- [Coding]({{ '/diary/coding' | relative_url }})
-
-## Learning Diary
-
-This section is for study plans and reflections outside immediate research tasks, especially mathematics, physics, deep learning, and reading.
+  <section class="lab-sheet">
+    <div class="lab-section-head">
+      <h2>Diary Sections</h2>
+      <span>personal and technical records</span>
+    </div>
+    <div class="lab-entry-list">
+      <article class="lab-entry-card">
+        <time>Research</time>
+        <div>
+          <h3><a href="{{ '/diary/paper' | relative_url }}">Paper Reading</a></h3>
+          <p>Paper reading, experiment ideas, and early research notes.</p>
+        </div>
+        <span class="lab-state">Diary</span>
+      </article>
+      <article class="lab-entry-card">
+        <time>Research</time>
+        <div>
+          <h3><a href="{{ '/diary/毕业设计' | relative_url }}">Graduation Project</a></h3>
+          <p>Graduation project records and planning.</p>
+        </div>
+        <span class="lab-state">Diary</span>
+      </article>
+      <article class="lab-entry-card">
+        <time>Coding</time>
+        <div>
+          <h3><a href="{{ '/diary/coding' | relative_url }}">Coding</a></h3>
+          <p>Server-side work, Linux notes, Python problems, and library usage.</p>
+        </div>
+        <span class="lab-state">Tech</span>
+      </article>
+      <article class="lab-entry-card">
+        <time>Learning</time>
+        <div>
+          <h3>Learning Diary</h3>
+          <p>Study plans and reflections outside immediate research tasks.</p>
+        </div>
+        <span class="lab-state">Future</span>
+      </article>
+    </div>
+  </section>
+</div>

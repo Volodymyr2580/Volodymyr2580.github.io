@@ -3,6 +3,7 @@ layout: lab
 permalink: /old-archives/index.html
 title: Old Archives
 comments: false
+lab_nav: Old Archives
 lab_subtitle: preserved old materials
 ---
 

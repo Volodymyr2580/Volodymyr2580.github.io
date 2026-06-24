@@ -1,3 +1,8 @@
+---
+layout: page
+permalink: /notes/杂/HSR_ai/index.html
+title: HSR AI
+---
 
 ## f
 ### time domain
@@ -29,4 +34,13 @@
 ![[Pasted image 20250702205130.png]]
 ### freq domain
 ![[Pasted image 20250702205503.png]]
-
+---
+layout: page
+permalink: /notes/杂/HSR_ai/index.html
+title: HSR AI
+---
+---
+layout: page
+permalink: /notes/杂/HSR_ai/index.html
+title: HSR AI
+---

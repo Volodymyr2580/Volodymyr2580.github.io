@@ -38,13 +38,23 @@ body.lab-notebook {
   min-width: 0;
 }
 
-.lab-brand-mark {
+.lab-brand-mark,
+.lab-brand-avatar {
   width: 42px;
   height: 42px;
   border-radius: 50%;
+}
+
+.lab-brand-mark {
   background:
     radial-gradient(circle at 35% 30%, #ffffff 0 12%, transparent 13%),
     linear-gradient(145deg, #319cea 0%, #97cfff 58%, #0b2242 59%, #151e3b 100%);
+  border: 1px solid rgba(11, 34, 66, 0.15);
+  box-shadow: 0 8px 22px rgba(21, 30, 59, 0.08);
+}
+
+.lab-brand-avatar {
+  object-fit: cover;
   border: 1px solid rgba(11, 34, 66, 0.15);
   box-shadow: 0 8px 22px rgba(21, 30, 59, 0.08);
 }

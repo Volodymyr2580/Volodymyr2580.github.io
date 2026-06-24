@@ -11,7 +11,7 @@
 <main class="lab-notebook-page" role="main" itemprop="mainContentOfPage">
   <header class="lab-topbar">
     <a class="lab-brand" href="{{ '/' | relative_url }}">
-      <span class="lab-brand-mark" aria-hidden="true"></span>
+      <img class="lab-brand-avatar" src="{{ '/images/favorite-avatar.jpg' | relative_url }}" alt="{{ site.owner.name | default: site.title }}">
       <span>
         <strong>{{ site.owner.name | default: site.title }}</strong>
         <span>{{ page.lab_subtitle | default: 'blue-sky lab notebook' }}</span>

@@ -43,6 +43,8 @@ links:
     url: /research/
   - title: Notes
     url: /notes/
+  - title: Old Archives
+    url: /old-archives/
 
 # http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 timezone: Asia/Shanghai

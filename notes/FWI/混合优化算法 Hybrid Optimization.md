@@ -1,3 +1,9 @@
+---
+layout: page
+permalink: /notes/FWI/混合优化算法 Hybrid Optimization/index.html
+title: Hybrid Optimization for FWI
+---
+
 主迭代框架：局部优化+全局优化混合+Tikhonov正则化
 ![[hybrid1.png]]
 
