@@ -7,6 +7,12 @@ lab_nav: Research Log
 lab_subtitle: research logbook
 ---
 
+<nav class="lab-simple-switch" aria-label="Back">
+  <a href="{{ '/research/' | relative_url }}">← Research Log</a>
+  <a href="{{ '/blogs/' | relative_url }}">Blogs</a>
+  <a href="{{ '/notes/' | relative_url }}">Notes</a>
+</nav>
+
 <section class="lab-hero" aria-labelledby="topic-title">
   <p class="lab-eyebrow">Research Topic / Topic 01</p>
   <h1 id="topic-title">Full Waveform Inversion</h1>

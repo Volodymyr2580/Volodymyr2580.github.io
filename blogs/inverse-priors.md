@@ -7,6 +7,12 @@ lab_nav: Blogs
 lab_subtitle: blue-sky lab notebook
 ---
 
+<nav class="lab-simple-switch" aria-label="Back">
+  <a href="{{ '/blogs/' | relative_url }}">← Blogs</a>
+  <a href="{{ '/research/' | relative_url }}">Research Log</a>
+  <a href="{{ '/notes/' | relative_url }}">Notes</a>
+</nav>
+
 <section class="lab-hero" aria-labelledby="article-title">
   <p class="lab-eyebrow">Blog Entry / 公众号母稿</p>
   <h1 id="article-title">从反演问题到生成模型：为什么我开始重新理解“先验”</h1>
