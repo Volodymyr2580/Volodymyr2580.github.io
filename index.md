@@ -13,23 +13,6 @@ lab_subtitle: personal academic homepage
 </section>
 
 <div class="lab-workspace">
-  <aside class="lab-rail">
-    <section class="lab-rail-box">
-      <h2>Profile</h2>
-      <p>盛文哲 / Volodymyr. Undergraduate student in Earth and Space Sciences at Peking University.</p>
-      <div class="lab-rail-list">
-        <div class="lab-rail-item"><span>Institution</span><b>PKU</b></div>
-        <div class="lab-rail-item"><span>Field</span><b>Geophysics</b></div>
-        <div class="lab-rail-item"><span>Focus</span><b>AI + Inversion</b></div>
-      </div>
-    </section>
-    <section class="lab-rail-box">
-      <h2>Contact</h2>
-      <p><a href="mailto:{{ site.owner.email }}">{{ site.owner.email }}</a></p>
-      <p><a href="https://github.com/{{ site.owner.github }}">GitHub: {{ site.owner.github }}</a></p>
-    </section>
-  </aside>
-
   <section class="lab-sheet">
     <div class="lab-section-head">
       <h2>Research Interests</h2>

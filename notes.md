@@ -14,22 +14,6 @@ lab_subtitle: new notes bench
 </section>
 
 <div class="lab-workspace">
-  <aside class="lab-rail">
-    <section class="lab-rail-box">
-      <h2>Note Protocol</h2>
-      <p>新笔记优先服务长期复习和科研复用，而不是临时堆放材料。</p>
-      <div class="lab-rail-list">
-        <div class="lab-rail-item"><span>Topic notes</span><b>00</b></div>
-        <div class="lab-rail-item"><span>Lecture drafts</span><b>00</b></div>
-        <div class="lab-rail-item"><span>Reference logs</span><b>00</b></div>
-      </div>
-    </section>
-    <section class="lab-rail-box">
-      <h2>Old Material</h2>
-      <p>历史笔记没有删除，也没有批量移动；它们被集中索引到归档页，方便慢慢筛选和重写。</p>
-    </section>
-  </aside>
-
   <section class="lab-sheet">
     <div class="lab-section-head">
       <h2>New Notes Structure</h2>

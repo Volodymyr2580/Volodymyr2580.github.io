@@ -14,18 +14,6 @@ lab_subtitle: preserved old materials
 </section>
 
 <div class="lab-workspace">
-  <aside class="lab-rail">
-    <section class="lab-rail-box">
-      <h2>Archive Rule</h2>
-      <p>归档页只做索引整理，不破坏旧链接。真正重写内容时，再逐篇迁移到新的结构里。</p>
-      <div class="lab-rail-list">
-        <div class="lab-rail-item"><span>Old blogs</span><b>22</b></div>
-        <div class="lab-rail-item"><span>Old notes</span><b>21</b></div>
-        <div class="lab-rail-item"><span>Moved files</span><b>0</b></div>
-      </div>
-    </section>
-  </aside>
-
   <section class="lab-sheet">
     <div class="lab-section-head">
       <h2>Old Blogs</h2>

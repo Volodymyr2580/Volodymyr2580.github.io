@@ -14,22 +14,6 @@ lab_subtitle: blue-sky lab notebook
 </section>
 
 <div class="lab-workspace">
-  <aside class="lab-rail">
-    <section class="lab-rail-box">
-      <h2>Writing Protocol</h2>
-      <p>从灵感、草稿、补充材料到公众号同步，保留每一步的版本痕迹。</p>
-      <div class="lab-rail-list">
-        <div class="lab-rail-item"><span>Raw notes</span><b>12</b></div>
-        <div class="lab-rail-item"><span>Public drafts</span><b>07</b></div>
-        <div class="lab-rail-item"><span>Wechat synced</span><b>03</b></div>
-      </div>
-    </section>
-    <section class="lab-rail-box">
-      <h2>Sync Rule</h2>
-      <p>网页作为母稿，公众号写作面向阅读主线；网页保留附录、参考材料和修订历史。</p>
-    </section>
-  </aside>
-
   <section class="lab-sheet">
     <div class="lab-section-head">
       <h2>Current Bench</h2>

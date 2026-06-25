@@ -14,17 +14,6 @@ lab_subtitle: academic record
 </section>
 
 <div class="lab-workspace">
-  <aside class="lab-rail">
-    <section class="lab-rail-box">
-      <h2>Record</h2>
-      <p>These entries are kept concise so they remain easy to scan.</p>
-      <div class="lab-rail-list">
-        <div class="lab-rail-item"><span>Scholarships</span><b>6</b></div>
-        <div class="lab-rail-item"><span>Competitions</span><b>3</b></div>
-      </div>
-    </section>
-  </aside>
-
   <section class="lab-sheet">
     <div class="lab-section-head">
       <h2>Scholarships</h2>

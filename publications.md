@@ -14,18 +14,6 @@ lab_subtitle: academic record
 </section>
 
 <div class="lab-workspace">
-  <aside class="lab-rail">
-    <section class="lab-rail-box">
-      <h2>Status</h2>
-      <p>Formal publication records will be updated here when available.</p>
-      <div class="lab-rail-list">
-        <div class="lab-rail-item"><span>Journal papers</span><b>0</b></div>
-        <div class="lab-rail-item"><span>Conference papers</span><b>0</b></div>
-        <div class="lab-rail-item"><span>Thesis</span><b>0</b></div>
-      </div>
-    </section>
-  </aside>
-
   <section class="lab-sheet">
     <div class="lab-section-head">
       <h2>Publication Record</h2>

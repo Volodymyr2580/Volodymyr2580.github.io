@@ -14,22 +14,6 @@ lab_subtitle: research logbook
 </section>
 
 <div class="lab-workspace">
-  <aside class="lab-rail">
-    <section class="lab-rail-box">
-      <h2>Lab Template</h2>
-      <p>每条实验记录固定包含 motivation, hypothesis, setup, result, insight, next step。</p>
-      <div class="lab-rail-list">
-        <div class="lab-rail-item"><span>Active topics</span><b>04</b></div>
-        <div class="lab-rail-item"><span>Experiment logs</span><b>12</b></div>
-        <div class="lab-rail-item"><span>Open questions</span><b>17</b></div>
-      </div>
-    </section>
-    <section class="lab-rail-box">
-      <h2>Review Rhythm</h2>
-      <p>每周整理一次失败实验和新增认识，每月把散乱记录合并成一份 topic lecture。</p>
-    </section>
-  </aside>
-
   <section class="lab-sheet">
     <div class="lab-section-head">
       <h2>Active Topics</h2>

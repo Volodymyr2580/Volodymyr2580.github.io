@@ -14,27 +14,6 @@ lab_subtitle: blue-sky lab notebook
 </section>
 
 <div class="lab-detail-layout">
-  <aside class="lab-detail-rail">
-    <section class="lab-rail-box">
-      <h2>Entry Info</h2>
-      <p>网页长稿保留完整推导和修订历史，公众号版本可以只截取主线叙事。</p>
-      <div class="lab-rail-list">
-        <div class="lab-rail-item"><span>Date</span><b>2026-06-24</b></div>
-        <div class="lab-rail-item"><span>Status</span><b>Draft</b></div>
-        <div class="lab-rail-item"><span>Version</span><b>v0.3</b></div>
-      </div>
-    </section>
-    <section class="lab-rail-box">
-      <h2>On This Page</h2>
-      <nav class="lab-toc-list" aria-label="Article table of contents">
-        <a href="#motivation">Motivation</a>
-        <a href="#math-view">A Small Mathematical View</a>
-        <a href="#experiment-note">Experiment Note</a>
-        <a href="#wechat-version">Wechat Version</a>
-      </nav>
-    </section>
-  </aside>
-
   <article class="lab-article-paper">
     <header class="lab-article-head">
       <p class="lab-eyebrow">Featured Observation</p>

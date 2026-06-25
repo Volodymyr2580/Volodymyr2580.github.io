@@ -14,13 +14,6 @@ lab_subtitle: personal logbook
 </section>
 
 <div class="lab-workspace">
-  <aside class="lab-rail">
-    <section class="lab-rail-box">
-      <h2>Diary Rule</h2>
-      <p>Diary entries are lighter than Research Log pages. They are useful for quick records before something becomes structured.</p>
-    </section>
-  </aside>
-
   <section class="lab-sheet">
     <div class="lab-section-head">
       <h2>Diary Sections</h2>

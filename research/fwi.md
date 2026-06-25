@@ -14,29 +14,6 @@ lab_subtitle: research logbook
 </section>
 
 <div class="lab-detail-layout">
-  <aside class="lab-detail-rail">
-    <section class="lab-rail-box">
-      <h2>Topic Status</h2>
-      <p>这个侧栏适合放 topic 的稳定信息，而不是每篇文章都变化的正文。</p>
-      <div class="lab-rail-list">
-        <div class="lab-rail-item"><span>Stage</span><b>Active</b></div>
-        <div class="lab-rail-item"><span>Lectures</span><b>06</b></div>
-        <div class="lab-rail-item"><span>Logs</span><b>09</b></div>
-        <div class="lab-rail-item"><span>Open Qs</span><b>04</b></div>
-      </div>
-    </section>
-    <section class="lab-rail-box">
-      <h2>Topic Index</h2>
-      <nav class="lab-toc-list" aria-label="Topic table of contents">
-        <a href="#overview">Overview</a>
-        <a href="#lecture-sequence">Lecture Sequence</a>
-        <a href="#latest-experiment">Latest Experiment</a>
-        <a href="#recent-timeline">Recent Timeline</a>
-        <a href="#open-questions">Open Questions</a>
-      </nav>
-    </section>
-  </aside>
-
   <article class="lab-article-paper">
     <header class="lab-article-head">
       <p class="lab-eyebrow">Active Research Line</p>

@@ -195,8 +195,8 @@ body.lab-notebook {
 
 .lab-workspace {
   display: grid;
-  grid-template-columns: 250px minmax(0, 1fr);
-  gap: 26px;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
   align-items: start;
 }
 
@@ -490,8 +490,8 @@ body.lab-notebook {
 
 .lab-detail-layout {
   display: grid;
-  grid-template-columns: 265px minmax(0, 1fr);
-  gap: 30px;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
   align-items: start;
 }
 
@@ -696,15 +696,11 @@ body.lab-notebook {
 
   .lab-author-sidebar {
     position: static;
-    padding-top: 22px;
     display: grid;
     grid-template-columns: 82px minmax(0, 1fr);
     gap: 14px;
     align-items: start;
-    border: 1px solid #c8dff4;
-    border-radius: 8px;
-    background: rgba(251, 253, 255, 0.9);
-    padding: 16px;
+    padding: 22px 0 0;
   }
 
   .lab-author-sidebar .bio-photo {
