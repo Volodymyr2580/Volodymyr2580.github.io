@@ -1071,3 +1071,115 @@ code,p code{
     gap:.2rem;
   }
 }
+
+/* Final archived-page layout override: keep author bio as a true sidebar. */
+body.page:not(.academic-home-page) #main{
+  width:100%;
+  max-width:1180px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:220px minmax(0, 780px);
+  gap:32px;
+  align-items:start;
+  justify-content:center;
+  padding:2.75rem 32px 4rem;
+  box-sizing:border-box;
+}
+
+body.page:not(.academic-home-page) .article-author-top{
+  grid-column:1;
+  grid-row:1;
+  display:block;
+  float:none;
+  width:220px;
+  margin:0;
+  position:sticky;
+  top:24px;
+  text-align:left;
+  box-sizing:border-box;
+}
+
+body.page:not(.academic-home-page) #main article{
+  grid-column:2;
+  grid-row:1;
+  float:none;
+  display:block;
+  width:100%;
+  max-width:780px;
+  min-width:0;
+  margin:0;
+}
+
+body.page:not(.academic-home-page) .article-wrap{
+  max-width:780px;
+  width:100%;
+}
+
+body.page:not(.academic-home-page) .article-wrap img{
+  max-width:100%;
+  height:auto;
+}
+
+body.page:not(.academic-home-page) .article-author-top img.bio-photo{
+  display:block;
+  width:100px;
+  height:100px;
+  object-fit:cover;
+  margin:0 0 1rem;
+}
+
+@media only screen and (max-width:760px){
+  body.page:not(.academic-home-page) #main{
+    display:block;
+    padding:1.5rem 5vw 3rem;
+  }
+
+  body.page:not(.academic-home-page) .article-author-top{
+    grid-column:auto;
+    grid-row:auto;
+    position:static;
+    width:100%;
+    margin:0 0 1.5rem;
+    display:grid;
+    grid-template-columns:82px minmax(0,1fr);
+    gap:14px;
+    align-items:start;
+  }
+
+  body.page:not(.academic-home-page) .article-author-top img.bio-photo{
+    grid-column:1;
+    grid-row:1 / span 2;
+    width:72px;
+    height:72px;
+    margin:0;
+  }
+
+  body.page:not(.academic-home-page) .article-author-top h4{
+    grid-column:2;
+    grid-row:1;
+    margin:.25rem 0 .2rem;
+  }
+
+  body.page:not(.academic-home-page) .article-author-top > p{
+    grid-column:2;
+    grid-row:2;
+    margin:0;
+  }
+
+  body.page:not(.academic-home-page) .article-author-top .social-links{
+    grid-column:1 / -1;
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+  }
+
+  body.page:not(.academic-home-page) .article-author-top .social-links p{
+    margin:0;
+  }
+
+  body.page:not(.academic-home-page) #main article{
+    grid-column:auto;
+    grid-row:auto;
+    max-width:none;
+  }
+}

@@ -28,7 +28,14 @@
     </nav>
   </header>
 
-  {{ content }}
+  <div class="lab-site-frame">
+    <aside class="lab-author-sidebar" aria-label="Author profile">
+      {% include author-bio.html %}
+    </aside>
+    <div class="lab-main-column">
+      {{ content }}
+    </div>
+  </div>
 </main>
 
 {% include scripts.html %}

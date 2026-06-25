@@ -93,6 +93,63 @@ body.lab-notebook {
   padding: 44px 0 30px;
 }
 
+.lab-site-frame {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+}
+
+.lab-main-column {
+  min-width: 0;
+}
+
+.lab-author-sidebar {
+  position: sticky;
+  top: 24px;
+  padding-top: 44px;
+  min-width: 0;
+}
+
+.lab-author-sidebar .bio-photo {
+  display: block;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  margin: 0 0 1rem;
+  border-radius: 50%;
+  border: 2px solid rgba(146, 188, 231, .65);
+  box-shadow: 0 10px 26px rgba(21, 30, 59, 0.08);
+}
+
+.lab-author-sidebar h4 {
+  margin: 0 0 .45rem;
+  color: #0b2242;
+  font-size: 1.1rem;
+  font-weight: 760;
+}
+
+.lab-author-sidebar p {
+  margin: 0 0 .75rem;
+  color: #52677f;
+  font-size: .9rem;
+  line-height: 1.7;
+}
+
+.lab-author-sidebar .social-links {
+  margin-top: 1.15rem;
+}
+
+.lab-author-sidebar .social-links p {
+  margin: .45rem 0;
+  font-size: .92rem;
+}
+
+.lab-author-sidebar a {
+  color: #0b5f9e;
+  border-bottom: 0;
+}
+
 .lab-eyebrow {
   margin: 0 0 10px;
   color: #226fa9;
@@ -631,6 +688,55 @@ body.lab-notebook {
 
   .lab-nav {
     display: none;
+  }
+
+  .lab-site-frame {
+    grid-template-columns: 1fr;
+  }
+
+  .lab-author-sidebar {
+    position: static;
+    padding-top: 22px;
+    display: grid;
+    grid-template-columns: 82px minmax(0, 1fr);
+    gap: 14px;
+    align-items: start;
+    border: 1px solid #c8dff4;
+    border-radius: 8px;
+    background: rgba(251, 253, 255, 0.9);
+    padding: 16px;
+  }
+
+  .lab-author-sidebar .bio-photo {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    width: 72px;
+    height: 72px;
+    margin: 0;
+  }
+
+  .lab-author-sidebar h4 {
+    grid-column: 2;
+    grid-row: 1;
+    margin: 4px 0 2px;
+  }
+
+  .lab-author-sidebar > p {
+    grid-column: 2;
+    grid-row: 2;
+    margin: 0;
+  }
+
+  .lab-author-sidebar .social-links {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 0;
+  }
+
+  .lab-author-sidebar .social-links p {
+    margin: 0;
   }
 
   .lab-workspace,
