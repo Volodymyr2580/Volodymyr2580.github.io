@@ -46,14 +46,18 @@ lab_subtitle: personal academic homepage
     </div>
 
     <div class="lab-section-head">
-      <h2>Site Map</h2>
-      <span>where things live now</span>
+      <h2>个人履历</h2>
+      <span>education</span>
     </div>
     <div class="lab-entry-list">
-      <article class="lab-entry-card"><time>Write</time><div><h3><a href="{{ '/blogs/' | relative_url }}">Blogs</a></h3><p>公众号同步文章和公开写作母稿。</p></div><span class="lab-state">New</span></article>
-      <article class="lab-entry-card"><time>Research</time><div><h3><a href="{{ '/research/' | relative_url }}">Research Log</a></h3><p>按 topic 记录讲义、实验、论文阅读和认知迭代。</p></div><span class="lab-state">Active</span></article>
-      <article class="lab-entry-card"><time>Study</time><div><h3><a href="{{ '/notes/' | relative_url }}">Notes</a></h3><p>新的学习笔记入口，从零开始搭建。</p></div><span class="lab-state">Reset</span></article>
-      <article class="lab-entry-card"><time>Archive</time><div><h3><a href="{{ '/old-archives/' | relative_url }}">Old Archives</a></h3><p>旧 Blogs 和旧 Notes 的集中索引。</p></div><span class="lab-state">Preserved</span></article>
+      <article class="lab-entry-card">
+        <time>2022-2026</time>
+        <div>
+          <h3>Peking University</h3>
+          <p>取得数学与应用数学专业和物理学（地球物理方向）两个理学学士学位。</p>
+        </div>
+        <span class="lab-state">B.S.</span>
+      </article>
     </div>
   </section>
 </div>

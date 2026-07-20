@@ -1,12 +1,5 @@
-<!-- Lastly modified by Hanlin CAI in 2023/04/26 -->
-<!-- It is not recommended to modify this code, unless you are a Pro-->
-
 <!doctype html>
-<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
-<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
-<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
-
 <head>
 <!-- It is not recommended to modify this code, unless you are a Pro-->
 <!-- Lastly modified by Hanlin CAI in 2023/04/26 -->
@@ -18,7 +11,7 @@
 
 <meta property="og:locale" content="en_US">
 <meta property="og:title" content="Blogs &#8211; Wenzhe Sheng">
-<meta property="og:description" content="## BlogsThis page collects essays, problem-solving notes, and reflections. Some older posts were written while the si...">
+<meta property="og:description" content="      Blogs    Research Log    Notes        Blogs        从反演问题到生成模型：为什么我开始重新理解“先验”2026-06-24    齐次化Old    天平游戏Old    ...">
 <meta property="og:url" content="https://Volodymyr2580.github.io/blogs/index.html">
 <meta property="og:site_name" content="Wenzhe Sheng">
 
@@ -99,79 +92,68 @@ window.MathJax = {
 <!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
 <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://Volodymyr2580.github.io/images/fav.png">
 
-
-<script src="https://cdn.counter.dev/script.js" data-id="4c8f7caa-2b55-46cd-a995-2c4633303773" data-utcoffset="8"></script>
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-T5N5JY1E21"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-T5N5JY1E21');
-</script>
-
+<link rel="stylesheet" href="/assets/css/lab-notebook.css?v=20260624">
 </head>
 
-
-<body class="page" itemscope itemtype="http://schema.org/WebPage">
-
+<body class="lab-notebook" itemscope itemtype="http://schema.org/WebPage">
 <!-- [if lt IE 6]><div class="chrome-frame alert alert-info"><strong>Your browser is really old!</strong> <a href="http://browsehappy.com/">Why not upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better enjoy this site?</div><![endif] -->
 
 <!-- It is not recommended to modify this code, unless you are a Pro-->
 <!-- Lastly modified by Hanlin CAI in 2023/01/15 -->
 
-<div class="navigation-wrapper">
-	<div class="site-name">
-		<a href="/">
-			<span class="site-mark">PKU</span>
-			<span class="site-brand-text">
-				<span class="site-title">Wenzhe Sheng</span>
-				<span class="site-subtitle">School of Earth and Space Sciences</span>
-			</span>
-		</a>
-	</div><!-- /.site-name -->
-  
-	<button class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false">
-		<span class="bar"></span>
-		<span class="bar"></span>
-		<span class="bar"></span>
-	</button>
-	<div class="top-navigation">
-		<nav role="navigation" itemscope itemtype="http://schema.org/SiteNavigationElement">
-		    <ul>
-		        
-            <li><a href="/" >About Me</a></li>
-		        
-            <li><a href="/publications/" >Publications</a></li>
-		        
-            <li><a href="/awards/" >Awards</a></li>
-		        
-            <li><a href="/diary/" >Diary</a></li>
-		        
-            <li><a href="/blogs/" class="top-navigation-current">Blogs</a></li>
-		        
-            <li><a href="/notes/" >Notes</a></li>
-		        
-		    </ul>
-		</nav>
-		<div class="nav-social-links" aria-label="Contact links">
-			<a href="https://github.com/Volodymyr2580" aria-label="GitHub"><i class="icon-github"></i></a>
-			<a href="mailto:2200012437@stu.pku.edu.cn" aria-label="Email"><i class="icon-mail"></i></a>
-		</div>
-	</div><!-- /.top-navigation -->
-</div><!-- /.navigation-wrapper -->
+<main class="lab-notebook-page" role="main" itemprop="mainContentOfPage">
+  <header class="lab-topbar">
+    <a class="lab-brand" href="/">
+      <img class="lab-brand-avatar" src="/images/favorite-avatar.jpg" alt="Wenzhe Sheng">
+      <span>
+        <strong>Wenzhe Sheng</strong>
+        <span>blogs</span>
+      </span>
+    </a>
+    <nav class="lab-nav" aria-label="Primary">
+      
+        
+        
+        <a href="/">About Me</a>
+      
+        
+        
+        <a href="/publications/">Publications</a>
+      
+        
+        
+        <a href="/awards/">Awards</a>
+      
+        
+        
+        <a href="/diary/">Diary</a>
+      
+        
+        
+        <a href="/blogs/" class="active">Blogs</a>
+      
+        
+        
+        <a href="/research/">Research Log</a>
+      
+        
+        
+        <a href="/notes/">Notes</a>
+      
+        
+        
+        <a href="/old-archives/">Old Archives</a>
+      
+        
+        
+        <a href="/learn/">Learn</a>
+      
+    </nav>
+  </header>
 
-<!-- Lastly modified by Hanlin CAI in 2023/05/01 -->
-
-
-
-
-<div id="main" role="main"  itemprop="mainContentOfPage">
-  
-  <div class="article-author-top">
-    <img src="https://Volodymyr2580.github.io/images/bigheadwenzhe.jpg" class="bio-photo" alt="Wenzhe Sheng bio photo" width="100" height="100">
+  <div class="lab-site-frame">
+    <aside class="lab-author-sidebar" aria-label="Author profile">
+      <img src="https://Volodymyr2580.github.io/images/bigheadwenzhe.jpg" class="bio-photo" alt="Wenzhe Sheng bio photo" width="100" height="100">
 
 <h4>Wenzhe Sheng</h4>
 
@@ -209,68 +191,32 @@ window.MathJax = {
 
 <!-- Lastly modified by Hanlin CAI in 2023/10/15 -->
 
+    </aside>
+    <div class="lab-main-column">
+      <section class="lab-simple-index" aria-labelledby="blog-title">
+  <nav class="lab-simple-switch" aria-label="Notebook sections">
+    <a class="active" href="/blogs/">Blogs</a>
+    <a href="/research/">Research Log</a>
+    <a href="/notes/">Notes</a>
+  </nav>
+
+  <header class="lab-simple-head">
+    <h1 id="blog-title">Blogs</h1>
+  </header>
+
+  <div class="lab-simple-list">
+    <a class="lab-simple-item" href="/blogs/inverse-priors/"><span>从反演问题到生成模型：为什么我开始重新理解“先验”</span><time>2026-06-24</time></a>
+    <a class="lab-simple-item" href="/blogs/%E9%BD%90%E6%AC%A1%E5%8C%96/"><span>齐次化</span><time>Old</time></a>
+    <a class="lab-simple-item" href="/blogs/%E5%A4%A9%E5%B9%B3%E6%B8%B8%E6%88%8F/"><span>天平游戏</span><time>Old</time></a>
+    <a class="lab-simple-item" href="/blogs/%E6%95%B0%E5%88%97%E4%B8%8D%E5%8A%A8%E7%82%B9%E6%B3%95%E7%9A%84%E7%90%86%E8%A7%A3/"><span>数列不动点法的理解</span><time>Old</time></a>
+    <a class="lab-simple-item" href="/blogs/%E5%BB%BA%E7%AB%99%E7%BA%AA%E5%BF%B5/"><span>建站纪念</span><time>Old</time></a>
+    <a class="lab-simple-item" href="/old-archives/"><span>Old Archives</span><time>Archive</time></a>
   </div>
-  
-  <article itemscope itemtype="http://schema.org/CreativeWork">
-  
-    <div class="article-wrap" itemprop="text">
-      <h2 id="blogs">Blogs</h2>
+</section>
 
-<p>This page collects essays, problem-solving notes, and reflections. Some older posts were written while the site was still being organized, so the list below keeps the original article paths while presenting cleaner titles.</p>
-
-<h2 id="research-and-learning">Research and Learning</h2>
-
-<ul>
-  <li><a href="/blogs/%E5%BB%BA%E7%AB%99%E7%BA%AA%E5%BF%B5">建站纪念</a></li>
-  <li><a href="/blogs/%E6%80%80%E6%97%A7%E6%9C%89%E6%84%9F">怀旧有感</a></li>
-  <li><a href="/blogs/%E9%AB%98%E4%B8%AD%E5%9B%9E%E9%A1%BE">高中回顾</a></li>
-  <li><a href="/blogs/%E9%AB%98%E4%B8%AD%E6%80%9D%E8%80%83">高中思考</a></li>
-  <li><a href="/blogs/%E5%A4%A9%E5%B9%B3%E6%B8%B8%E6%88%8F">天平游戏</a></li>
-  <li><a href="/blogs/%E9%BD%90%E6%AC%A1%E5%8C%96">齐次化</a></li>
-</ul>
-
-<h2 id="math-problem-notes">Math Problem Notes</h2>
-
-<ul>
-  <li><a href="/blogs/%E5%8E%8B%E8%BD%B4%E9%A2%98%E5%88%86%E4%BA%AB1">压轴题分享 1</a></li>
-  <li><a href="/blogs/%E9%AB%98%E8%80%83%E5%8E%8B%E8%BD%B4%E9%A2%98%E5%88%86%E4%BA%AB2">高考压轴题分享 2</a></li>
-  <li><a href="/blogs/%E5%9C%86%E6%9B%B2%E6%95%B0%E5%88%97%E5%8E%8B%E8%BD%B4">圆曲数列压轴</a></li>
-  <li><a href="/blogs/%E5%9C%86%E6%9B%B2%E8%A7%92%E5%BA%A6%E9%97%AE%E9%A2%98">圆曲角度问题</a></li>
-  <li><a href="/blogs/%E6%95%B0%E5%88%97%E4%B8%8D%E5%8A%A8%E7%82%B9%E6%B3%95%E7%9A%84%E7%90%86%E8%A7%A3">数列不动点法的理解</a></li>
-  <li><a href="/blogs/%E9%AB%98%E8%80%83%E5%8F%AF%E5%88%86%E6%95%B0%E5%88%97">高考可分数列</a></li>
-  <li><a href="/blogs/%E5%AF%BC%E6%95%B0%E9%9A%BE%E9%A2%98">导数难题</a></li>
-  <li><a href="/blogs/%E6%96%B0%E5%AE%9A%E4%B9%89-%E5%AF%BC%E6%95%B0">新定义-导数</a></li>
-  <li><a href="/blogs/%E6%96%B0%E5%AE%9A%E4%B9%89-%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF">新定义-椭圆曲线</a></li>
-  <li><a href="/blogs/%E7%BB%84%E5%90%88%E5%8E%8B%E8%BD%B4">组合压轴</a></li>
-  <li><a href="/blogs/%E5%A1%AB%E7%A9%BA%E9%9A%BE%E9%A2%98">填空难题</a></li>
-  <li><a href="/blogs/%E9%B8%A1%E8%9B%8B%E5%87%BD%E6%95%B0">鸡蛋函数</a></li>
-</ul>
-
-<h2 id="site-ideas">Site Ideas</h2>
-
-<p>I use this area to record ideas for future site maintenance: improving note organization, writing more consistent summaries, and making research/learning materials easier to browse.</p>
-
-    </div><!-- /.article-wrap -->
-    
-  </article>
-</div><!-- /#index -->
-
-<div class="footer-wrap">
-  <footer>
-    <h6>&copy; 2026 Wenzhe Sheng.
-  Published with <a href="https://pages.github.com/" rel="nofollow">GitHub Pages</a>,
-  powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a>,
-  based on the <a href="https://mademistakes.com/" rel="nofollow">Minimal Mistakes</a> theme.
-  Source code for this website can be found <a href="https://github.com/GuangLun2000/GuangLun2000.github.io" rel="nofollow">here</a>.
-
-  <!-- <script type="text/javascript" id="clstr_globe" src="//clustrmaps.com/globe.js?d=tGZ_4852x6Mm-PPomoo98e4y_CI8D9TmioGTO03Daik"></script> -->
-  
-</h6>
-
-
-<!-- Lastly modified by Hanlin CAI in 2023/03/16 -->
-  </footer>
-</div><!-- /.footer-wrap -->
+    </div>
+  </div>
+</main>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="https://Volodymyr2580.github.io/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
@@ -302,8 +248,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <!-- https://analytics.google.com/analytics.com/ -->
 <!-- Lastly modified by Hanlin CAI in 2023/01/15 -->
-
-
 
 </body>
 </html>

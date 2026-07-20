@@ -19,9 +19,10 @@ lab_subtitle: research log
   </header>
 
   <div class="lab-simple-list">
-    <a class="lab-simple-item" href="{{ '/research/fwi/' | relative_url }}"><span>Full Waveform Inversion</span><time>Topic 01</time></a>
-    <a class="lab-simple-item" href="{{ '/research/score-based-generative-models/' | relative_url }}"><span>Score-based Generative Models</span><time>Topic 02</time></a>
-    <a class="lab-simple-item" href="{{ '/research/scientific-computing/' | relative_url }}"><span>Scientific Computing</span><time>Topic 03</time></a>
-    <a class="lab-simple-item" href="{{ '/research/mathematical-tools/' | relative_url }}"><span>Mathematical Tools</span><time>Topic 04</time></a>
+    <a class="lab-simple-item" href="{{ '/research/ground-penetrating-radar/' | relative_url }}"><span>Ground Penetrating Radar Data and its applications</span><time>Topic 01</time></a>
+    <a class="lab-simple-item" href="{{ '/research/reinforcement-learning/' | relative_url }}"><span>Reinforcement Learning and its applications</span><time>Topic 02</time></a>
+    <a class="lab-simple-item" href="{{ '/research/generative-model/' | relative_url }}"><span>Generative Model and its applications</span><time>Topic 03</time></a>
+    <a class="lab-simple-item" href="{{ '/research/quantum-computation/' | relative_url }}"><span>Quantum Computation and its applications</span><time>Topic 04</time></a>
+    <a class="lab-simple-item" href="{{ '/research/ai-tools-and-agents/' | relative_url }}"><span>AI Tools and AI Agents</span><time>Topic 05</time></a>
   </div>
 </section>

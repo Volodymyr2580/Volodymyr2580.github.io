@@ -1,0 +1,553 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Blogs Preview</title>
+  <style>
+    :root {
+      --ink: #1f2933;
+      --muted: #6b7280;
+      --line: #dfe5e2;
+      --paper: #ffffff;
+      --wash: #f5f7f3;
+      --blue: #2867b2;
+      --green: #287268;
+      --coral: #c85f4b;
+      --amber: #a66b1f;
+      --soft-blue: #e9f2fb;
+      --soft-green: #e8f3ee;
+      --soft-coral: #fff0ec;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--wash);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "Microsoft YaHei", Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      min-height: 100vh;
+      padding: 26px 42px 44px;
+    }
+
+    .shell {
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 0 28px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-weight: 760;
+      letter-spacing: 0;
+    }
+
+    .brand img {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid #cfd9d3;
+    }
+
+    .brand span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 560;
+      margin-top: 1px;
+    }
+
+    nav {
+      display: flex;
+      gap: 20px;
+      color: #4b5563;
+      font-size: 14px;
+    }
+
+    nav .active {
+      color: var(--ink);
+      font-weight: 720;
+      border-bottom: 2px solid var(--green);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 330px;
+      gap: 42px;
+      align-items: end;
+      padding: 54px 0 34px;
+    }
+
+    .eyebrow {
+      color: var(--green);
+      font-size: 13px;
+      font-weight: 760;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 54px;
+      line-height: 1.08;
+      letter-spacing: 0;
+      max-width: 760px;
+    }
+
+    .lead {
+      margin: 18px 0 0;
+      max-width: 720px;
+      color: #4b5563;
+      font-size: 18px;
+    }
+
+    .hero-note {
+      border-top: 3px solid var(--coral);
+      padding-top: 18px;
+      color: #4b5563;
+      font-size: 15px;
+    }
+
+    .hero-note strong {
+      display: block;
+      color: var(--ink);
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin: 4px 0 34px;
+    }
+
+    .stat {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px 18px;
+    }
+
+    .stat b {
+      display: block;
+      font-size: 28px;
+      line-height: 1;
+      margin-bottom: 7px;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 315px;
+      gap: 30px;
+      align-items: start;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      margin-bottom: 16px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 10px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: 22px;
+      letter-spacing: 0;
+    }
+
+    .section-head span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .featured {
+      display: grid;
+      grid-template-columns: 1.4fr .85fr;
+      gap: 0;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+
+    .featured-main {
+      padding: 24px;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 2px 9px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 680;
+      color: #2f465f;
+      background: var(--soft-blue);
+    }
+
+    .tag.green {
+      color: #25584f;
+      background: var(--soft-green);
+    }
+
+    .tag.coral {
+      color: #8d3d2f;
+      background: var(--soft-coral);
+    }
+
+    .featured h3 {
+      margin: 0 0 12px;
+      font-size: 28px;
+      line-height: 1.25;
+    }
+
+    .excerpt {
+      margin: 0 0 20px;
+      color: #55616f;
+    }
+
+    .meta {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .wechat-panel {
+      background: #263238;
+      color: #f4f7f5;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 268px;
+    }
+
+    .wechat-panel .label {
+      color: #b7c8c2;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .wechat-panel strong {
+      display: block;
+      font-size: 30px;
+      line-height: 1.15;
+      margin-top: 8px;
+    }
+
+    .sync {
+      border-top: 1px solid rgba(255,255,255,.18);
+      padding-top: 15px;
+      color: #dce5e1;
+      font-size: 14px;
+    }
+
+    .post-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .post {
+      display: grid;
+      grid-template-columns: 116px minmax(0, 1fr) 96px;
+      gap: 20px;
+      align-items: center;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px 18px;
+    }
+
+    .post time {
+      color: var(--muted);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .post h3 {
+      margin: 0 0 5px;
+      font-size: 19px;
+      line-height: 1.35;
+    }
+
+    .post p {
+      margin: 0;
+      color: #66717d;
+      font-size: 14px;
+    }
+
+    .status {
+      text-align: right;
+      font-size: 12px;
+      font-weight: 720;
+      color: var(--green);
+    }
+
+    .sidebar {
+      display: grid;
+      gap: 16px;
+    }
+
+    .side-block {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    .side-block h3 {
+      margin: 0 0 12px;
+      font-size: 16px;
+    }
+
+    .side-block p {
+      margin: 0;
+      color: #5f6a75;
+      font-size: 14px;
+    }
+
+    .topic-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .topic {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #edf0ee;
+      color: #44505b;
+      font-size: 14px;
+    }
+
+    .topic:last-child {
+      padding-bottom: 0;
+      border-bottom: 0;
+    }
+
+    .topic b {
+      color: var(--ink);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .newsletter {
+      background: #fdf7e8;
+      border-color: #ead8ae;
+    }
+
+    @media (max-width: 900px) {
+      .page {
+        padding: 20px;
+      }
+
+      .hero,
+      .layout,
+      .featured {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 38px;
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .post {
+        grid-template-columns: 1fr;
+      }
+
+      .status {
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="shell">
+      <header class="topbar">
+        <a class="brand" href="#">
+          <img src="../images/bigheadwenzhe.jpg" alt="Wenzhe Sheng">
+          <div>Wenzhe Sheng<span>personal writing archive</span></div>
+        </a>
+        <nav aria-label="Primary">
+          <a href="#">About</a>
+          <a href="#">Publications</a>
+          <a class="active" href="#">Blogs</a>
+          <a href="#">Research Log</a>
+          <a href="#">Notes</a>
+        </nav>
+      </header>
+
+      <section class="hero" aria-labelledby="blog-title">
+        <div>
+          <div class="eyebrow">Blogs / 公众号同步写作</div>
+          <h1 id="blog-title">把公开文章、数学讲解和研究随笔放在同一条时间线上。</h1>
+          <p class="lead">这里承接公众号将要发布的内容，也保留更个人化的思考：一篇文章可以从草稿开始，逐步变成适合公开分享的版本。</p>
+        </div>
+        <aside class="hero-note">
+          <strong>当前编辑节奏</strong>
+          周记式更新，重点整理 FWI、深度学习、数学解题方法，以及读论文时反复出现的概念误区。
+        </aside>
+      </section>
+
+      <section class="stats" aria-label="Blog statistics">
+        <div class="stat"><b>28</b><span>published posts</span></div>
+        <div class="stat"><b>07</b><span>wechat drafts</span></div>
+        <div class="stat"><b>14</b><span>math notes</span></div>
+        <div class="stat"><b>05</b><span>research essays</span></div>
+      </section>
+
+      <div class="layout">
+        <section>
+          <div class="section-head">
+            <h2>Featured Writing</h2>
+            <span>Latest public-ready draft</span>
+          </div>
+
+          <article class="featured">
+            <div class="featured-main">
+              <div class="tag-row">
+                <span class="tag green">Research Essay</span>
+                <span class="tag">FWI</span>
+                <span class="tag coral">Wechat Pending</span>
+              </div>
+              <h3>从反演问题到生成模型：为什么我开始重新理解“先验”</h3>
+              <p class="excerpt">这篇文章把最近的论文阅读、实验挫败和数学直觉放在一起，尝试解释一个朴素问题：当数据不足时，模型到底在借用什么知识？</p>
+              <div class="meta">
+                <span>2026-06-24</span>
+                <span>12 min read</span>
+                <span>draft v0.3</span>
+              </div>
+            </div>
+            <div class="wechat-panel">
+              <div>
+                <span class="label">Wechat Sync</span>
+                <strong>公众号发布前的网页母稿</strong>
+              </div>
+              <div class="sync">网页保留更完整的推导、参考文献和实验附录；公众号版本负责讲清主线。</div>
+            </div>
+          </article>
+
+          <div class="section-head">
+            <h2>Recent Posts</h2>
+            <span>Essays, notes, and reflections</span>
+          </div>
+
+          <div class="post-list">
+            <article class="post">
+              <time>Jun 18, 2026</time>
+              <div>
+                <h3>齐次化不只是技巧：它其实是一种尺度观察</h3>
+                <p>从高中不等式题回看数学表达中的不变量。</p>
+              </div>
+              <span class="status">Synced</span>
+            </article>
+            <article class="post">
+              <time>Jun 10, 2026</time>
+              <div>
+                <h3>读论文时怎样把“没懂”变成可推进的问题</h3>
+                <p>把困惑拆成定义、例子、反例、实验四个入口。</p>
+              </div>
+              <span class="status">Draft</span>
+            </article>
+            <article class="post">
+              <time>May 29, 2026</time>
+              <div>
+                <h3>一次失败实验的价值：从 loss 曲线开始复盘</h3>
+                <p>记录预期、设置、结果和后来修正的判断。</p>
+              </div>
+              <span class="status">Internal</span>
+            </article>
+          </div>
+        </section>
+
+        <aside class="sidebar">
+          <section class="side-block newsletter">
+            <h3>公众号同步状态</h3>
+            <p>每篇公开文章保留网页原文、公众号链接、版本记录和补充材料，避免内容散落在多个平台。</p>
+          </section>
+
+          <section class="side-block">
+            <h3>Writing Channels</h3>
+            <div class="topic-list">
+              <div class="topic"><span>Research essays</span><b>05</b></div>
+              <div class="topic"><span>Math problem notes</span><b>14</b></div>
+              <div class="topic"><span>Learning reflections</span><b>06</b></div>
+              <div class="topic"><span>Site building</span><b>03</b></div>
+            </div>
+          </section>
+
+          <section class="side-block">
+            <h3>Tags</h3>
+            <div class="chips">
+              <span class="tag">FWI</span>
+              <span class="tag green">PDE</span>
+              <span class="tag coral">Math</span>
+              <span class="tag">Deep Learning</span>
+              <span class="tag green">Writing</span>
+              <span class="tag coral">Wechat</span>
+            </div>
+          </section>
+        </aside>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

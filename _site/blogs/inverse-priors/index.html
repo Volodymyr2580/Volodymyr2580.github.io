@@ -1,0 +1,286 @@
+<!doctype html>
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<!-- It is not recommended to modify this code, unless you are a Pro-->
+<!-- Lastly modified by Hanlin CAI in 2023/04/26 -->
+
+<meta charset="utf-8">
+<title>从反演问题到生成模型：为什么我开始重新理解“先验” &#8211; Wenzhe Sheng</title>
+
+
+
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="从反演问题到生成模型：为什么我开始重新理解“先验” &#8211; Wenzhe Sheng">
+<meta property="og:description" content="  ← Blogs  Research Log  Notes  Blog Entry / 公众号母稿  从反演问题到生成模型：为什么我开始重新理解“先验”  这类详情页的重点不是炫技，而是让长文、公式、补充材料和公众号同步状态都能安静...">
+<meta property="og:url" content="https://Volodymyr2580.github.io/blogs/inverse-priors/index.html">
+<meta property="og:site_name" content="Wenzhe Sheng">
+
+
+
+
+
+<link rel="canonical" href="https://Volodymyr2580.github.io/blogs/inverse-priors/">
+
+
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<!-- Google Webfonts -->
+<link href='https://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700|PT+Serif:400,700,400italic' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous" />
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css?v=20260502">
+
+<!--[if (lt IE 9) & (!IEMobile)]>
+<link rel="stylesheet" href="/assets/css/ie.css">
+<![endif]-->
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- Load Modernizr -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" integrity="sha512-3n19xznO0ubPpSwYCRRBgHh63DrV+bdZfHK52b1esvId4GsfwStQNPJFjeQos2h3JwCmZl0/LgLxSKMAI55hgw==" crossorigin="anonymous"></script>
+
+<!-- MathJax 3 -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true,
+    packages: {'[+]': ['ams', 'bm']},
+    macros: {
+      bm: ["\\boldsymbol{#1}", 1]
+    }
+  },
+  options: {
+    enableMenu: false,
+    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+    ignoreHtmlClass: 'tex2jax_ignore',
+    processHtmlClass: 'tex2jax_process'
+  },
+  chtml: {
+    fontCache: 'global',
+    displayAlign: 'center',
+    displayIndent: '0em',
+    scale: 1.0
+  },
+  startup: {
+    pageReady: function() {
+      return MathJax.startup.defaultPageReady();
+    }
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<!-- 16x16 -->
+<link rel="shortcut icon" href="https://Volodymyr2580.github.io/images/fav.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="https://Volodymyr2580.github.io/images/fav.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="https://Volodymyr2580.github.io/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://Volodymyr2580.github.io/images/fav.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://Volodymyr2580.github.io/images/fav.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://Volodymyr2580.github.io/images/fav.png">
+
+<link rel="stylesheet" href="/assets/css/lab-notebook.css?v=20260624">
+</head>
+
+<body class="lab-notebook" itemscope itemtype="http://schema.org/WebPage">
+<!-- [if lt IE 6]><div class="chrome-frame alert alert-info"><strong>Your browser is really old!</strong> <a href="http://browsehappy.com/">Why not upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better enjoy this site?</div><![endif] -->
+
+<!-- It is not recommended to modify this code, unless you are a Pro-->
+<!-- Lastly modified by Hanlin CAI in 2023/01/15 -->
+
+<main class="lab-notebook-page" role="main" itemprop="mainContentOfPage">
+  <header class="lab-topbar">
+    <a class="lab-brand" href="/">
+      <img class="lab-brand-avatar" src="/images/favorite-avatar.jpg" alt="Wenzhe Sheng">
+      <span>
+        <strong>Wenzhe Sheng</strong>
+        <span>blue-sky lab notebook</span>
+      </span>
+    </a>
+    <nav class="lab-nav" aria-label="Primary">
+      
+        
+        
+        <a href="/">About Me</a>
+      
+        
+        
+        <a href="/publications/">Publications</a>
+      
+        
+        
+        <a href="/awards/">Awards</a>
+      
+        
+        
+        <a href="/diary/">Diary</a>
+      
+        
+        
+        <a href="/blogs/" class="active">Blogs</a>
+      
+        
+        
+        <a href="/research/">Research Log</a>
+      
+        
+        
+        <a href="/notes/">Notes</a>
+      
+        
+        
+        <a href="/old-archives/">Old Archives</a>
+      
+        
+        
+        <a href="/learn/">Learn</a>
+      
+    </nav>
+  </header>
+
+  <div class="lab-site-frame">
+    <aside class="lab-author-sidebar" aria-label="Author profile">
+      <img src="https://Volodymyr2580.github.io/images/bigheadwenzhe.jpg" class="bio-photo" alt="Wenzhe Sheng bio photo" width="100" height="100">
+
+<h4>Wenzhe Sheng</h4>
+
+<p>Undergraduate researcher at Peking University, School of Earth and Space Sciences.</p>
+
+<div class="social-links">
+<p><a href="mailto:2200012437@stu.pku.edu.cn" target="_blank"><i class="icon-mail"></i> Email</a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p><a href="https://github.com/Volodymyr2580"><i class="icon-github"></i> Github</a></p>
+
+
+
+
+
+
+
+
+
+<p><a href="https://www.zhihu.com/people/obtuse-4"><img src="https://caihanlin.com/images/logo/icons8-zhihu-96.png" width="15.8" height="15.8"></i> Zhihu</a></p>
+
+
+</div>
+
+<!-- Lastly modified by Hanlin CAI in 2023/10/15 -->
+
+    </aside>
+    <div class="lab-main-column">
+      <nav class="lab-simple-switch" aria-label="Back">
+  <a href="/blogs/">← Blogs</a>
+  <a href="/research/">Research Log</a>
+  <a href="/notes/">Notes</a>
+</nav>
+
+<section class="lab-hero" aria-labelledby="article-title">
+  <p class="lab-eyebrow">Blog Entry / 公众号母稿</p>
+  <h1 id="article-title">从反演问题到生成模型：为什么我开始重新理解“先验”</h1>
+  <p class="lab-lead">这类详情页的重点不是炫技，而是让长文、公式、补充材料和公众号同步状态都能安静地放在同一个页面里。</p>
+</section>
+
+<div class="lab-detail-layout">
+  <article class="lab-article-paper">
+    <header class="lab-article-head">
+      <p class="lab-eyebrow">Featured Observation</p>
+      <h1>从反演问题到生成模型：为什么我开始重新理解“先验”</h1>
+      <div class="lab-article-meta">
+        <span>Research Essay</span>
+        <span class="lab-stamp">Wechat draft</span>
+        <span>FWI</span>
+        <span>12 min read</span>
+      </div>
+    </header>
+
+    <div class="lab-article-body">
+      <p>我一开始把“先验”理解成一种外加约束：数据不够时，给模型加一点额外偏好。但最近读 FWI 和生成模型相关论文时，我越来越觉得这个说法太粗糙。</p>
+
+      <blockquote>更准确的问题也许不是“要不要加先验”，而是：当观测数据不足以唯一决定答案时，我们希望模型借用哪一种结构性知识？</blockquote>
+
+      <h2 id="motivation">Motivation</h2>
+      <p>在反演问题里，我们常常只有间接观测。速度模型、地下结构、边界条件和噪声都会影响最终结果。单纯优化数据 misfit 很容易得到看似合理但物理上不稳定的解。</p>
+
+      <div class="lab-formula-box">min<sub>m</sub> L(d, F(m)) + λ R(m)</div>
+
+      <p>这个表达式看起来简单，但真正困难的是右边的 R(m)：它到底是在惩罚什么？是在鼓励光滑、边缘、稀疏，还是某种从数据集中学来的地质结构？</p>
+
+      <h2 id="math-view">A Small Mathematical View</h2>
+      <p>如果把生成模型看成一个结构分布的近似，那么先验就不再只是正则项，而是一个“可采样的知识空间”。这会改变我们看待实验失败的方式：失败不一定来自优化器，也可能来自训练分布与反演目标之间的错位。</p>
+
+      <div class="lab-note-box">
+        <b>Revision note</b>
+        v0.3 版本准备补一张示意图：把 classical regularization、learned prior 和 diffusion prior 放在同一张坐标轴上比较。
+      </div>
+
+      <h2 id="experiment-note">Experiment Note</h2>
+      <p>最近一次二维速度模型实验里，我发现 score prior 接入后结果并不稳定。复盘后更像是尺度问题：训练样本的速度范围、归一化方式和反演数据的物理尺度没有对齐。</p>
+
+      <h2 id="wechat-version">Wechat Version</h2>
+      <p>公众号版本可以删去部分公式，把主线改成三个问题：为什么反演会不适定？先验到底在提供什么？生成模型为什么可能成为新的先验表达方式？</p>
+    </div>
+  </article>
+</div>
+
+    </div>
+  </div>
+</main>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="https://Volodymyr2580.github.io/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="https://Volodymyr2580.github.io/assets/js/main.min.js"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'G-T5N5JY1E21', 'caihanlin.com');
+  ga('send', 'pageview');
+
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const menuToggle = document.querySelector('.menu-toggle');
+  const navMenu = document.querySelector('.top-navigation');
+  if (menuToggle && navMenu) {
+    menuToggle.addEventListener('click', function() {
+      navMenu.classList.toggle('active');
+      const expanded = navMenu.classList.contains('active');
+      menuToggle.setAttribute('aria-expanded', expanded);
+    });
+  }
+});
+</script>
+
+<!-- https://analytics.google.com/analytics.com/ -->
+<!-- Lastly modified by Hanlin CAI in 2023/01/15 -->
+
+</body>
+</html>

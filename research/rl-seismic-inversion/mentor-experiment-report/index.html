@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="基于强化学习的单观测地震反演阶段性实验汇报">
+  <title>Reinforcement Learning for Seismic Inversion(RL4SI)</title>
+  <link rel="stylesheet" href="phase5_final/katex/katex.min.css">
+  <style>
+    :root {
+      --paper: #f7f8f5;
+      --surface: #ffffff;
+      --ink: #17201f;
+      --muted: #5e6a68;
+      --line: #d8dfdc;
+      --teal: #166b68;
+      --teal-soft: #dcebea;
+      --red: #a54234;
+      --red-soft: #f2e4df;
+      --gold: #8a6b24;
+      --nav-width: 248px;
+      --radius: 6px;
+      --shadow: 0 12px 32px rgba(23, 32, 31, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--paper);
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: "Source Han Sans SC", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif;
+      font-size: 16px;
+      line-height: 1.72;
+      letter-spacing: 0;
+    }
+
+    a { color: inherit; }
+
+    .sidebar {
+      position: fixed;
+      inset: 0 auto 0 0;
+      width: var(--nav-width);
+      display: flex;
+      flex-direction: column;
+      padding: 34px 26px;
+      color: #eef6f4;
+      background: #152523;
+      z-index: 20;
+    }
+
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      margin-bottom: 22px;
+      border: 1px solid rgba(255,255,255,.52);
+      display: grid;
+      place-items: center;
+      font: 700 14px/1 Georgia, serif;
+    }
+
+    .brand-title {
+      margin: 0;
+      font-family: "Source Han Serif SC", "Noto Serif CJK SC", SimSun, serif;
+      font-size: 19px;
+      font-weight: 600;
+      line-height: 1.45;
+    }
+
+    .brand-subtitle {
+      margin: 9px 0 34px;
+      color: #aebdb9;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .nav-label {
+      margin: 0 0 10px;
+      color: #7f928e;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .nav-link {
+      display: block;
+      margin: 2px 0;
+      padding: 9px 10px;
+      border-left: 2px solid transparent;
+      color: #c9d5d2;
+      text-decoration: none;
+      font-size: 13px;
+      transition: color .18s ease, border-color .18s ease, background .18s ease;
+    }
+
+    .nav-link:hover,
+    .nav-link:focus-visible,
+    .nav-link.active {
+      color: #ffffff;
+      border-left-color: #78b7ad;
+      background: rgba(255,255,255,.05);
+      outline: none;
+    }
+
+    .nav-footer {
+      margin-top: auto;
+      color: #82938f;
+      font-size: 11px;
+      line-height: 1.65;
+    }
+
+    main { margin-left: var(--nav-width); }
+
+    .section {
+      padding: 76px clamp(34px, 7vw, 112px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section-inner {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+    }
+
+    .phase-chapter { background: var(--paper); }
+    .phase-banner { padding: 52px clamp(34px, 7vw, 112px); color: #eff7f5; background: #24433f; border-bottom: 1px solid #345b55; }
+    .phase-banner-inner { width: min(1180px, 100%); margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 48px; align-items: end; }
+    .phase-banner h2 { margin: 0; color: #ffffff; }
+    .phase-banner p { max-width: 590px; margin: 12px 0 0; color: #bed1cd; font-size: 15px; }
+    .phase-index { color: #8fc6bd; font: 700 13px/1 Georgia, serif; text-transform: uppercase; }
+    .cover {
+      min-height: 76vh;
+      display: flex;
+      align-items: center;
+      background:
+        linear-gradient(rgba(247,248,245,.93), rgba(247,248,245,.93)),
+        repeating-linear-gradient(0deg, transparent 0 31px, rgba(22,107,104,.08) 31px 32px);
+    }
+
+    .eyebrow {
+      margin: 0 0 18px;
+      color: var(--teal);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    h1, h2, h3 {
+      margin-top: 0;
+      font-family: "Source Han Serif SC", "Noto Serif CJK SC", SimSun, serif;
+      letter-spacing: 0;
+      text-wrap: pretty;
+    }
+
+    h1 {
+      max-width: 860px;
+      margin-bottom: 24px;
+      font-size: clamp(42px, 6vw, 78px);
+      line-height: 1.12;
+      font-weight: 650;
+    }
+
+    h2 {
+      margin-bottom: 18px;
+      font-size: clamp(30px, 4vw, 48px);
+      line-height: 1.2;
+      font-weight: 650;
+    }
+
+    h3 {
+      margin-bottom: 10px;
+      font-size: 24px;
+      line-height: 1.35;
+    }
+
+    .lead {
+      max-width: 760px;
+      margin: 0;
+      color: #3f4d4a;
+      font-size: 20px;
+      line-height: 1.75;
+    }
+
+    .cover-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 26px 44px;
+      margin-top: 58px;
+      padding-top: 22px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .cover-meta strong {
+      display: block;
+      color: var(--ink);
+      font-size: 15px;
+      font-weight: 650;
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(260px, 420px);
+      gap: 48px;
+      align-items: end;
+      margin-bottom: 54px;
+    }
+
+    .section-note {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .evidence-note {
+      margin: 28px 0 0;
+      padding: 17px 20px;
+      border: 1px solid #c7d8d4;
+      border-radius: var(--radius);
+      color: #294744;
+      background: #edf5f3;
+      font-size: 14px;
+    }
+
+    .pipeline {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(112px, 1fr));
+      gap: 20px;
+      align-items: stretch;
+      margin-top: 34px;
+    }
+
+    .pipeline-step {
+      position: relative;
+      min-height: 170px;
+      padding: 20px 16px;
+      border-top: 3px solid var(--teal);
+      background: var(--surface);
+      box-shadow: 0 3px 14px rgba(23,32,31,.05);
+    }
+
+    .pipeline-step:not(:last-child)::after {
+      content: "→";
+      position: absolute;
+      right: -18px;
+      top: 68px;
+      color: #6f827e;
+      font-size: 18px;
+      z-index: 2;
+    }
+
+    .pipeline-step.reward-step { border-top-color: var(--red); }
+    .pipeline-step.optim-step { border-top-color: var(--gold); }
+
+    .step-index {
+      display: block;
+      margin-bottom: 12px;
+      color: var(--teal);
+      font: 700 11px/1.2 Georgia, serif;
+    }
+
+    .reward-step .step-index { color: var(--red); }
+    .optim-step .step-index { color: var(--gold); }
+
+    .pipeline-step strong {
+      display: block;
+      margin-bottom: 9px;
+      font-size: 15px;
+      line-height: 1.45;
+    }
+
+    .pipeline-step p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .loop-back {
+      margin: 14px 0 0 auto;
+      width: fit-content;
+      color: var(--gold);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .reward-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 46px;
+    }
+
+    .reward-grid, .reward-definition { min-width: 0; }
+
+    .reward-definition {
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+    }
+
+    .reward-definition .tag {
+      display: inline-block;
+      margin-bottom: 14px;
+      padding: 4px 8px;
+      border-radius: 3px;
+      color: var(--teal);
+      background: var(--teal-soft);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .reward-definition:nth-child(2) .tag {
+      color: var(--red);
+      background: var(--red-soft);
+    }
+
+    .reward-definition:nth-child(3) .tag {
+      color: #6d541c;
+      background: #f1ead7;
+    }
+
+    .reward-definition p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .formula {
+      min-height: 50px;
+      margin: 17px 0;
+      padding: 12px 14px;
+      border-left: 2px solid var(--line);
+      color: #273431;
+      font-family: Cambria, "Times New Roman", serif;
+      font-size: 14px;
+      line-height: 1.55;
+      overflow-wrap: anywhere;
+    }
+
+    .comparison-wrap {
+      overflow-x: auto;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    table {
+      width: 100%;
+      min-width: 780px;
+      border-collapse: collapse;
+      font-size: 14px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    th, td {
+      padding: 15px 13px;
+      border-bottom: 1px solid #e5e9e7;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    th:first-child, td:first-child { text-align: left; }
+
+    thead th {
+      color: var(--muted);
+      background: #f0f3f1;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    tbody tr:last-child td { border-bottom: 0; }
+
+    td.best {
+      color: var(--red);
+      background: #fbf2ef;
+      font-weight: 750;
+    }
+
+    .figure-block {
+      display: grid;
+      grid-template-columns: minmax(250px, .72fr) minmax(0, 1.28fr);
+      gap: 50px;
+      align-items: center;
+      padding: 64px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .figure-block:last-child { border-bottom: 0; }
+
+    .figure-copy .number {
+      display: block;
+      margin-bottom: 12px;
+      color: var(--teal);
+      font: 700 13px/1 Georgia, serif;
+    }
+
+    .figure-copy p {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .metric-line {
+      display: flex;
+      gap: 28px;
+      padding-top: 15px;
+      border-top: 1px solid var(--line);
+    }
+
+    .metric-line span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .metric-line strong {
+      display: block;
+      color: var(--ink);
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .result-figure {
+      margin: 0;
+    }
+
+    .result-figure img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: contain;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      box-shadow: var(--shadow);
+      cursor: zoom-in;
+    }
+
+    .result-figure figcaption {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .reward-result-group { padding: 64px 0; border-bottom: 1px solid var(--line); }
+    .reward-result-group:last-of-type { border-bottom: 0; }
+    .reward-result-head { display: grid; grid-template-columns: minmax(250px, .72fr) minmax(0, 1.28fr); gap: 50px; align-items: end; margin-bottom: 28px; }
+    .reward-result-head p { margin: 0; color: var(--muted); font-size: 15px; }
+    .reward-result-head .number { display: block; margin-bottom: 12px; color: var(--teal); font: 700 13px/1 Georgia, serif; }
+    .result-gallery { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+    .gallery-item { margin: 0; padding-bottom: 12px; border-bottom: 2px solid var(--line); }
+    .gallery-item img { display: block; width: 100%; aspect-ratio: 36 / 11; object-fit: contain; border: 1px solid var(--line); border-radius: var(--radius); background: #ffffff; cursor: zoom-in; }
+    .gallery-item figcaption { display: flex; justify-content: space-between; gap: 12px; margin-top: 9px; color: var(--muted); font-size: 12px; }
+    .gallery-item strong { color: var(--ink); }
+    .archive-status { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-top: 32px; }
+    .archive-item { padding: 20px; border-top: 3px solid var(--teal); background: var(--surface); }
+    .archive-item:nth-child(2) { border-top-color: var(--gold); }
+    .archive-item:nth-child(3) { border-top-color: var(--red); }
+    .archive-item strong { display: block; margin-bottom: 7px; }
+    .archive-item p { margin: 0; color: var(--muted); font-size: 13px; }
+    .diagnostic-figure { max-width: 980px; margin: 32px auto 0; }
+    .cover-title { max-width: 1080px; margin: 0; font-size: clamp(46px, 5.4vw, 76px); line-height: 1.12; }
+    .reward-equation { overflow-x: auto; overflow-y: hidden; border: 1px solid #c9e0ea; border-left: 3px solid #3f91ad; background: #f2f8fb; color: #173449; }
+    .reward-equation .katex-display, .formula .katex-display { max-width: 100%; margin: 0; overflow-x: auto; overflow-y: hidden; text-align: left; }
+    .reward-equation, .formula { min-width: 0; max-width: 100%; }
+    .katex-mathml { display: none !important; }
+    .reward-equation .katex { font-size: 1.08em; }
+    .formula { overflow-x: auto; overflow-y: hidden; background: #f5fafc; border-left-color: #61a9c0; }
+    .model-comparison-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin-top: 30px; }
+    .model-case { min-width: 0; padding-top: 16px; border-top: 3px solid #7ab6c9; }
+    .model-case:nth-child(2) { border-top-color: var(--gold); }
+    .model-case:nth-child(3) { border-top-color: var(--red); }
+    .model-case-head { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; margin-bottom: 14px; }
+    .model-case-head h4 { margin: 0; font-family: "Source Han Serif SC", "Noto Serif CJK SC", SimSun, serif; font-size: 19px; }
+    .model-case-head span { color: var(--muted); font-size: 11px; }
+    .model-case .result-figure + .result-figure { margin-top: 20px; }
+    .model-case .result-figure img { aspect-ratio: 16 / 10; box-shadow: 0 6px 20px rgba(23,32,31,.07); }
+    .model-case .result-figure figcaption { min-height: 42px; }
+    .phase6-chapter { background: #f4f6f3; }
+    .phase6-banner { background: #263936; border-bottom-color: #3e5a55; }
+    .experiment-facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 36px 0 48px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .experiment-fact { padding: 18px 20px; border-right: 1px solid var(--line); }
+    .experiment-fact:last-child { border-right: 0; }
+    .experiment-fact strong { display: block; color: var(--teal); font-size: 24px; }
+    .experiment-fact span { color: var(--muted); font-size: 12px; }
+    .overview-gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin-top: 42px; }
+    .overview-gallery .result-figure { padding-bottom: 16px; border-bottom: 2px solid var(--line); }
+    .reward-evidence { padding: 58px 0; border-bottom: 1px solid var(--line); }
+    .reward-evidence:last-child { border-bottom: 0; }
+    .reward-evidence-head { display: grid; grid-template-columns: minmax(250px, .72fr) minmax(0, 1.28fr); gap: 50px; align-items: start; }
+    .reward-label { display: block; margin-bottom: 11px; color: var(--teal); font: 700 12px/1 Georgia, serif; text-transform: uppercase; }
+    .reward-evidence-head p { margin: 0; color: var(--muted); font-size: 14px; }
+    .reward-equation { padding: 18px 20px; border-left: 3px solid var(--teal); background: #ffffff; color: #263532; font-family: Cambria, "Times New Roman", serif; font-size: 15px; line-height: 1.65; overflow-wrap: anywhere; }
+    .reward-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 28px 0; border: 1px solid var(--line); background: #ffffff; }
+    .reward-stat { padding: 15px 18px; border-right: 1px solid var(--line); }
+    .reward-stat:last-child { border-right: 0; }
+    .reward-stat span { display: block; color: var(--muted); font-size: 11px; }
+    .reward-stat strong { display: block; margin-top: 3px; color: var(--ink); font-size: 18px; font-variant-numeric: tabular-nums; }
+    .evidence-gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+    .phase6-conclusion { color: #f2f7f5; background: #24433f; }
+    .phase6-conclusion h2 { color: #ffffff; }
+    .phase6-conclusion .section-note { color: #bfd1cd; }
+    .phase6-conclusion .takeaway-item p { color: #c6d6d2; }
+    .phase7-chapter { background: #f7f7f4; }
+    .phase7-banner { background: #344541; border-bottom-color: #526760; }
+    .medium-definition { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 30px; align-items: center; margin: 32px 0 38px; padding: 24px 26px; border: 1px solid #cfd9d4; border-left: 4px solid var(--teal); background: #ffffff; }
+    .medium-definition p { margin: 0; color: var(--muted); font-size: 14px; }
+    .medium-definition .formula { margin: 0; }
+    .phase7-model-result { padding: 62px 0; border-bottom: 1px solid var(--line); }
+    .phase7-model-result:last-child { border-bottom: 0; }
+    .phase7-model-head { display: grid; grid-template-columns: minmax(220px, .66fr) minmax(0, 1.34fr); gap: 48px; align-items: end; margin-bottom: 28px; }
+    .phase7-model-head h3 { margin-bottom: 8px; }
+    .phase7-model-head p { margin: 0; color: var(--muted); font-size: 14px; }
+    .phase7-metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border: 1px solid var(--line); background: #ffffff; }
+    .phase7-metric { padding: 14px 16px; border-right: 1px solid var(--line); }
+    .phase7-metric:last-child { border-right: 0; }
+    .phase7-metric span { display: block; color: var(--muted); font-size: 11px; }
+    .phase7-metric strong { display: block; margin-top: 4px; color: var(--ink); font-size: 18px; font-variant-numeric: tabular-nums; }
+    .phase7-metric strong.improved { color: #166b59; }
+    .phase7-visual-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
+    .phase7-visual-grid .result-figure { padding-bottom: 14px; border-bottom: 2px solid var(--line); }
+    .phase7-visual-grid .result-figure img { aspect-ratio: 16 / 10; box-shadow: 0 6px 20px rgba(23,32,31,.07); }
+    .scope-note { margin-top: 34px; padding: 20px 22px; border-left: 4px solid var(--gold); background: #fffdf7; color: var(--muted); font-size: 14px; }
+    .takeaway-band {
+      color: #f2f7f5;
+      background: #18312e;
+    }
+
+    .takeaway-band h2 { color: #ffffff; }
+
+    .takeaway-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 36px;
+      margin-top: 42px;
+    }
+
+    .takeaway-item {
+      padding-top: 18px;
+      border-top: 2px solid #6ba69e;
+    }
+
+    .takeaway-item strong {
+      display: block;
+      margin-bottom: 8px;
+      color: #ffffff;
+      font-size: 18px;
+    }
+
+    .takeaway-item p {
+      margin: 0;
+      color: #bed0cc;
+      font-size: 14px;
+    }
+
+    .source-line {
+      margin-top: 42px;
+      color: #91aaa5;
+      font-size: 11px;
+    }
+
+    .image-dialog {
+      width: min(1280px, 94vw);
+      max-height: 94vh;
+      padding: 0;
+      border: 0;
+      border-radius: var(--radius);
+      background: #ffffff;
+      box-shadow: 0 30px 90px rgba(0,0,0,.34);
+    }
+
+    .image-dialog::backdrop { background: rgba(10,18,17,.78); }
+
+    .image-dialog img {
+      display: block;
+      width: 100%;
+      max-height: 86vh;
+      object-fit: contain;
+    }
+
+    .dialog-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 38px;
+      height: 38px;
+      border: 1px solid rgba(255,255,255,.6);
+      border-radius: 50%;
+      color: #ffffff;
+      background: rgba(16,28,26,.74);
+      font-size: 24px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .dialog-close:hover,
+    .dialog-close:focus-visible {
+      background: #000000;
+      outline: 2px solid #ffffff;
+      outline-offset: 2px;
+    }
+
+    @media (max-width: 1180px) {
+      .pipeline {
+        grid-template-columns: repeat(4, minmax(130px, 1fr));
+      }
+
+      .pipeline-step:nth-child(4)::after { display: none; }
+    }
+
+    @media (max-width: 900px) {
+      :root { --nav-width: 0px; }
+
+      .sidebar {
+        position: sticky;
+        top: 0;
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        align-items: center;
+        gap: 16px;
+        padding: 10px 16px;
+      }
+
+      .brand-mark { margin: 0; width: 32px; height: 32px; }
+      .brand-title { font-size: 14px; }
+      .brand-subtitle, .nav-label, .nav-footer { display: none; }
+      .sidebar nav { display: flex; flex: 1 1 auto; min-width: 0; margin-left: auto; overflow-x: auto; }
+      .nav-link { white-space: nowrap; padding: 7px 9px; border-left: 0; border-bottom: 2px solid transparent; }
+      .nav-link.active { border-bottom-color: #78b7ad; }
+
+      main { margin-left: 0; }
+      .section { padding: 58px 24px; }
+      .phase-chapter { background: var(--paper); }
+    .phase-banner { padding: 52px clamp(34px, 7vw, 112px); color: #eff7f5; background: #24433f; border-bottom: 1px solid #345b55; }
+    .phase-banner-inner { width: min(1180px, 100%); margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 48px; align-items: end; }
+    .phase-banner h2 { margin: 0; color: #ffffff; }
+    .phase-banner p { max-width: 590px; margin: 12px 0 0; color: #bed1cd; font-size: 15px; }
+    .phase-index { color: #8fc6bd; font: 700 13px/1 Georgia, serif; text-transform: uppercase; }
+    .cover { min-height: 72vh; }
+      .section-head { grid-template-columns: 1fr; gap: 16px; }
+      .phase-banner-inner, .reward-result-head { grid-template-columns: 1fr; gap: 16px; }
+      .reward-grid, .takeaway-grid, .archive-status, .experiment-facts { grid-template-columns: 1fr; }
+      .overview-gallery, .evidence-gallery { grid-template-columns: 1fr; }
+      .phase7-visual-grid, .medium-definition, .phase7-model-head { grid-template-columns: 1fr; gap: 18px; }
+      .model-comparison-grid { grid-template-columns: 1fr; }
+      .reward-evidence-head { grid-template-columns: 1fr; gap: 18px; }
+      .reward-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .reward-stat:nth-child(2) { border-right: 0; }
+      .reward-stat:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+      .result-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .figure-block { grid-template-columns: 1fr; gap: 24px; }
+    }
+
+    @media (max-width: 620px) {
+      h1 { font-size: 39px; }
+      .cover-title { font-size: 40px; overflow-wrap: anywhere; }
+      h2 { font-size: 31px; }
+      .lead { font-size: 17px; }
+      .cover-meta { display: grid; grid-template-columns: 1fr 1fr; }
+      .pipeline { grid-template-columns: 1fr; }
+      .pipeline-step { min-height: auto; }
+      .pipeline-step:not(:last-child)::after {
+        content: "↓";
+        right: 50%;
+        top: auto;
+        bottom: -21px;
+      }
+      .pipeline-step:nth-child(4)::after { display: block; }
+      .metric-line { gap: 18px; }
+      .result-gallery { grid-template-columns: 1fr; }
+      .reward-stats { grid-template-columns: 1fr; }
+      .phase7-metrics { grid-template-columns: 1fr; }
+      .phase7-metric { border-right: 0; border-bottom: 1px solid var(--line); }
+      .phase7-metric:last-child { border-bottom: 0; }
+      .reward-stat, .reward-stat:nth-child(2) { border-right: 0; border-bottom: 1px solid var(--line); }
+      .reward-stat:last-child { border-bottom: 0; }
+      .sidebar nav .nav-link:first-child { display: none; }
+    }
+
+    @media print {
+      .sidebar { display: none; }
+      main { margin: 0; }
+      .section { break-inside: avoid; padding: 44px 36px; }
+      .phase-chapter { background: var(--paper); }
+    .phase-banner { padding: 52px clamp(34px, 7vw, 112px); color: #eff7f5; background: #24433f; border-bottom: 1px solid #345b55; }
+    .phase-banner-inner { width: min(1180px, 100%); margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 48px; align-items: end; }
+    .phase-banner h2 { margin: 0; color: #ffffff; }
+    .phase-banner p { max-width: 590px; margin: 12px 0 0; color: #bed1cd; font-size: 15px; }
+    .phase-index { color: #8fc6bd; font: 700 13px/1 Georgia, serif; text-transform: uppercase; }
+    .cover { min-height: 94vh; }
+      .result-figure img { box-shadow: none; }
+      .image-dialog { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <aside class="sidebar" aria-label="章节导航">
+    <div class="brand-mark" aria-hidden="true">RL</div>
+    <p class="brand-title">单观测地震反演<br>阶段性实验汇报</p>
+    <p class="brand-subtitle">Physics-guided reinforcement learning for seismic inversion</p>
+    <p class="nav-label">Contents</p>
+    <nav>
+      <a class="nav-link active" href="#cover">汇报概览</a>
+      <a class="nav-link" href="#phase4">Phase IV</a>
+      <a class="nav-link" href="#architecture">反演架构</a>
+      <a class="nav-link" href="#comparison">Reward 定义</a>
+      <a class="nav-link" href="#results">六模型结果</a>
+      <a class="nav-link" href="#phase6-overview">Phase VI 总览</a>
+      <a class="nav-link" href="#phase6-results">八类 Reward</a>
+      <a class="nav-link" href="#phase7-overview">Phase VII 扩展模型</a>
+    </nav>
+    <p class="nav-footer">Phase IV + VI<br>Reward 设计与验证<br>2026</p>
+  </aside>
+
+  <main>
+    <section class="section cover" id="cover">
+      <div class="section-inner">
+        <h1 class="cover-title">Reinforcement Learning for Seismic Inversion(RL4SI)</h1>
+      </div>
+    </section>
+
+    <article class="phase-chapter" aria-labelledby="phase4-title">
+      <header class="phase-banner" id="phase4">
+        <div class="phase-banner-inner">
+          <div>
+            <span class="phase-index">Major Section · Phase IV</span>
+            <h2 id="phase4-title">平滑初模、透射观测与 B-spline 策略</h2>
+            <p>在统一低维反演架构下，系统比较 TT-only、L1+L2 与 FWI Contrastive 三类 reward，并逐一展示六个 CurveVel-A 模型的结果。</p>
+          </div>
+          <span class="phase-index">3 rewards · 6 models · 18 results</span>
+        </div>
+      </header>
+    <section class="section" id="architecture">
+      <div class="section-inner">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">01 · Inversion Architecture</p>
+            <h2>反演架构与受控变量</h2>
+          </div>
+          <p class="section-note">三组实验使用相同模型、采集几何、策略参数化与优化器，仅替换 reward，从而把收敛差异归因于目标函数设计。</p>
+        </div>
+
+        <div class="pipeline" aria-label="Phase IV 反演流程">
+          <div class="pipeline-step">
+            <span class="step-index">01</span>
+            <strong>平滑初始模型</strong>
+            <p>由真实 CVA 模型构造统一的低波数初始速度。</p>
+          </div>
+          <div class="pipeline-step">
+            <span class="step-index">02</span>
+            <strong>Gaussian 策略采样</strong>
+            <p>在 4×4 控制点空间采样 G=32 个候选动作。</p>
+          </div>
+          <div class="pipeline-step">
+            <span class="step-index">03</span>
+            <strong>B-spline 重建</strong>
+            <p>将低维控制点插值为 70×70 候选速度模型。</p>
+          </div>
+          <div class="pipeline-step">
+            <span class="step-index">04</span>
+            <strong>Deepwave 正演</strong>
+            <p>透射式采集几何下生成每个候选模型的合成炮集。</p>
+          </div>
+          <div class="pipeline-step reward-step">
+            <span class="step-index">05</span>
+            <strong>Reward 评价</strong>
+            <p>分别采用 TT-only、L1+L2 或 Contrastive。</p>
+          </div>
+          <div class="pipeline-step optim-step">
+            <span class="step-index">06</span>
+            <strong>GDPO Advantage</strong>
+            <p>在组内标准化 reward，得到相对优势信号。</p>
+          </div>
+          <div class="pipeline-step optim-step">
+            <span class="step-index">07</span>
+            <strong>PPO 策略更新</strong>
+            <p>通过 clipped surrogate loss 更新策略分布。</p>
+          </div>
+        </div>
+        <p class="loop-back">策略更新后返回步骤 02，继续采样与迭代 ↺</p>
+      </div>
+    </section>
+
+    <section class="section" id="comparison">
+      <div class="section-inner">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">02 · Reward Design</p>
+            <h2>三类 Reward 的信息侧重</h2>
+          </div>
+          <p class="section-note">三类目标分别关注事件到达时间、逐点振幅误差和弱相位依赖的整体相似度，代表从大尺度运动学到波形细节的不同约束。</p>
+        </div>
+
+        <div class="reward-grid">
+          <article class="reward-definition">
+            <span class="tag">Kinematics</span>
+            <h3>TT-only</h3>
+            <div class="formula math-display">\[R_{\mathrm{TT}}=-\operatorname{mean}_{s,r}\left|t_{\mathrm{first}}\!\left(d^{\mathrm{pred}}_{sr}\right)-t_{\mathrm{first}}\!\left(d^{\mathrm{obs}}_{sr}\right)\right|\]</div>
+            <p>只比较初至走时，主要约束背景速度和大尺度结构；对振幅误差不敏感，但无法充分利用后续反射事件。</p>
+          </article>
+
+          <article class="reward-definition">
+            <span class="tag">Waveform residual</span>
+            <h3>L1 + L2</h3>
+            <div class="formula math-display">\[R_{L_1+L_2}=-\frac{1}{2}\left\|\tilde d_{\mathrm{pred}}-\tilde d_{\mathrm{obs}}\right\|_1-\frac{1}{2}\left\|\tilde d_{\mathrm{pred}}-\tilde d_{\mathrm{obs}}\right\|_2^2\]</div>
+            <p>同时约束稀疏大残差与整体能量误差，能够细化波形，但初始模型较差时仍可能受到 cycle skipping 影响。</p>
+          </article>
+
+          <article class="reward-definition">
+            <span class="tag">Similarity</span>
+            <h3>FWI Contrastive</h3>
+            <div class="formula math-display">\[R_{\mathrm{contra}}=\frac{1}{2}\,\operatorname{cos}\!\left(|\mathcal Fd_{\mathrm{pred}}|,|\mathcal Fd_{\mathrm{obs}}|\right)+\frac{1}{2}\max_{\tau}\operatorname{NCC}(\tau)\]</div>
+            <p>联合频谱余弦相似度与最大归一化互相关，对绝对振幅和小范围时移更宽容，强调事件形态和频率结构。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="results">
+      <div class="section-inner">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">03 · Controlled Comparison</p>
+            <h2>六个模型上的初始比较</h2>
+          </div>
+          <p class="section-note">指标为历史最佳速度 MAE，单位 m/s，数值越低越好。着色单元格表示三种候选 reward 在该模型上的最佳结果。</p>
+        </div>
+
+        <div class="comparison-wrap">
+          <table aria-label="三种 reward 在六个 CVA 模型上的最佳 MAE">
+            <thead>
+              <tr>
+                <th>Reward</th>
+                <th>CVA18</th>
+                <th>CVA50</th>
+                <th>CVA10</th>
+                <th>CVA6</th>
+                <th>CVA8</th>
+                <th>CVA5</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>TT-only</td>
+                <td class="best">10.2</td>
+                <td>36.9</td>
+                <td>150.0</td>
+                <td>58.4</td>
+                <td>75.1</td>
+                <td>106.0</td>
+              </tr>
+              <tr>
+                <td>L1 + L2</td>
+                <td>83.1</td>
+                <td>39.2</td>
+                <td>247.3</td>
+                <td class="best">33.5</td>
+                <td class="best">22.8</td>
+                <td>212.6</td>
+              </tr>
+              <tr>
+                <td>FWI Contrastive</td>
+                <td>38.3</td>
+                <td class="best">27.6</td>
+                <td class="best">97.5</td>
+                <td>65.8</td>
+                <td>130.3</td>
+                <td class="best">90.3</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <section class="reward-result-group" aria-labelledby="tt-results">
+          <div class="reward-result-head"><div><span class="number">A · TRAVEL TIME</span><h3 id="tt-results">TT-only：六模型结果</h3></div><p>整体表现相对稳健，CVA18 达到 10.2 m/s；但在 CVA10 等困难模型上，单纯走时约束不足以恢复完整细节。</p></div>
+          <div class="result-gallery">
+            <figure class="gallery-item"><img src="phase4_final/progressions/TT-only/CVA18_mae10.png" alt="TT-only 在 CVA18 上的反演演化" loading="lazy"><figcaption><strong>CVA18</strong><span>Best MAE 10.2</span></figcaption></figure>
+            <figure class="gallery-item"><img src="phase4_final/progressions/TT-only/CVA50_mae37.png" alt="TT-only 在 CVA50 上的反演演化" loading="lazy"><figcaption><strong>CVA50</strong><span>Best MAE 36.9</span></figcaption></figure>
+            <figure class="gallery-item"><img src="phase4_final/progressions/TT-only/CVA10_mae150.png" alt="TT-only 在 CVA10 上的反演演化" loading="lazy"><figcaption><strong>CVA10</strong><span>Best MAE 150.0</span></figcaption></figure>
+            <figure class="gallery-item"><img src="phase4_final/progressions/TT-only/CVA6_mae58.png" alt="TT-only 在 CVA6 上的反演演化" loading="lazy"><figcaption><strong>CVA6</strong><span>Best MAE 58.4</span></figcaption></figure>
+            <figure class="gallery-item"><img src="phase4_final/progressions/TT-only/CVA8_mae75.png" alt="TT-only 在 CVA8 上的反演演化" loading="lazy"><figcaption><strong>CVA8</strong><span>Best MAE 75.1</span></figcaption></figure>
+            <figure class="gallery-item"><img src="phase4_final/progressions/TT-only/CVA5_mae106.png" alt="TT-only 在 CVA5 上的反演演化" loading="lazy"><figcaption><strong>CVA5</strong><span>Best MAE 106.0</span></figcaption></figure>
+          </div>
+        </section>
+
+        <section class="reward-result-group" aria-labelledby="l1l2-results">
+          <div class="reward-result-head"><div><span class="number">B · WAVEFORM RESIDUAL</span><h3 id="l1l2-results">L1 + L2：六模型结果</h3></div><p>CVA6、CVA8 上细化能力突出，但 CVA10、CVA5 明显失效，说明逐点波形残差对初始波形对齐和模型难度非常敏感。</p></div>
+          <div class="result-gallery">
+            <figure class="gallery-item"><img src="phase4_final/progressions/L1+L2/CVA18_mae83.png" alt="L1 + L2 在 CVA18 上的反演演化" loading="lazy"><figcaption><strong>CVA18</strong><span>Best MAE 83.1</span></figcaption></figure>
+            <figure class="gallery-item"><img src="phase4_final/progressions/L1+L2/CVA50_mae39.png" alt="L1 + L2 在 CVA50 上的反演演化" loading="lazy"><figcaption><strong>CVA50</strong><span>Best MAE 39.2</span></figcaption></figure>
+            <figure class="gallery-item"><img src="phase4_final/progressions/L1+L2/CVA10_mae247.png" alt="L1 + L2 在 CVA10 上的反演演化" loading="lazy"><figcaption><strong>CVA10</strong><span>Best MAE 247.3</span></figcaption></figure>
+            <figure class="gallery-item"><img src="phase4_final/progressions/L1+L2/CVA6_mae33.png" alt="L1 + L2 在 CVA6 上的反演演化" loading="lazy"><figcaption><strong>CVA6</strong><span>Best MAE 33.5</span></figcaption></figure>
+            <figure class="gallery-item"><img src="phase4_final/progressions/L1+L2/CVA8_mae23.png" alt="L1 + L2 在 CVA8 上的反演演化" loading="lazy"><figcaption><strong>CVA8</strong><span>Best MAE 22.8</span></figcaption></figure>
+            <figure class="gallery-item"><img src="phase4_final/progressions/L1+L2/CVA5_mae213.png" alt="L1 + L2 在 CVA5 上的反演演化" loading="lazy"><figcaption><strong>CVA5</strong><span>Best MAE 212.6</span></figcaption></figure>
+          </div>
+        </section>
+
+        <section class="reward-result-group" aria-labelledby="contrastive-results">
+          <div class="reward-result-head"><div><span class="number">C · CONTRASTIVE SIMILARITY</span><h3 id="contrastive-results">FWI Contrastive：六模型结果</h3></div><p>在 CVA50、CVA10、CVA5 上取得三者中的最低 MAE，表明频谱和最大相关性对波形错位更宽容；但 CVA8 上并不稳定。</p></div>
+          <div class="result-gallery">
+            <figure class="gallery-item"><img src="phase4_final/progressions/FWI_Contrastive/CVA18_mae38.png" alt="FWI Contrastive 在 CVA18 上的反演演化" loading="lazy"><figcaption><strong>CVA18</strong><span>Best MAE 38.3</span></figcaption></figure>
+            <figure class="gallery-item"><img src="phase4_final/progressions/FWI_Contrastive/CVA50_mae28.png" alt="FWI Contrastive 在 CVA50 上的反演演化" loading="lazy"><figcaption><strong>CVA50</strong><span>Best MAE 27.6</span></figcaption></figure>
+            <figure class="gallery-item"><img src="phase4_final/progressions/FWI_Contrastive/CVA10_mae97.png" alt="FWI Contrastive 在 CVA10 上的反演演化" loading="lazy"><figcaption><strong>CVA10</strong><span>Best MAE 97.5</span></figcaption></figure>
+            <figure class="gallery-item"><img src="phase4_final/progressions/FWI_Contrastive/CVA6_mae66.png" alt="FWI Contrastive 在 CVA6 上的反演演化" loading="lazy"><figcaption><strong>CVA6</strong><span>Best MAE 65.8</span></figcaption></figure>
+            <figure class="gallery-item"><img src="phase4_final/progressions/FWI_Contrastive/CVA8_mae130.png" alt="FWI Contrastive 在 CVA8 上的反演演化" loading="lazy"><figcaption><strong>CVA8</strong><span>Best MAE 130.3</span></figcaption></figure>
+            <figure class="gallery-item"><img src="phase4_final/progressions/FWI_Contrastive/CVA5_mae90.png" alt="FWI Contrastive 在 CVA5 上的反演演化" loading="lazy"><figcaption><strong>CVA5</strong><span>Best MAE 90.3</span></figcaption></figure>
+          </div>
+        </section>
+
+
+      </div>
+    </section>
+
+
+    </article>
+    <article class="phase6-chapter" aria-labelledby="phase6-title">
+      <header class="phase-banner phase6-banner" id="phase6">
+        <div class="phase-banner-inner">
+          <div>
+            <span class="phase-index">Major Section · Phase VI</span>
+            <h2 id="phase6-title">Fixed-layout 单 Reward 系统验证</h2>
+            <p>统一地震数据布局为 [shot, receiver, time] 后，对八类单 reward 在十个 CurveVel-A 模型上重新验证，并同步保存速度、残差、收敛与波形证据。</p>
+          </div>
+          <span class="phase-index">8 rewards · 10 models · 80 runs</span>
+        </div>
+      </header>
+
+      <section class="section" id="phase6-overview">
+        <div class="section-inner">
+          <div class="section-head">
+            <div><p class="eyebrow">Phase VI · Corrected Benchmark</p><h2>八十次实验的总体证据</h2></div>
+            <p class="section-note">所有实验采用同一 Gaussian B-spline 策略、平滑初模、透射几何和 seed=42。评价指标为训练期间采样到的 Best MAE，同时报告 Final MAE 与 final-best gap。</p>
+          </div>
+          <div class="experiment-facts">
+            <div class="experiment-fact"><strong>80 / 80</strong><span>实验完整结束，无运行错误</span></div>
+            <div class="experiment-fact"><strong>8</strong><span>单 Reward 类型</span></div>
+            <div class="experiment-fact"><strong>10</strong><span>CurveVel-A 模型</span></div>
+            <div class="experiment-fact"><strong>5000</strong><span>每组最大训练步数</span></div>
+          </div>
+          <div class="comparison-wrap">
+            <table aria-label="Phase VI 八种 reward 的十模型统计">
+              <thead><tr><th>Rank / Reward</th><th>Mean Best</th><th>Median</th><th>Mean Final</th><th>Final−Best Gap</th><th>Wins</th></tr></thead>
+              <tbody>
+                <tr><td>1 · Wasserstein W1</td><td class="best">61.90</td><td>49.43</td><td>95.34</td><td>33.44</td><td>2</td></tr>
+                <tr><td>2 · Wasserstein W2</td><td>66.31</td><td>65.25</td><td>94.55</td><td class="best">28.24</td><td>2</td></tr>
+                <tr><td>3 · TT-only</td><td>71.41</td><td>70.41</td><td>105.07</td><td>33.66</td><td>2</td></tr>
+                <tr><td>4 · AWI</td><td>72.82</td><td>66.70</td><td>109.04</td><td>36.22</td><td>0</td></tr>
+                <tr><td>5 · Max-lag NCC</td><td>73.24</td><td>67.26</td><td>117.80</td><td>44.56</td><td>0</td></tr>
+                <tr><td>6 · Envelope NCC</td><td>74.42</td><td>68.95</td><td>109.12</td><td>34.70</td><td>0</td></tr>
+                <tr><td>7 · Zero-lag NCC</td><td>96.09</td><td>73.12</td><td>142.35</td><td>46.26</td><td>1</td></tr>
+                <tr><td>8 · L1 + L2</td><td>108.90</td><td>64.32</td><td>148.11</td><td>39.22</td><td>3</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="overview-gallery">
+            <figure class="result-figure"><img src="phase6_fixed_layout_feedback/summary_figures/reward_mean_best_mae.png" alt="Phase VI 八种 reward 的平均 Best MAE 排名" loading="lazy"><figcaption>十模型 Mean Best MAE 排名。</figcaption></figure>
+            <figure class="result-figure"><img src="phase6_fixed_layout_feedback/summary_figures/reward_model_best_mae_heatmap.png" alt="Phase VI 八种 reward 在十个模型上的 Best MAE 热力图" loading="lazy"><figcaption>8 × 10 完整实验矩阵，展示模型依赖性。</figcaption></figure>
+            <figure class="result-figure"><img src="phase6_fixed_layout_feedback/summary_figures/selected_convergence_curves.png" alt="Phase VI 代表性实验的收敛曲线" loading="lazy"><figcaption>代表性 MAE 收敛曲线：多数方法能找到好模型，但后期存在回摆。</figcaption></figure>
+            <figure class="result-figure"><img src="phase6_fixed_layout_feedback/summary_figures/reward_final_minus_best_gap.png" alt="Phase VI 各 reward 的 Final 与 Best MAE 差距" loading="lazy"><figcaption>Final−Best gap：衡量策略能否最终稳定在已发现的优质区域。</figcaption></figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="phase6-results">
+        <div class="section-inner">
+          <div class="section-head">
+            <div><p class="eyebrow">Phase VI · Reward Evidence</p><h2>八类 Reward 的计算与结果</h2></div>
+            <p class="section-note">每块先说明实际代码中的 reward 计算，再给出十模型统计，并统一展示 CVA18、CVA50、CVA10 三个模型。点击图片可放大查看。</p>
+          </div>        <section class="reward-evidence">
+          <div class="reward-evidence-head">
+            <div><span class="reward-label">01 · Reward definition</span><h3>L1 + L2</h3><p>对 sign-preserving log 压缩后的预测与观测波形，同时计算绝对误差和平方误差。它能精细匹配振幅，但跨模型稳定性较弱。</p></div>
+            <div class="reward-equation math-display">\[\begin{aligned}\tilde d&=\operatorname{sign}(d)\log\!\left(3|d|+\varepsilon\right),\\R_{L_1+L_2}&=-\sum\left|\tilde d_{\mathrm{pred}}-\tilde d_{\mathrm{obs}}\right|-\sum\left(\tilde d_{\mathrm{pred}}-\tilde d_{\mathrm{obs}}\right)^2\end{aligned}\]</div>
+          </div>
+          <div class="reward-stats"><div class="reward-stat"><span>10 模型 Mean Best MAE</span><strong>108.90</strong></div><div class="reward-stat"><span>Median Best MAE</span><strong>64.32</strong></div><div class="reward-stat"><span>Mean Final−Best Gap</span><strong>39.22</strong></div><div class="reward-stat"><span>逐模型第一名次数</span><strong>3 / 10</strong></div></div>
+          <div class="model-comparison-grid">
+            <article class="model-case">
+              <div class="model-case-head"><h4>CVA18</h4><span>较容易模型</span></div>
+              <figure class="result-figure"><img src="phase6_fixed_layout_feedback/runs/phase6_fixed_layout/FWI_l1l2_cva18_seed42/phase6_visuals/models_residuals_curves.png" alt="L1 + L2 在 CVA18 上的速度模型、残差与收敛曲线" loading="lazy"><figcaption>模型、残差与曲线；Best 86.61，Final 90.23 m/s。</figcaption></figure>
+              <figure class="result-figure"><img src="phase6_fixed_layout_feedback/runs/phase6_fixed_layout/FWI_l1l2_cva18_seed42/phase6_visuals/shot_wiggle_overlays.png" alt="L1 + L2 在 CVA18 上的预测与观测 wiggle 波形对比" loading="lazy"><figcaption>初始、Best 与 Final 的预测—观测 wiggle 叠加。</figcaption></figure>
+            </article>
+            <article class="model-case">
+              <div class="model-case-head"><h4>CVA50</h4><span>中等模型</span></div>
+              <figure class="result-figure"><img src="phase6_fixed_layout_feedback/runs/phase6_fixed_layout/FWI_l1l2_cva50_seed42/phase6_visuals/models_residuals_curves.png" alt="L1 + L2 在 CVA50 上的速度模型、残差与收敛曲线" loading="lazy"><figcaption>模型、残差与曲线；Best 42.03，Final 64.5 m/s。</figcaption></figure>
+              <figure class="result-figure"><img src="phase6_fixed_layout_feedback/runs/phase6_fixed_layout/FWI_l1l2_cva50_seed42/phase6_visuals/shot_wiggle_overlays.png" alt="L1 + L2 在 CVA50 上的预测与观测 wiggle 波形对比" loading="lazy"><figcaption>初始、Best 与 Final 的预测—观测 wiggle 叠加。</figcaption></figure>
+            </article>
+            <article class="model-case">
+              <div class="model-case-head"><h4>CVA10</h4><span>困难模型</span></div>
+              <figure class="result-figure"><img src="phase6_fixed_layout_feedback/runs/phase6_fixed_layout/FWI_l1l2_cva10_seed42/phase6_visuals/models_residuals_curves.png" alt="L1 + L2 在 CVA10 上的速度模型、残差与收敛曲线" loading="lazy"><figcaption>模型、残差与曲线；Best 248.17，Final 380.07 m/s。</figcaption></figure>
+              <figure class="result-figure"><img src="phase6_fixed_layout_feedback/runs/phase6_fixed_layout/FWI_l1l2_cva10_seed42/phase6_visuals/shot_wiggle_overlays.png" alt="L1 + L2 在 CVA10 上的预测与观测 wiggle 波形对比" loading="lazy"><figcaption>初始、Best 与 Final 的预测—观测 wiggle 叠加。</figcaption></figure>
+            </article>
+          </div>
+        </section>
+        <section class="reward-evidence">
+          <div class="reward-evidence-head">
+            <div><span class="reward-label">02 · Reward definition</span><h3>TT-only</h3><p>使用 STA/LTA 能量比拾取每条 trace 的初至时间，再对平均绝对走时差做对数缩放，强化低误差区间的区分能力。</p></div>
+            <div class="reward-equation math-display">\[R_{\mathrm{TT}}=-\log\!\left(\operatorname{mean}_{s,r}\left|t_{\mathrm{first}}\!\left(d^{\mathrm{pred}}_{sr}\right)-t_{\mathrm{first}}\!\left(d^{\mathrm{obs}}_{sr}\right)\right|+\varepsilon\right)\]</div>
+          </div>
+          <div class="reward-stats"><div class="reward-stat"><span>10 模型 Mean Best MAE</span><strong>71.41</strong></div><div class="reward-stat"><span>Median Best MAE</span><strong>70.41</strong></div><div class="reward-stat"><span>Mean Final−Best Gap</span><strong>33.66</strong></div><div class="reward-stat"><span>逐模型第一名次数</span><strong>2 / 10</strong></div></div>
+          <div class="model-comparison-grid">
+            <article class="model-case">
+              <div class="model-case-head"><h4>CVA18</h4><span>较容易模型</span></div>
+              <figure class="result-figure"><img src="phase6_fixed_layout_feedback/runs/phase6_fixed_layout/FWI_tt_only_cva18_seed42/phase6_visuals/models_residuals_curves.png" alt="TT-only 在 CVA18 上的速度模型、残差与收敛曲线" loading="lazy"><figcaption>模型、残差与曲线；Best 10.15，Final 28.05 m/s。</figcaption></figure>
+              <figure class="result-figure"><img src="phase6_fixed_layout_feedback/runs/phase6_fixed_layout/FWI_tt_only_cva18_seed42/phase6_visuals/shot_wiggle_overlays.png" alt="TT-only 在 CVA18 上的预测与观测 wiggle 波形对比" loading="lazy"><figcaption>初始、Best 与 Final 的预测—观测 wiggle 叠加。</figcaption></figure>
+            </article>
+            <article class="model-case">
+              <div class="model-case-head"><h4>CVA50</h4><span>中等模型</span></div>
+              <figure class="result-figure"><img src="phase6_fixed_layout_feedback/runs/phase6_fixed_layout/FWI_tt_only_cva50_seed42/phase6_visuals/models_residuals_curves.png" alt="TT-only 在 CVA50 上的速度模型、残差与收敛曲线" loading="lazy"><figcaption>模型、残差与曲线；Best 36.86，Final 57.26 m/s。</figcaption></figure>
+              <figure class="result-figure"><img src="phase6_fixed_layout_feedback/runs/phase6_fixed_layout/FWI_tt_only_cva50_seed42/phase6_visuals/shot_wiggle_overlays.png" alt="TT-only 在 CVA50 上的预测与观测 wiggle 波形对比" loading="lazy"><figcaption>初始、Best 与 Final 的预测—观测 wiggle 叠加。</figcaption></figure>
+            </article>
+            <article class="model-case">
+              <div class="model-case-head"><h4>CVA10</h4><span>困难模型</span></div>
+              <figure class="result-figure"><img src="phase6_fixed_layout_feedback/runs/phase6_fixed_layout/FWI_tt_only_cva10_seed42/phase6_visuals/models_residuals_curves.png" alt="TT-only 在 CVA10 上的速度模型、残差与收敛曲线" loading="lazy"><figcaption>模型、残差与曲线；Best 150.02，Final 243.93 m/s。</figcaption></figure>
+              <figure class="result-figure"><img src="phase6_fixed_layout_feedback/runs/phase6_fixed_layout/FWI_tt_only_cva10_seed42/phase6_visuals/shot_wiggle_overlays.png" alt="TT-only 在 CVA10 上的预测与观测 wiggle 波形对比" loading="lazy"><figcaption>初始、Best 与 Final 的预测—观测 wiggle 叠加。</figcaption></figure>
+            </article>
+          </div>
+        </section>
+        <section class="reward-evidence">
+          <div class="reward-evidence-head">
+            <div><span class="reward-label">03 · Reward definition</span><h3>Wasserstein W1</h3><p>把每条振荡波形的绝对值归一化为时间轴概率密度，通过 CDF 距离比较事件能量在时间上的整体搬运。</p></div>
+            <div class="reward-equation math-display">\[\begin{aligned}\rho(t)&=\frac{|d(t)|}{\sum_t|d(t)|},\\R_{W_1}&=-\sum_{\mathrm{trace}}\int\left|F_{\mathrm{pred}}(t)-F_{\mathrm{obs}}(t)\right|\,\mathrm dt\end{aligned}\]</div>
+          </div>
+          <div class="reward-stats"><div class="reward-stat"><span>10 模型 Mean Best MAE</span><strong>61.90</strong></div><div class="reward-stat"><span>Median Best MAE</span><strong>49.43</strong></div><div class="reward-stat"><span>Mean Final−Best Gap</span><strong>33.44</strong></div><div class="reward-stat"><span>逐模型第一名次数</span><strong>2 / 10</strong></div></div>
+          <div class="model-comparison-grid">
+            <article class="model-case">
+              <div class="model-case-head"><h4>CVA18</h4><span>较容易模型</span></div>
+              <figure class="result-figure"><img src="phase6_fixed_layout_feedback/runs/phase6_fixed_layout/FWI_wasserstein_cva18_seed42/phase6_visuals/models_residuals_curves.png" alt="Wasserstein W1 在 CVA18 上的速度模型、残差与收敛曲线" loading="lazy"><figcaption>模型、残差与曲线；Best 4.53，Final 6.43 m/s。</figcaption></figure>
+              <figure class="result-figure"><img src="phase6_fixed_layout_feedback/runs/phase6_fixed_layout/FWI_wasserstein_cva18_seed42/phase6_visuals/shot_wiggle_overlays.png" alt="Wasserstein W1 在 CVA18 上的预测与观测 wiggle 波形对比" loading="lazy"><figcaption>初始、Best 与 Final 的预测—观测 wiggle 叠加。</figcaption></figure>
+            </article>
+            <article class="model-case">
+              <div class="model-case-head"><h4>CVA50</h4><span>中等模型</span></div>
+              <figure class="result-figure"><img src="phase6_fixed_layout_feedback/runs/phase6_fixed_layout/FWI_wasserstein_cva50_seed42/phase6_visuals/models_residuals_curves.png" alt="Wasserstein W1 在 CVA50 上的速度模型、残差与收敛曲线" loading="lazy"><figcaption>模型、残差与曲线；Best 51.24，Final 114.59 m/s。</figcaption></figure>
+              <figure class="result-figure"><img src="phase6_fixed_layout_feedback/runs/phase6_fixed_layout/FWI_wasserstein_cva50_seed42/phase6_visuals/shot_wiggle_overlays.png" alt="Wasserstein W1 在 CVA50 上的预测与观测 wiggle 波形对比" loading="lazy"><figcaption>初始、Best 与 Final 的预测—观测 wiggle 叠加。</figcaption></figure>
+            </article>
+            <article class="model-case">
+              <div class="model-case-head"><h4>CVA10</h4><span>困难模型</span></div>
+              <figure class="result-figure"><img src="phase6_fixed_layout_feedback/runs/phase6_fixed_layout/FWI_wasserstein_cva10_seed42/phase6_visuals/models_residuals_curves.png" alt="Wasserstein W1 在 CVA10 上的速度模型、残差与收敛曲线" loading="lazy"><figcaption>模型、残差与曲线；Best 146.31，Final 229.79 m/s。</figcaption></figure>
+              <figure class="result-figure"><img src="phase6_fixed_layout_feedback/runs/phase6_fixed_layout/FWI_wasserstein_cva10_seed42/phase6_visuals/shot_wiggle_overlays.png" alt="Wasserstein W1 在 CVA10 上的预测与观测 wiggle 波形对比" loading="lazy"><figcaption>初始、Best 与 Final 的预测—观测 wiggle 叠加。</figcaption></figure>
+            </article>
+          </div>
+        </section>
+        <section class="reward-evidence">
+          <div class="reward-evidence-head">
+            <div><span class="reward-label">04 · Reward definition</span><h3>Wasserstein W2</h3><p>将平方波形加小常数后归一化，并在分位数空间计算二次 Wasserstein 距离，更强地惩罚较大的时间搬运。</p></div>
+            <div class="reward-equation math-display">\[\begin{aligned}\rho(t)&=\frac{d(t)^2+\eta}{\sum_t(d(t)^2+\eta)},\\R_{W_2}&=-\sum_{\mathrm{trace}}\left[\int_0^1\left|F_{\mathrm{pred}}^{-1}(\alpha)-F_{\mathrm{obs}}^{-1}(\alpha)\right|^2\,\mathrm d\alpha\right]^{1/2}\end{aligned}\]</div>
+          </div>
+          <div class="reward-stats"><div class="reward-stat"><span>10 模型 Mean Best MAE</span><strong>66.31</strong></div><div class="reward-stat"><span>Median Best MAE</span><strong>65.25</strong></div><div class="reward-stat"><span>Mean Final−Best Gap</span><strong>28.24</strong></div><div class="reward-stat"><span>逐模型第一名次数</span><strong>2 / 10</strong></div></div>
+          <div class="model-comparison-grid">
+            <article class="model-case">
+              <div class="model-case-head"><h4>CVA18</h4><span>较容易模型</span></div>
+              <figure class="result-figure"><img src="phase6_fixed_layout_feedback/runs/phase6_fixed_layout/FWI_wasserstein_w2_cva18_seed42/phase6_visuals/models_residuals_curves.png" alt="Wasserstein W2 在 CVA18 上的速度模型、残差与收敛曲线" loading="lazy"><figcaption>模型、残差与曲线；Best 7.44，Final 36.81 m/s。</figcaption></figure>
+              <figure class="result-figure"><img src="phase6_fixed_layout_feedback/runs/phase6_fixed_layout/FWI_wasserstein_w2_cva18_seed42/phase6_visuals/shot_wiggle_overlays.png" alt="Wasserstein W2 在 CVA18 上的预测与观测 wiggle 波形对比" loading="lazy"><figcaption>初始、Best 与 Final 的预测—观测 wiggle 叠加。</figcaption></figure>
+            </article>
+            <article class="model-case">
+              <div class="model-case-head"><h4>CVA50</h4><span>中等模型</span></div>
+              <figure class="result-figure"><img src="phase6_fixed_layout_feedback/runs/phase6_fixed_layout/FWI_wasserstein_w2_cva50_seed42/phase6_visuals/models_residuals_curves.png" alt="Wasserstein W2 在 CVA50 上的速度模型、残差与收敛曲线" loading="lazy"><figcaption>模型、残差与曲线；Best 55.4，Final 117.71 m/s。</figcaption></figure>
+              <figure class="result-figure"><img src="phase6_fixed_layout_feedback/runs/phase6_fixed_layout/FWI_wasserstein_w2_cva50_seed42/phase6_visuals/shot_wiggle_overlays.png" alt="Wasserstein W2 在 CVA50 上的预测与观测 wiggle 波形对比" loading="lazy"><figcaption>初始、Best 与 Final 的预测—观测 wiggle 叠加。</figcaption></figure>
+            </article>
+            <article class="model-case">
+              <div class="model-case-head"><h4>CVA10</h4><span>困难模型</span></div>
+              <figure class="result-figure"><img src="phase6_fixed_layout_feedback/runs/phase6_fixed_layout/FWI_wasserstein_w2_cva10_seed42/phase6_visuals/models_residuals_curves.png" alt="Wasserstein W2 在 CVA10 上的速度模型、残差与收敛曲线" loading="lazy"><figcaption>模型、残差与曲线；Best 124.63，Final 159.86 m/s。</figcaption></figure>
+              <figure class="result-figure"><img src="phase6_fixed_layout_feedback/runs/phase6_fixed_layout/FWI_wasserstein_w2_cva10_seed42/phase6_visuals/shot_wiggle_overlays.png" alt="Wasserstein W2 在 CVA10 上的预测与观测 wiggle 波形对比" loading="lazy"><figcaption>初始、Best 与 Final 的预测—观测 wiggle 叠加。</figcaption></figure>
+            </article>
+          </div>
+        </section>
+        <section class="reward-evidence">
+          <div class="reward-evidence-head">
+            <div><span class="reward-label">05 · Reward definition</span><h3>Zero-lag NCC</h3><p>逐 trace 去均值并归一化，只计算零时移相关系数。它对整体振幅缩放不敏感，但不能主动校正事件时间偏移。</p></div>
+            <div class="reward-equation math-display">\[R_{\mathrm{NCC0}}=\operatorname{mean}_{\mathrm{trace}}\frac{(d_{\mathrm p}-\mu_{\mathrm p})^{\mathsf T}(d_{\mathrm o}-\mu_{\mathrm o})}{\|d_{\mathrm p}-\mu_{\mathrm p}\|_2\,\|d_{\mathrm o}-\mu_{\mathrm o}\|_2+\varepsilon}\]</div>
+          </div>
+          <div class="reward-stats"><div class="reward-stat"><span>10 模型 Mean Best MAE</span><strong>96.09</strong></div><div class="reward-stat"><span>Median Best MAE</span><strong>73.12</strong></div><div class="reward-stat"><span>Mean Final−Best Gap</span><strong>46.26</strong></div><div class="reward-stat"><span>逐模型第一名次数</span><strong>1 / 10</strong></div></div>
+          <div class="model-comparison-grid">
+            <article class="model-case">
+              <div class="model-case-head"><h4>CVA18</h4><span>较容易模型</span></div>
+              <figure class="result-figure"><img src="phase6_fixed_layout_feedback/runs/phase6_fixed_layout/FWI_ncc_zero_cva18_seed42/phase6_visuals/models_residuals_curves.png" alt="Zero-lag NCC 在 CVA18 上的速度模型、残差与收敛曲线" loading="lazy"><figcaption>模型、残差与曲线；Best 37.21，Final 48.44 m/s。</figcaption></figure>
+              <figure class="result-figure"><img src="phase6_fixed_layout_feedback/runs/phase6_fixed_layout/FWI_ncc_zero_cva18_seed42/phase6_visuals/shot_wiggle_overlays.png" alt="Zero-lag NCC 在 CVA18 上的预测与观测 wiggle 波形对比" loading="lazy"><figcaption>初始、Best 与 Final 的预测—观测 wiggle 叠加。</figcaption></figure>
+            </article>
+            <article class="model-case">
+              <div class="model-case-head"><h4>CVA50</h4><span>中等模型</span></div>
+              <figure class="result-figure"><img src="phase6_fixed_layout_feedback/runs/phase6_fixed_layout/FWI_ncc_zero_cva50_seed42/phase6_visuals/models_residuals_curves.png" alt="Zero-lag NCC 在 CVA50 上的速度模型、残差与收敛曲线" loading="lazy"><figcaption>模型、残差与曲线；Best 244.62，Final 573.68 m/s。</figcaption></figure>
+              <figure class="result-figure"><img src="phase6_fixed_layout_feedback/runs/phase6_fixed_layout/FWI_ncc_zero_cva50_seed42/phase6_visuals/shot_wiggle_overlays.png" alt="Zero-lag NCC 在 CVA50 上的预测与观测 wiggle 波形对比" loading="lazy"><figcaption>初始、Best 与 Final 的预测—观测 wiggle 叠加。</figcaption></figure>
+            </article>
+            <article class="model-case">
+              <div class="model-case-head"><h4>CVA10</h4><span>困难模型</span></div>
+              <figure class="result-figure"><img src="phase6_fixed_layout_feedback/runs/phase6_fixed_layout/FWI_ncc_zero_cva10_seed42/phase6_visuals/models_residuals_curves.png" alt="Zero-lag NCC 在 CVA10 上的速度模型、残差与收敛曲线" loading="lazy"><figcaption>模型、残差与曲线；Best 186.66，Final 213.91 m/s。</figcaption></figure>
+              <figure class="result-figure"><img src="phase6_fixed_layout_feedback/runs/phase6_fixed_layout/FWI_ncc_zero_cva10_seed42/phase6_visuals/shot_wiggle_overlays.png" alt="Zero-lag NCC 在 CVA10 上的预测与观测 wiggle 波形对比" loading="lazy"><figcaption>初始、Best 与 Final 的预测—观测 wiggle 叠加。</figcaption></figure>
+            </article>
+          </div>
+        </section>
+        <section class="reward-evidence">
+          <div class="reward-evidence-head">
+            <div><span class="reward-label">06 · Reward definition</span><h3>Max-lag NCC</h3><p>在 ±80 个采样点内寻找最大相关峰，并对最优 lag 的绝对值施加惩罚，使 reward 同时鼓励高相似度和零时移。</p></div>
+            <div class="reward-equation math-display">\[R_{\mathrm{NCCmax}}=\operatorname{mean}_{\mathrm{trace}}\left[\max_{|\tau|\le 80}\operatorname{NCC}(\tau)-0.005|\tau_{\mathrm{opt}}|\right]\]</div>
+          </div>
+          <div class="reward-stats"><div class="reward-stat"><span>10 模型 Mean Best MAE</span><strong>73.24</strong></div><div class="reward-stat"><span>Median Best MAE</span><strong>67.26</strong></div><div class="reward-stat"><span>Mean Final−Best Gap</span><strong>44.56</strong></div><div class="reward-stat"><span>逐模型第一名次数</span><strong>0 / 10</strong></div></div>
+          <div class="model-comparison-grid">
+            <article class="model-case">
+              <div class="model-case-head"><h4>CVA18</h4><span>较容易模型</span></div>
+              <figure class="result-figure"><img src="phase6_fixed_layout_feedback/runs/phase6_fixed_layout/FWI_ncc_maxlag_cva18_seed42/phase6_visuals/models_residuals_curves.png" alt="Max-lag NCC 在 CVA18 上的速度模型、残差与收敛曲线" loading="lazy"><figcaption>模型、残差与曲线；Best 21.27，Final 40.38 m/s。</figcaption></figure>
+              <figure class="result-figure"><img src="phase6_fixed_layout_feedback/runs/phase6_fixed_layout/FWI_ncc_maxlag_cva18_seed42/phase6_visuals/shot_wiggle_overlays.png" alt="Max-lag NCC 在 CVA18 上的预测与观测 wiggle 波形对比" loading="lazy"><figcaption>初始、Best 与 Final 的预测—观测 wiggle 叠加。</figcaption></figure>
+            </article>
+            <article class="model-case">
+              <div class="model-case-head"><h4>CVA50</h4><span>中等模型</span></div>
+              <figure class="result-figure"><img src="phase6_fixed_layout_feedback/runs/phase6_fixed_layout/FWI_ncc_maxlag_cva50_seed42/phase6_visuals/models_residuals_curves.png" alt="Max-lag NCC 在 CVA50 上的速度模型、残差与收敛曲线" loading="lazy"><figcaption>模型、残差与曲线；Best 56.98，Final 107.66 m/s。</figcaption></figure>
+              <figure class="result-figure"><img src="phase6_fixed_layout_feedback/runs/phase6_fixed_layout/FWI_ncc_maxlag_cva50_seed42/phase6_visuals/shot_wiggle_overlays.png" alt="Max-lag NCC 在 CVA50 上的预测与观测 wiggle 波形对比" loading="lazy"><figcaption>初始、Best 与 Final 的预测—观测 wiggle 叠加。</figcaption></figure>
+            </article>
+            <article class="model-case">
+              <div class="model-case-head"><h4>CVA10</h4><span>困难模型</span></div>
+              <figure class="result-figure"><img src="phase6_fixed_layout_feedback/runs/phase6_fixed_layout/FWI_ncc_maxlag_cva10_seed42/phase6_visuals/models_residuals_curves.png" alt="Max-lag NCC 在 CVA10 上的速度模型、残差与收敛曲线" loading="lazy"><figcaption>模型、残差与曲线；Best 147.39，Final 265.94 m/s。</figcaption></figure>
+              <figure class="result-figure"><img src="phase6_fixed_layout_feedback/runs/phase6_fixed_layout/FWI_ncc_maxlag_cva10_seed42/phase6_visuals/shot_wiggle_overlays.png" alt="Max-lag NCC 在 CVA10 上的预测与观测 wiggle 波形对比" loading="lazy"><figcaption>初始、Best 与 Final 的预测—观测 wiggle 叠加。</figcaption></figure>
+            </article>
+          </div>
+        </section>
+        <section class="reward-evidence">
+          <div class="reward-evidence-head">
+            <div><span class="reward-label">07 · Reward definition</span><h3>Envelope NCC</h3><p>先通过 Hilbert 变换提取波形包络，再计算零时移 NCC，强调低频包络形态而弱化快速振荡和绝对振幅。</p></div>
+            <div class="reward-equation math-display">\[\begin{aligned}E(d)&=\left|d+\mathrm i\,\mathcal H[d]\right|,\\R_{\mathrm{envNCC}}&=\operatorname{mean}_{\mathrm{trace}}\operatorname{NCC}_{\tau=0}\!\left(E(d_{\mathrm{pred}}),E(d_{\mathrm{obs}})\right)\end{aligned}\]</div>
+          </div>
+          <div class="reward-stats"><div class="reward-stat"><span>10 模型 Mean Best MAE</span><strong>74.42</strong></div><div class="reward-stat"><span>Median Best MAE</span><strong>68.95</strong></div><div class="reward-stat"><span>Mean Final−Best Gap</span><strong>34.70</strong></div><div class="reward-stat"><span>逐模型第一名次数</span><strong>0 / 10</strong></div></div>
+          <div class="model-comparison-grid">
+            <article class="model-case">
+              <div class="model-case-head"><h4>CVA18</h4><span>较容易模型</span></div>
+              <figure class="result-figure"><img src="phase6_fixed_layout_feedback/runs/phase6_fixed_layout/FWI_envelope_ncc_cva18_seed42/phase6_visuals/models_residuals_curves.png" alt="Envelope NCC 在 CVA18 上的速度模型、残差与收敛曲线" loading="lazy"><figcaption>模型、残差与曲线；Best 22.58，Final 50.81 m/s。</figcaption></figure>
+              <figure class="result-figure"><img src="phase6_fixed_layout_feedback/runs/phase6_fixed_layout/FWI_envelope_ncc_cva18_seed42/phase6_visuals/shot_wiggle_overlays.png" alt="Envelope NCC 在 CVA18 上的预测与观测 wiggle 波形对比" loading="lazy"><figcaption>初始、Best 与 Final 的预测—观测 wiggle 叠加。</figcaption></figure>
+            </article>
+            <article class="model-case">
+              <div class="model-case-head"><h4>CVA50</h4><span>中等模型</span></div>
+              <figure class="result-figure"><img src="phase6_fixed_layout_feedback/runs/phase6_fixed_layout/FWI_envelope_ncc_cva50_seed42/phase6_visuals/models_residuals_curves.png" alt="Envelope NCC 在 CVA50 上的速度模型、残差与收敛曲线" loading="lazy"><figcaption>模型、残差与曲线；Best 62.3，Final 132.77 m/s。</figcaption></figure>
+              <figure class="result-figure"><img src="phase6_fixed_layout_feedback/runs/phase6_fixed_layout/FWI_envelope_ncc_cva50_seed42/phase6_visuals/shot_wiggle_overlays.png" alt="Envelope NCC 在 CVA50 上的预测与观测 wiggle 波形对比" loading="lazy"><figcaption>初始、Best 与 Final 的预测—观测 wiggle 叠加。</figcaption></figure>
+            </article>
+            <article class="model-case">
+              <div class="model-case-head"><h4>CVA10</h4><span>困难模型</span></div>
+              <figure class="result-figure"><img src="phase6_fixed_layout_feedback/runs/phase6_fixed_layout/FWI_envelope_ncc_cva10_seed42/phase6_visuals/models_residuals_curves.png" alt="Envelope NCC 在 CVA10 上的速度模型、残差与收敛曲线" loading="lazy"><figcaption>模型、残差与曲线；Best 146.66，Final 241.54 m/s。</figcaption></figure>
+              <figure class="result-figure"><img src="phase6_fixed_layout_feedback/runs/phase6_fixed_layout/FWI_envelope_ncc_cva10_seed42/phase6_visuals/shot_wiggle_overlays.png" alt="Envelope NCC 在 CVA10 上的预测与观测 wiggle 波形对比" loading="lazy"><figcaption>初始、Best 与 Final 的预测—观测 wiggle 叠加。</figcaption></figure>
+            </article>
+          </div>
+        </section>
+        <section class="reward-evidence">
+          <div class="reward-evidence-head">
+            <div><span class="reward-label">08 · Reward definition</span><h3>AWI</h3><p>构造将预测波形匹配到观测波形的 Wiener 滤波器；正确模型应使滤波器能量集中在零时移，因此 reward 惩罚其时间扩散。</p></div>
+            <div class="reward-equation math-display">\[\begin{aligned}W(f)&=\frac{D_{\mathrm{obs}}(f)D_{\mathrm{pred}}^*(f)}{|D_{\mathrm{pred}}(f)|^2+\varepsilon},\\R_{\mathrm{AWI}}&=-\operatorname{mean}_{\mathrm{trace}}\frac{\sum_\tau|\tau|w(\tau)^2}{\sum_\tau w(\tau)^2}\end{aligned}\]</div>
+          </div>
+          <div class="reward-stats"><div class="reward-stat"><span>10 模型 Mean Best MAE</span><strong>72.82</strong></div><div class="reward-stat"><span>Median Best MAE</span><strong>66.70</strong></div><div class="reward-stat"><span>Mean Final−Best Gap</span><strong>36.22</strong></div><div class="reward-stat"><span>逐模型第一名次数</span><strong>0 / 10</strong></div></div>
+          <div class="model-comparison-grid">
+            <article class="model-case">
+              <div class="model-case-head"><h4>CVA18</h4><span>较容易模型</span></div>
+              <figure class="result-figure"><img src="phase6_fixed_layout_feedback/runs/phase6_fixed_layout/FWI_awi_cva18_seed42/phase6_visuals/models_residuals_curves.png" alt="AWI 在 CVA18 上的速度模型、残差与收敛曲线" loading="lazy"><figcaption>模型、残差与曲线；Best 22.75，Final 40.79 m/s。</figcaption></figure>
+              <figure class="result-figure"><img src="phase6_fixed_layout_feedback/runs/phase6_fixed_layout/FWI_awi_cva18_seed42/phase6_visuals/shot_wiggle_overlays.png" alt="AWI 在 CVA18 上的预测与观测 wiggle 波形对比" loading="lazy"><figcaption>初始、Best 与 Final 的预测—观测 wiggle 叠加。</figcaption></figure>
+            </article>
+            <article class="model-case">
+              <div class="model-case-head"><h4>CVA50</h4><span>中等模型</span></div>
+              <figure class="result-figure"><img src="phase6_fixed_layout_feedback/runs/phase6_fixed_layout/FWI_awi_cva50_seed42/phase6_visuals/models_residuals_curves.png" alt="AWI 在 CVA50 上的速度模型、残差与收敛曲线" loading="lazy"><figcaption>模型、残差与曲线；Best 50.39，Final 89.55 m/s。</figcaption></figure>
+              <figure class="result-figure"><img src="phase6_fixed_layout_feedback/runs/phase6_fixed_layout/FWI_awi_cva50_seed42/phase6_visuals/shot_wiggle_overlays.png" alt="AWI 在 CVA50 上的预测与观测 wiggle 波形对比" loading="lazy"><figcaption>初始、Best 与 Final 的预测—观测 wiggle 叠加。</figcaption></figure>
+            </article>
+            <article class="model-case">
+              <div class="model-case-head"><h4>CVA10</h4><span>困难模型</span></div>
+              <figure class="result-figure"><img src="phase6_fixed_layout_feedback/runs/phase6_fixed_layout/FWI_awi_cva10_seed42/phase6_visuals/models_residuals_curves.png" alt="AWI 在 CVA10 上的速度模型、残差与收敛曲线" loading="lazy"><figcaption>模型、残差与曲线；Best 147.1，Final 252.06 m/s。</figcaption></figure>
+              <figure class="result-figure"><img src="phase6_fixed_layout_feedback/runs/phase6_fixed_layout/FWI_awi_cva10_seed42/phase6_visuals/shot_wiggle_overlays.png" alt="AWI 在 CVA10 上的预测与观测 wiggle 波形对比" loading="lazy"><figcaption>初始、Best 与 Final 的预测—观测 wiggle 叠加。</figcaption></figure>
+            </article>
+          </div>
+        </section>
+        </div>
+      </section>
+
+    </article>
+
+    <article class="phase7-chapter" aria-labelledby="phase7-title">
+      <header class="phase-banner phase7-banner" id="phase7">
+        <div class="phase-banner-inner">
+          <div>
+            <span class="phase-index">Major Section · Phase VII</span>
+            <h2 id="phase7-title">复杂模型测试</h2>
+
+          </div>
+          <span class="phase-index">3 models · 1 controlled init · 3 stages</span>
+        </div>
+      </header>
+
+      <section class="section" id="phase7-overview">
+        <div class="section-inner">
+          <div class="section-head">
+            <div><p class="eyebrow">Phase VII · Expanded Models</p><h2>扩大模型测试</h2></div>
+            <p class="section-note">修改模型，使得模型结构更复杂，让波形匹配更敏感。</p>
+          </div>
+
+
+          <div class="comparison-wrap">
+            <table aria-label="Phase VII Medium-gradient 起点的逐阶段 MAE 比较">
+              <thead><tr><th>模型</th><th>初始 MAE</th><th>最佳单 Reward</th><th>最佳搜索策略</th><th>最佳多尺度</th><th>相对初始改善</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Marmousi</strong></td><td>289.50</td><td>300.60<br><small>NCC maxlag</small></td><td>201.96<br><small>Coarse-token + TT</small></td><td><strong>187.65</strong><br><small>TT → TT → NCC0</small></td><td>−101.85</td></tr>
+                <tr><td><strong>Salt A 90×270</strong></td><td>611.78</td><td>509.54<br><small>NCC maxlag</small></td><td>499.47<br><small>Coarse-token + TT</small></td><td><strong>421.06</strong><br><small>TT → TT → NCC0</small></td><td>−190.72</td></tr>
+                <tr><td><strong>Synthetic</strong></td><td>335.20</td><td>193.60<br><small>TT-only</small></td><td>81.30<br><small>Mid-token + TT</small></td><td><strong>75.16</strong><br><small>NCC0 multiscale</small></td><td>−260.04</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </section>
+
+      <section class="section" id="phase7-results">
+        <div class="section-inner">
+          <div class="section-head"><div><p class="eyebrow">Phase VII · Results</p><h2>实验结果</h2></div></div>
+
+          <article class="phase7-model-result">
+            <div class="phase7-model-head">
+              <div><span class="reward-label">Model 01 · ms_tt_ncc</span><h3>Marmousi</h3></div>
+              <div class="phase7-metrics"><div class="phase7-metric"><span>Initial MAE</span><strong>289.50</strong></div><div class="phase7-metric"><span>Best MAE</span><strong class="improved">187.65</strong></div><div class="phase7-metric"><span>Final MAE</span><strong>190.07</strong></div><div class="phase7-metric"><span>Best improvement</span><strong class="improved">−101.85</strong></div></div>
+            </div>
+            <div class="phase7-visual-grid">
+              <figure class="result-figure"><img src="phase7_multiscale_suite/selected_visuals/marmousi_medium_ms_tt_ncc/models.png" alt="Marmousi Medium-gradient 多尺度反演速度模型对比" loading="lazy"><figcaption>初始、阶段结果与目标速度模型。</figcaption></figure>
+              <figure class="result-figure"><img src="phase7_multiscale_suite/selected_visuals/marmousi_medium_ms_tt_ncc/metrics.png" alt="Marmousi Medium-gradient 多尺度反演收敛曲线" loading="lazy"><figcaption>分阶段 MAE 与 reward 收敛过程。</figcaption></figure>
+              <figure class="result-figure"><img src="phase7_multiscale_suite/selected_visuals/marmousi_medium_ms_tt_ncc/wiggle_overlay.png" alt="Marmousi Medium-gradient 多尺度反演 wiggle 波形对比" loading="lazy"><figcaption>代表炮观测与预测 wiggle 叠加。</figcaption></figure>
+            </div>
+          </article>
+
+          <article class="phase7-model-result">
+            <div class="phase7-model-head">
+              <div><span class="reward-label">Model 02 · ms_tt_ncc</span><h3>Salt A 90×270</h3></div>
+              <div class="phase7-metrics"><div class="phase7-metric"><span>Initial MAE</span><strong>611.78</strong></div><div class="phase7-metric"><span>Best MAE</span><strong class="improved">421.06</strong></div><div class="phase7-metric"><span>Final MAE</span><strong>425.90</strong></div><div class="phase7-metric"><span>Best improvement</span><strong class="improved">−190.72</strong></div></div>
+            </div>
+            <div class="phase7-visual-grid">
+              <figure class="result-figure"><img src="phase7_multiscale_suite/selected_visuals/salt_medium_ms_tt_ncc/models.png" alt="Salt A Medium-gradient 多尺度反演速度模型对比" loading="lazy"><figcaption>初始、阶段结果与盐体目标模型。</figcaption></figure>
+              <figure class="result-figure"><img src="phase7_multiscale_suite/selected_visuals/salt_medium_ms_tt_ncc/metrics.png" alt="Salt A Medium-gradient 多尺度反演收敛曲线" loading="lazy"><figcaption>分阶段 MAE 与 reward 收敛过程。</figcaption></figure>
+              <figure class="result-figure"><img src="phase7_multiscale_suite/selected_visuals/salt_medium_ms_tt_ncc/wiggle_overlay.png" alt="Salt A Medium-gradient 多尺度反演 wiggle 波形对比" loading="lazy"><figcaption>代表炮观测与预测 wiggle 叠加。</figcaption></figure>
+            </div>
+          </article>
+
+          <article class="phase7-model-result">
+            <div class="phase7-model-head">
+              <div><span class="reward-label">Model 03 · ms_ncc</span><h3>Synthetic</h3></div>
+              <div class="phase7-metrics"><div class="phase7-metric"><span>Initial MAE</span><strong>335.20</strong></div><div class="phase7-metric"><span>Best MAE</span><strong class="improved">75.16</strong></div><div class="phase7-metric"><span>Final MAE</span><strong>78.16</strong></div><div class="phase7-metric"><span>Best improvement</span><strong class="improved">−260.04</strong></div></div>
+            </div>
+            <div class="phase7-visual-grid">
+              <figure class="result-figure"><img src="phase7_multiscale_suite/selected_visuals/synthetic_medium_ms_ncc/models.png" alt="Synthetic Medium-gradient 多尺度反演速度模型对比" loading="lazy"><figcaption>初始、阶段结果与 Synthetic 目标模型。</figcaption></figure>
+              <figure class="result-figure"><img src="phase7_multiscale_suite/selected_visuals/synthetic_medium_ms_ncc/metrics.png" alt="Synthetic Medium-gradient 多尺度反演收敛曲线" loading="lazy"><figcaption>分阶段 MAE 与 reward 收敛过程。</figcaption></figure>
+              <figure class="result-figure"><img src="phase7_multiscale_suite/selected_visuals/synthetic_medium_ms_ncc/wiggle_overlay.png" alt="Synthetic Medium-gradient 多尺度反演 wiggle 波形对比" loading="lazy"><figcaption>代表炮观测与预测 wiggle 叠加。</figcaption></figure>
+            </div>
+          </article>
+        </div>
+      </section>
+
+    </article>
+  </main>
+
+  <dialog class="image-dialog" id="imageDialog" aria-label="实验图片放大查看">
+    <button class="dialog-close" type="button" aria-label="关闭图片">×</button>
+    <img src="" alt="">
+  </dialog>
+
+  <script src="phase5_final/katex/katex.min.js"></script>
+  <script src="phase5_final/katex/auto-render.min.js"></script>
+  <script>
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "\\[", right: "\\]", display: true },
+        { left: "\\(", right: "\\)", display: false }
+      ],
+      throwOnError: false
+    });
+  </script>
+  <script>
+    const reportSections = Array.from(document.querySelectorAll('main section[id]'));
+    const reportLinks = Array.from(document.querySelectorAll('.nav-link'));
+    const imageDialog = document.getElementById('imageDialog');
+    const dialogImage = imageDialog.querySelector('img');
+    const dialogClose = imageDialog.querySelector('.dialog-close');
+
+    const sectionObserver = new IntersectionObserver((entries) => {
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (!visible) return;
+      reportLinks.forEach((link) => {
+        link.classList.toggle('active', link.getAttribute('href') === `#${visible.target.id}`);
+      });
+    }, { rootMargin: '-24% 0px -58% 0px', threshold: [0.05, 0.2, 0.5] });
+
+    reportSections.forEach((section) => sectionObserver.observe(section));
+
+    document.querySelectorAll('.result-figure img, .gallery-item img').forEach((img) => {
+      img.addEventListener('click', () => {
+        dialogImage.src = img.src;
+        dialogImage.alt = img.alt;
+        imageDialog.showModal();
+      });
+    });
+
+    dialogClose.addEventListener('click', () => imageDialog.close());
+    imageDialog.addEventListener('click', (event) => {
+      if (event.target === imageDialog) imageDialog.close();
+    });
+  </script>
+</body>
+</html>

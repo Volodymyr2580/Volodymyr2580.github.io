@@ -16,9 +16,9 @@ RM算法的解可以迭代地表示为：
 $$w_{k+1}=w_k-a_k \tilde{g}(w_k,\eta_k), \quad k=1,2,3,\cdots$$
 其中$w_k$是第k次估计。
 
-![[Pasted image 20250717202455.png]]
-![[Pasted image 20250717202536.png]]
-![[Pasted image 20250717202543.png]]
+![Robbins-Monro algorithm illustration 1](RL.asset/rl6-robbins-monro-01.png)
+![Robbins-Monro algorithm illustration 2](RL.asset/rl6-robbins-monro-02.png)
+![Robbins-Monro algorithm illustration 3](RL.asset/rl6-robbins-monro-03.png)
 
 ### SGD
 SGD其实是一种特殊的RM算法？

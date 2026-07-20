@@ -30,7 +30,7 @@ $$ q_{\pi_k}(s, a) = \mathbb{E}[G_t|S_t = s, A_t = a] \approx \frac{1}{n} \sum_{
 因此，MC Basic Algorithm从初始policy $\pi_0$出发，每一步iteration有两小步
 （1）Policy evaluation
 （2）Policy improvement
-![[MCBasic.png]]
+![Monte Carlo basic algorithm](RL.asset/MCBasic.png)
 
 ### MC Exploring Starts
 如何更有效地利用我们的samples呢？
@@ -49,7 +49,7 @@ $$\begin{align}
 接下来是如何更有效率地更新policy?
 
 之前的想法必须等到全部的episodes跑完才能更新，因为需要计算平均值。现在的想法是只跑一个episode直接更新。
-![[MCefficient.png]]
+![Monte Carlo efficient update](RL.asset/MCefficient.png)
 
 ### MC $\epsilon$-Greedy
 一个策略称为软(soft)的，若在任一状态，有正概率取各个行动。这种情况下，如果我们跑了一个足够长的episode,就应该能访问各个pair足够多次。
@@ -63,4 +63,4 @@ $$ \pi(a|s) = \begin{cases}
 
 如何实现这一策略呢？我们可以取一个服从$[0,1]$均匀分布的随机数x，如果$x\geq \epsilon$，选择greedy action, 否则，以$1/|\mathcal{A}(s)|$的概率随机选择一个行为。
 
-![[MCGreedy.png]]
+![Monte Carlo epsilon-greedy algorithm](RL.asset/MCGreedy.png)

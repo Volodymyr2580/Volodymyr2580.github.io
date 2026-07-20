@@ -1,0 +1,448 @@
+<!-- Lastly modified by Hanlin CAI in 2023/04/26 -->
+<!-- It is not recommended to modify this code, unless you are a Pro-->
+
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+
+<head>
+<!-- It is not recommended to modify this code, unless you are a Pro-->
+<!-- Lastly modified by Hanlin CAI in 2023/04/26 -->
+
+<meta charset="utf-8">
+<title>绝对值数列新定义 &#8211; Wenzhe Sheng</title>
+
+
+
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="绝对值数列新定义 &#8211; Wenzhe Sheng">
+<meta property="og:description" content="其实我本来是没意图以此题单独写一篇文章的，但因为简单看了一眼之后又神奇地做梦梦到我在课堂上讲这道题结果挂黑板，我便有了“宰了此题”的想法。原题就不挂出来了，只考虑压轴一小问：考虑一个n项数列$\{a_k\}_{k=1}^n$, 若满足...">
+<meta property="og:url" content="https://Volodymyr2580.github.io/blogs/绝对值数列新定义/index.html">
+<meta property="og:site_name" content="Wenzhe Sheng">
+
+
+
+
+
+<link rel="canonical" href="https://Volodymyr2580.github.io/blogs/绝对值数列新定义/">
+
+
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<!-- Google Webfonts -->
+<link href='https://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700|PT+Serif:400,700,400italic' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous" />
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css?v=20260502">
+
+<!--[if (lt IE 9) & (!IEMobile)]>
+<link rel="stylesheet" href="/assets/css/ie.css">
+<![endif]-->
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- Load Modernizr -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" integrity="sha512-3n19xznO0ubPpSwYCRRBgHh63DrV+bdZfHK52b1esvId4GsfwStQNPJFjeQos2h3JwCmZl0/LgLxSKMAI55hgw==" crossorigin="anonymous"></script>
+
+<!-- MathJax 3 -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true,
+    packages: {'[+]': ['ams', 'bm']},
+    macros: {
+      bm: ["\\boldsymbol{#1}", 1]
+    }
+  },
+  options: {
+    enableMenu: false,
+    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+    ignoreHtmlClass: 'tex2jax_ignore',
+    processHtmlClass: 'tex2jax_process'
+  },
+  chtml: {
+    fontCache: 'global',
+    displayAlign: 'center',
+    displayIndent: '0em',
+    scale: 1.0
+  },
+  startup: {
+    pageReady: function() {
+      return MathJax.startup.defaultPageReady();
+    }
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<!-- 16x16 -->
+<link rel="shortcut icon" href="https://Volodymyr2580.github.io/images/fav.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="https://Volodymyr2580.github.io/images/fav.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="https://Volodymyr2580.github.io/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://Volodymyr2580.github.io/images/fav.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://Volodymyr2580.github.io/images/fav.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://Volodymyr2580.github.io/images/fav.png">
+
+
+<script src="https://cdn.counter.dev/script.js" data-id="4c8f7caa-2b55-46cd-a995-2c4633303773" data-utcoffset="8"></script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T5N5JY1E21"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-T5N5JY1E21');
+</script>
+
+</head>
+
+
+<body class="page" itemscope itemtype="http://schema.org/WebPage">
+
+<!-- [if lt IE 6]><div class="chrome-frame alert alert-info"><strong>Your browser is really old!</strong> <a href="http://browsehappy.com/">Why not upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better enjoy this site?</div><![endif] -->
+
+<!-- It is not recommended to modify this code, unless you are a Pro-->
+<!-- Lastly modified by Hanlin CAI in 2023/01/15 -->
+
+<div class="navigation-wrapper">
+	<div class="site-name">
+		<a href="/">
+			<span class="site-mark">PKU</span>
+			<span class="site-brand-text">
+				<span class="site-title">Wenzhe Sheng</span>
+				<span class="site-subtitle">School of Earth and Space Sciences</span>
+			</span>
+		</a>
+	</div><!-- /.site-name -->
+  
+	<button class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false">
+		<span class="bar"></span>
+		<span class="bar"></span>
+		<span class="bar"></span>
+	</button>
+	<div class="top-navigation">
+		<nav role="navigation" itemscope itemtype="http://schema.org/SiteNavigationElement">
+		    <ul>
+		        
+            <li><a href="/" >About Me</a></li>
+		        
+            <li><a href="/publications/" >Publications</a></li>
+		        
+            <li><a href="/awards/" >Awards</a></li>
+		        
+            <li><a href="/diary/" >Diary</a></li>
+		        
+            <li><a href="/blogs/" >Blogs</a></li>
+		        
+            <li><a href="/research/" >Research Log</a></li>
+		        
+            <li><a href="/notes/" >Notes</a></li>
+		        
+            <li><a href="/old-archives/" >Old Archives</a></li>
+		        
+            <li><a href="/learn/" >Learn</a></li>
+		        
+		    </ul>
+		</nav>
+		<div class="nav-social-links" aria-label="Contact links">
+			<a href="https://github.com/Volodymyr2580" aria-label="GitHub"><i class="icon-github"></i></a>
+			<a href="mailto:2200012437@stu.pku.edu.cn" aria-label="Email"><i class="icon-mail"></i></a>
+		</div>
+	</div><!-- /.top-navigation -->
+</div><!-- /.navigation-wrapper -->
+
+<!-- Lastly modified by Hanlin CAI in 2023/05/01 -->
+
+
+
+
+<div id="main" role="main"  itemprop="mainContentOfPage">
+  
+  <div class="article-author-top">
+    <img src="https://Volodymyr2580.github.io/images/bigheadwenzhe.jpg" class="bio-photo" alt="Wenzhe Sheng bio photo" width="100" height="100">
+
+<h4>Wenzhe Sheng</h4>
+
+<p>Undergraduate researcher at Peking University, School of Earth and Space Sciences.</p>
+
+<div class="social-links">
+<p><a href="mailto:2200012437@stu.pku.edu.cn" target="_blank"><i class="icon-mail"></i> Email</a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p><a href="https://github.com/Volodymyr2580"><i class="icon-github"></i> Github</a></p>
+
+
+
+
+
+
+
+
+
+<p><a href="https://www.zhihu.com/people/obtuse-4"><img src="https://caihanlin.com/images/logo/icons8-zhihu-96.png" width="15.8" height="15.8"></i> Zhihu</a></p>
+
+
+</div>
+
+<!-- Lastly modified by Hanlin CAI in 2023/10/15 -->
+
+  </div>
+  
+  <article itemscope itemtype="http://schema.org/CreativeWork">
+  
+    <div class="article-wrap" itemprop="text">
+      <p>其实我本来是没意图以此题单独写一篇文章的，但因为简单看了一眼之后又神奇地做梦梦到我在课堂上讲这道题结果挂黑板，我便有了“宰了此题”的想法。</p>
+
+<p>原题就不挂出来了，只考虑压轴一小问：</p>
+
+<p>考虑一个n项数列${a_k}_{k=1}^n$, 若满足
+<span class="kdmath">$\sum_{k=1}^n |a_k|-|\sum_{k=1}^n a_k|=n-1$</span>
+且
+<span class="kdmath">$|a_k|\leq \lambda, k=1,2,\ldots,n$</span></p>
+
+<p>对给定的正整数n, 若这样的数列存在，试求$\lambda$的最小值。</p>
+
+<p>Volodymyr’s Soln:</p>
+
+<p>首先建立一下对这个数列的直观认识，各项绝对值的和减去各项和的绝对值的差有n-1这么大，意味着这样的数列必定<strong>每项绝对值本身比较大，且有正有负相抵消使得和的绝对值很小</strong>，这是非常自然的。</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>为什么会出现$\lambda$的最小值——$\lambda$本身给每一项$</td>
+      <td>a_k</td>
+      <td>$设了一个上界，如果这上界太小，比如0.0001, 那肯定做不到n-1，这是基本的认识。</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>所以可以先把等式条件退一步，即考虑在给定$\lambda$时，n元函数$f(a_1,a_2,\cdots,a_n)=\sum_{k=1}^n</td>
+      <td>a_k</td>
+      <td>-</td>
+      <td>\sum_{k=1}^n a_k</td>
+      <td>$能取到的最大值是什么？</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>化归到这个问题后后续的解答其实是自然的，难点只在于高中没法直接处理多元函数，而且这个绝对值函数有不可导点，没法直接用拉格朗日乘子法求解，因此我昨天看完题第一反应就跟小合伙人说是我我就上调整大法了，然后后续就没想下去了。</p>
+
+<p>在写具体求解之前，我们先来猜一下取极值时数列的形式，建立于数列的直观认识，我们要求每一项的绝对值尽可能大，又要使得和的绝对值尽可能小，一个自然的假设就是让每一项的绝对值顶足$\lambda$，然后有若干正的$\lambda$和若干负的$\lambda$，这里的项数便自然可以设出来一个待定量$k$;</p>
+
+<p>代入原等式条件便有：</p>
+
+<div class="kdmath">$$
+n-1=n\lambda-|k\lambda-(n-k)\lambda|=(n-|2k-n|)\lambda
+$$</div>
+
+<p>这里不妨设$k\leq [n/2]$（否则把整个数列取相反数即可，不影响结论）, 则有：
+<span class="kdmath">$n-1=2k\lambda$</span></p>
+
+<p>即
+<span class="kdmath">$\lambda=\frac{n-1}{2k}\geq \begin{cases}
+\frac{n-1}{n}, & n是偶数 \\
+1, & n是奇数
+\end{cases}$</span></p>
+
+<p>其实这就是最终的答案了。如果你上来跟我思路一致写到这，也可以直接用先猜后证的方式，后续用反证法，这是自然的。</p>
+
+<p>这里回到n元函数最大值问题，我想用“调整”的思路书写一下求解过程：</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>从猜想的极值情况数列结构可以看到，每个$</td>
+      <td>a_k</td>
+      <td>$都取到了它的上界$\lambda$,对应应该是较大的$f$值，我们来说明这一点：</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>先固定$a_2,\cdots,a_n$, 不妨设$s=\sum_{k=2}^n a_k&gt;0$,(否则给整个数列取相反数，结论不变)，则</p>
+
+<div class="kdmath">$$
+f(a_1,a_2,\cdots,a_n)=\sum_{k=1}^n |a_k|-|a_1+s|
+$$</div>
+
+<table>
+  <tbody>
+    <tr>
+      <td>这个时候，由于$a_2,\cdots,a_n$固定, 要想让$</td>
+      <td>a_1</td>
+      <td>-</td>
+      <td>a_1+s</td>
+      <td>$最大，显然取$a_1=-\lambda$；</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>要说明这件事可以用作差法：</p>
+
+<div class="kdmath">$$
+f(-\lambda,a_2,\cdots,a_n)-f(a_1,a_2,\cdots,a_n)=\lambda-|a_1|+|a_1+s|-|s-\lambda|
+$$</div>
+
+<table>
+  <tbody>
+    <tr>
+      <td>显然有$\lambda\geq</td>
+      <td>a_1</td>
+      <td>,</td>
+      <td>a_1+s</td>
+      <td>\geq</td>
+      <td>s-\lambda</td>
+      <td>$, 因此</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="kdmath">$$
+f(-\lambda,a_2,\cdots,a_n)\geq f(a_1,a_2,\cdots,a_n)
+$$</div>
+
+<table>
+  <tbody>
+    <tr>
+      <td>由上述分析的对称性，对每一个$a_i$，要使$f$取最大，每个$</td>
+      <td>a_i</td>
+      <td>$都要取到$\lambda$，正负由其他项的和决定。这里其实就把我们猜想中数列的形式证明出来了，但如果要说这是$f$的最大值其实还需要说明我们对n个变量做“累次极值”的过程得到的就是最值，这其实可以由$f$作为n元函数的连续性保证（但这涉及多元微积分）。</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>因此，要使得$f$取最大就对应$a_j$有若干个正的$\lambda$和若干负的$\lambda$，不妨设为k个,且Without Loss of Generality(WLOG),设$k\leq [n/2]$（否则把整个数列取相反数即可，不影响结论）,则：</p>
+
+<div class="kdmath">$$
+f(a_1,\cdots,a_n)\leq (n-|2k-n|)\lambda=2k\lambda
+$$</div>
+
+<p>若n为偶数，且假设$\lambda &lt; \frac{n-1}{n}$,则：</p>
+
+<div class="kdmath">$$
+f(a_1,\cdots,a_n)<n\times \frac{n-1}{n}=n-1
+$$</div>
+
+<p>矛盾</p>
+
+<p>若n为奇数，且假设$\lambda &lt; 1$,则：</p>
+
+<div class="kdmath">$$
+f(a_1,\cdots,a_n)<(n-1)\times 1=n-1
+$$</div>
+
+<p>矛盾</p>
+
+<p>因此$\lambda$的最小值即……</p>
+
+<p>调整大法还是太妙了（高中最爱），可以用非常自然的方式求得一些复杂函数的最值。</p>
+
+    </div><!-- /.article-wrap -->
+    
+    <div class="comments-section">
+      <hr>
+      <h3>Leave a Message</h3>
+      <script src="https://giscus.app/client.js"
+        data-repo="Volodymyr2580/Volodymyr2580.github.io"
+        data-repo-id="R_kgDOOvNN3A"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOOvNN3M4C8IOG"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>
+
+    </div>
+    
+  </article>
+</div><!-- /#index -->
+
+<div class="footer-wrap">
+  <footer>
+    <h6>&copy; 2026 Wenzhe Sheng.
+  Published with <a href="https://pages.github.com/" rel="nofollow">GitHub Pages</a>,
+  powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a>,
+  based on the <a href="https://mademistakes.com/" rel="nofollow">Minimal Mistakes</a> theme.
+  Source code for this website can be found <a href="https://github.com/GuangLun2000/GuangLun2000.github.io" rel="nofollow">here</a>.
+
+  <!-- <script type="text/javascript" id="clstr_globe" src="//clustrmaps.com/globe.js?d=tGZ_4852x6Mm-PPomoo98e4y_CI8D9TmioGTO03Daik"></script> -->
+  
+</h6>
+
+
+<!-- Lastly modified by Hanlin CAI in 2023/03/16 -->
+  </footer>
+</div><!-- /.footer-wrap -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="https://Volodymyr2580.github.io/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="https://Volodymyr2580.github.io/assets/js/main.min.js"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'G-T5N5JY1E21', 'caihanlin.com');
+  ga('send', 'pageview');
+
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const menuToggle = document.querySelector('.menu-toggle');
+  const navMenu = document.querySelector('.top-navigation');
+  if (menuToggle && navMenu) {
+    menuToggle.addEventListener('click', function() {
+      navMenu.classList.toggle('active');
+      const expanded = navMenu.classList.contains('active');
+      menuToggle.setAttribute('aria-expanded', expanded);
+    });
+  }
+});
+</script>
+
+<!-- https://analytics.google.com/analytics.com/ -->
+<!-- Lastly modified by Hanlin CAI in 2023/01/15 -->
+
+
+
+</body>
+</html>

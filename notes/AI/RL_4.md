@@ -137,8 +137,8 @@ $$ \pi_{k+1}(s) = \arg\max\limits_{\pi} \sum_a \pi(a|s) \left( \underbrace{\sum_
 
 ### Truncated policy iteration
 前两者的比较
-![[RL.asset/pi_vi.png]]
-![[RL.asset/piviprocess.png]]
+![Policy iteration and value iteration](RL.asset/pi_vi.png)
+![Policy iteration process](RL.asset/piviprocess.png)
 所谓截断truncated,其实就是在policy iteration计算$v_{\pi_k}$的过程中计算了几步的问题？如果计算无穷步，则趋近理论的policy iteration,如果只计算一步，其实计算得到的就是value iteration的$v_1$,所以当计算有限步长时，是介于两者之间的某种算法。
 
-![[RL.asset/TPI.png]]
+![Truncated policy iteration](RL.asset/TPI.png)

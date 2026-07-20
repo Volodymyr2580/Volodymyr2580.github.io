@@ -10,16 +10,18 @@ lab_subtitle: academic record
 <section class="lab-hero" aria-labelledby="awards-title">
   <p class="lab-eyebrow">Awards / 荣誉记录</p>
   <h1 id="awards-title">Awards</h1>
-  <p class="lab-lead">Scholarships, academic honors, and competition records. Updated: 19 February 2026.</p>
+  <p class="lab-lead">Scholarships, academic honors, and competition records. Updated: 4 July 2026.</p>
 </section>
 
 <div class="lab-workspace">
   <section class="lab-sheet">
     <div class="lab-section-head">
-      <h2>Scholarships</h2>
+      <h2>Scholarships and Honors</h2>
       <span>academic years</span>
     </div>
     <div class="lab-entry-list">
+      <article class="lab-entry-card"><time>2026</time><div><h3>北京市普通高等学校优秀毕业生</h3><p>Beijing municipal outstanding graduate honor.</p></div><span class="lab-state">Honor</span></article>
+      <article class="lab-entry-card"><time>2026</time><div><h3>北京大学优秀毕业生</h3><p>Peking University outstanding graduate honor.</p></div><span class="lab-state">Honor</span></article>
       <article class="lab-entry-card"><time>2022-2023</time><div><h3>Tailong Star Scholarship</h3><p>Peking University scholarship record.</p></div><span class="lab-state">Scholarship</span></article>
       <article class="lab-entry-card"><time>2022-2023</time><div><h3>Peking University Academic Progress Award</h3><p>Academic progress recognition.</p></div><span class="lab-state">Award</span></article>
       <article class="lab-entry-card"><time>2023-2024</time><div><h3>Peking University Merit Student</h3><p>University honor.</p></div><span class="lab-state">Honor</span></article>

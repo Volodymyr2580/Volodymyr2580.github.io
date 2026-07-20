@@ -16,12 +16,12 @@ v_{t+1}(s) &= v_t(s),\quad \forall s \neq s_t
 上式中，time t时只更新了访问状态$s_t$的state value。
 
 TD algorithm可以使用Robbins-Monro 算法求解Bellman方程得到。
-![[Pasted image 20250720192528.png]]
-![[Pasted image 20250720192536.png]]
+![Temporal-difference algorithm derivation 1](RL.asset/rl7-td-01.png)
+![Temporal-difference algorithm derivation 2](RL.asset/rl7-td-02.png)
 
 ### 性质分析
 再视TD算法的表达式
-![[Pasted image 20250720194319.png]]
+![Temporal-difference error analysis](RL.asset/rl7-td-03.png)
 其中TD target定义为
 $$
 \bar{v}_t \overset{.}{=} r_{t+1} + \gamma v_t(s_{t+1})
@@ -58,20 +58,20 @@ $$
 &= 0. \quad \text{(due to }v_\pi(s)=\mathbb{E} \left[ R_{t+1} + \gamma v_\pi(S_{t+1}) | S_t = s\right] \text{)}
 \end{align}
 $$
-![[Pasted image 20250720202120.png]]
+![Temporal-difference convergence note](RL.asset/rl7-td-04.png)
 
 ### TD learning of action values: Sarsa
-![[Pasted image 20250720202239.png]]
-![[Pasted image 20250720202255.png]]
+![Sarsa update equation 1](RL.asset/rl7-td-05.png)
+![Sarsa update equation 2](RL.asset/rl7-td-06.png)
 
 #### n-steps Sarsa
-![[Pasted image 20250720202324.png]]
+![N-step Sarsa](RL.asset/rl7-td-07.png)
 
 
 ### TD learning of optimal action values: Q-learning
-![[Pasted image 20250720202415.png]]
-![[Pasted image 20250720202454.png]]
-![[Pasted image 20250720202501.png]]
+![Q-learning update 1](RL.asset/rl7-td-08.png)
+![Q-learning update 2](RL.asset/rl7-td-09.png)
+![Q-learning update 3](RL.asset/rl7-td-10.png)
 
 ### A unifed viewpoint
-![[Pasted image 20250720202649.png]]
+![Unified viewpoint of temporal-difference methods](RL.asset/rl7-td-11.png)
