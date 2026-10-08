@@ -8,9 +8,7 @@ lab_subtitle: research logbook
 ---
 
 <nav class="lab-simple-switch" aria-label="Back">
-  <a href="{{ '/research/' | relative_url }}">← Research Log</a>
   <a href="{{ '/blogs/' | relative_url }}">Blogs</a>
-  <a href="{{ '/notes/' | relative_url }}">Notes</a>
 </nav>
 
 <section class="lab-hero" aria-labelledby="topic-title">

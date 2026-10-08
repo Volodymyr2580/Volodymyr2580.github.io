@@ -9,6 +9,7 @@
 
 <head>
 {% include head.html %}
+<link rel="stylesheet" href="{{ '/assets/css/i18n.css?v=20261008' | relative_url }}">
 
 <script src="https://cdn.counter.dev/script.js" data-id="4c8f7caa-2b55-46cd-a995-2c4633303773" data-utcoffset="8"></script>
 
@@ -45,19 +46,20 @@
       <h2>{{ page.tagline }}</h2>
     </div><!--/ .headline-wrap -->
     <div class="article-wrap" itemprop="text">
+      {% include translation-notice.html %}
       {{ content }}
       <hr />
       <footer role="contentinfo">
         <div class="article-author-bottom">
           {% include author-bio.html %}
         </div>
-        <p class="byline"><strong>{{ page.title }}</strong> was published on <time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">{{ page.date | date: "%B %d, %Y" }}</time>{% if page.modified %} and last modified on <time datetime="{{ page.modified | date: "%Y-%m-%d" }}" itemprop="dateModified">{{ page.modified | date: "%B %d, %Y" }}</time>{% endif %} by <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name"><a href="{{ site.url }}/about" title="About {{ site.owner.name }}" itemprop="url">{{ site.owner.name }}</a></span></span>.</p>
+        <p class="byline"><strong>{{ page.title }}</strong> <span data-i18n="Published on">Published on</span> <time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">{{ page.date | date: "%Y-%m-%d" }}</time>{% if page.modified %} <span data-i18n="Last updated on">Last updated on</span> <time datetime="{{ page.modified | date: "%Y-%m-%d" }}" itemprop="dateModified">{{ page.modified | date: "%Y-%m-%d" }}</time>{% endif %} <span data-i18n="Author">Author</span> <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name"><a href="{{ site.url }}/about" title="About {{ site.owner.name }}" itemprop="url">{{ site.owner.name }}</a></span></span>.</p>
       </footer>
     </div><!-- /.article-wrap -->
     {% if page.comments != false %}
     <div class="comments-section">
       <hr>
-      <h3>Leave a Message</h3>
+      <h3 data-i18n="Leave a Message">Leave a Message</h3>
       {% include disqus.html %}
     </div>
     {% endif %}
@@ -67,7 +69,7 @@
 
 <div class="footer-wrap">
   {% if site.related_posts.size %}<div class="related-articles">
-  <h4>You might also enjoy <small class="pull-right">(<a href="{{ site.url }}/articles">View all articles</a>)</small></h4>
+  <h4><span data-i18n="You might also enjoy">You might also enjoy</span> <small class="pull-right">(<a href="{{ site.url }}/articles" data-i18n="View all articles">View all articles</a>)</small></h4>
     <ul>
     {% for post in site.related_posts limit:3 %}
       {% assign match = false %}

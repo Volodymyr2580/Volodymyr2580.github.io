@@ -1,13 +1,13 @@
-<img src="{{ site.url }}/images/{{ site.owner.avatar }}" class="bio-photo" alt="{{ site.owner.name }} bio photo" width="100" height="100">
+<img src="{{ site.url }}/images/{{ site.owner.avatar }}" class="bio-photo" alt="{{ site.owner.name }} bio photo" width="100" height="100" style="object-fit: cover; object-position: center top;">
 
 <h4>{{ site.owner.name }}</h4>
 
-<p>{{ site.owner.bio }}</p>
+<p data-i18n="{{ site.owner.bio | escape }}">{{ site.owner.bio }}</p>
 
 <div class="social-links">
-{% if site.owner.email %}<p><a href="mailto:{{ site.owner.email }}" target="_blank"><i class="icon-mail"></i> Email</a></p>{% endif %}
+{% if site.owner.email %}<p><a href="mailto:{{ site.owner.email }}" target="_blank"><i class="icon-mail"></i> <span data-i18n="Email">Email</span></a></p>{% endif %}
 
-{% if site.owner.cv %}<p><a href="{{ site.owner.cv }}"><img src="https://caihanlin.com/images/logo/icons8-cv-100.png" width="16.5" height="16.5"></i> My CV</a></p>{% endif %}
+{% if site.owner.cv %}<p><a href="{{ site.owner.cv }}"><img src="https://caihanlin.com/images/logo/icons8-cv-100.png" width="16.5" height="16.5"></i> <span data-i18n="My CV">My CV</span></a></p>{% endif %}
 
 {% if site.owner.twitter %}<p><a href="https://twitter.com/{{ site.owner.twitter }}"><i class="icon-twitter"></i> Twitter</a></p>{% endif %}
 
@@ -29,7 +29,7 @@
 
 {% if site.owner.researchgate %}<p><a href="{{ site.owner.researchgate}}"><img src="https://caihanlin.com/images/logo/icons8-rg.png" width="14" height="14"></i> ResearchGate</a></p>{% endif %}
 
-{% if site.owner.zhihu %}<p><a href="{{ site.owner.zhihu }}"><img src="https://caihanlin.com/images/logo/icons8-zhihu-96.png" width="15.8" height="15.8"></i> Zhihu</a></p>{% endif %}
+{% if site.owner.zhihu %}<p><a href="{{ site.owner.zhihu }}"><img src="https://caihanlin.com/images/logo/icons8-zhihu-96.png" width="15.8" height="15.8"></i> <span data-i18n="Zhihu">Zhihu</span></a></p>{% endif %}
 
 {% if site.owner.bilibili %}<p><a href="https://space.bilibili.com/{{ site.owner.bilibili }}"><img src="https://caihanlin.com/images/logo/icons8-retro-tv-100.png" width="15" height="15"></i> Bilibili</a></p>{% endif %}
 </div>

@@ -2,7 +2,22 @@
 <!-- Lastly modified by Hanlin CAI in 2023/04/26 -->
 
 <meta charset="utf-8">
-<title>{% if page.title %}{{ page.title }} &#8211; {% endif %}{{ site.title }}</title>
+{% if page.redirect_to %}
+<meta http-equiv="refresh" content="0; url={{ page.redirect_to | relative_url }}">
+{% endif %}
+<title data-i18n-title="{{ page.title | escape }}" data-i18n-suffix=" &#8211; {{ site.title | escape }}">{% if page.title %}{{ page.title }} &#8211; {% endif %}{{ site.title }}</title>
+<script>
+(function () {
+  var language = /^zh\b/i.test(navigator.language || '') ? 'zh-CN' : 'en';
+  try {
+    var saved = localStorage.getItem('site-language');
+    if (saved === 'zh-CN' || saved === 'en') language = saved;
+  } catch (error) {}
+  document.documentElement.lang = language;
+}());
+</script>
+<script id="site-translations" type="application/json">{{ site.data.i18n | jsonify }}</script>
+<script defer src="{{ '/assets/js/i18n.js?v=20261008' | relative_url }}"></script>
 {% if page.description %}<meta name="description" content="{{ page.description }}">{% endif %}
 {% if page.tags %}<meta name="keywords" content="{{ page.tags | join: ', ' }}">{% endif %}
 {% if site.owner.twitter %}<!-- Twitter Card and Open Graph meta -->
@@ -29,7 +44,7 @@
 {% if site.bing_verify %}<meta name="msvalidate.01" content="{{ site.bing_verify }}">{% endif %}
 
 {% capture canonical %}{{ site.url }}{% if site.permalink contains '.html' %}{{ page.url }}{% else %}{{ page.url | remove:'index.html' | strip_slash }}{% endif %}{% endcapture %}
-<link rel="canonical" href="{{ canonical }}">
+<link rel="canonical" href="{% if page.redirect_to %}{{ site.url }}{{ page.redirect_to | relative_url }}{% else %}{{ canonical }}{% endif %}">
 {% if site.owner.google_plus %}<link rel="author" href="{{ site.owner.google_plus }}?rel=author">{% endif %}
 
 

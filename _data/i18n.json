@@ -1,0 +1,1142 @@
+{
+  "Language": {
+    "en": "Language",
+    "zh-CN": "语言"
+  },
+  "About Me": {
+    "en": "About Me",
+    "zh-CN": "关于我"
+  },
+  "Publications": {
+    "en": "Publications",
+    "zh-CN": "学术成果"
+  },
+  "Awards": {
+    "en": "Awards",
+    "zh-CN": "荣誉奖项"
+  },
+  "Diary": {
+    "en": "Diary",
+    "zh-CN": "日记"
+  },
+  "Blogs": {
+    "en": "Blogs",
+    "zh-CN": "博客"
+  },
+  "Research Log": {
+    "en": "Research Log",
+    "zh-CN": "科研日志"
+  },
+  "Notes": {
+    "en": "Notes",
+    "zh-CN": "学习笔记"
+  },
+  "Old Archives": {
+    "en": "Old Archives",
+    "zh-CN": "旧文归档"
+  },
+  "Learn": {
+    "en": "Learn",
+    "zh-CN": "学习"
+  },
+  "personal academic homepage": {
+    "en": "personal academic homepage",
+    "zh-CN": "个人学术主页"
+  },
+  "academic record": {
+    "en": "academic record",
+    "zh-CN": "学术记录"
+  },
+  "blogs": {
+    "en": "blogs",
+    "zh-CN": "博客"
+  },
+  "notes": {
+    "en": "notes",
+    "zh-CN": "笔记"
+  },
+  "personal logbook": {
+    "en": "personal logbook",
+    "zh-CN": "个人日志"
+  },
+  "research log": {
+    "en": "research log",
+    "zh-CN": "科研日志"
+  },
+  "research logbook": {
+    "en": "research logbook",
+    "zh-CN": "科研日志"
+  },
+  "blue-sky lab notebook": {
+    "en": "blue-sky lab notebook",
+    "zh-CN": "科研笔记"
+  },
+  "preserved old materials": {
+    "en": "preserved old materials",
+    "zh-CN": "旧文与资料归档"
+  },
+  "Primary": {
+    "en": "Primary",
+    "zh-CN": "主导航"
+  },
+  "Notebook sections": {
+    "en": "Notebook sections",
+    "zh-CN": "笔记栏目"
+  },
+  "Back": {
+    "en": "Back",
+    "zh-CN": "返回栏目"
+  },
+  "Author profile": {
+    "en": "Author profile",
+    "zh-CN": "作者简介"
+  },
+  "Toggle navigation": {
+    "en": "Toggle navigation",
+    "zh-CN": "展开或收起导航"
+  },
+  "Contact links": {
+    "en": "Contact links",
+    "zh-CN": "联系方式"
+  },
+  "Email": {
+    "en": "Email",
+    "zh-CN": "邮箱"
+  },
+  "My CV": {
+    "en": "My CV",
+    "zh-CN": "个人简历"
+  },
+  "School of Earth and Space Sciences": {
+    "en": "School of Earth and Space Sciences",
+    "zh-CN": "地球与空间科学学院"
+  },
+  "Undergraduate researcher at Peking University, School of Earth and Space Sciences.": {
+    "en": "Undergraduate researcher at Peking University, School of Earth and Space Sciences.",
+    "zh-CN": "北京大学地球与空间科学学院本科生研究者。"
+  },
+  "This article is shown in its original language. A bilingual version will be added progressively.": {
+    "en": "This article is shown in its original language. A bilingual version will be added progressively.",
+    "zh-CN": "本文暂以原文呈现，后续将逐步补充完整双语版本。"
+  },
+  "Leave a Message": {
+    "en": "Leave a Message",
+    "zh-CN": "留言"
+  },
+  "View all articles": {
+    "en": "View all articles",
+    "zh-CN": "查看全部文章"
+  },
+  "Latest Articles": {
+    "en": "Latest Articles",
+    "zh-CN": "最新文章"
+  },
+  "Scholarships, academic honors, and competition records. Updated: 4 July 2026.": {
+    "en": "Scholarships, academic honors, and competition records. Updated: 4 July 2026.",
+    "zh-CN": "奖学金、学术荣誉与竞赛记录。更新于 2026 年 7 月 4 日。"
+  },
+  "Scholarships and Honors": {
+    "en": "Scholarships and Honors",
+    "zh-CN": "奖学金与荣誉"
+  },
+  "academic years": {
+    "en": "academic years",
+    "zh-CN": "学年"
+  },
+  "北京市普通高等学校优秀毕业生": {
+    "en": "Outstanding Graduate of Beijing Higher Education Institutions",
+    "zh-CN": "北京市普通高等学校优秀毕业生"
+  },
+  "北京大学优秀毕业生": {
+    "en": "Peking University Outstanding Graduate",
+    "zh-CN": "北京大学优秀毕业生"
+  },
+  "Beijing municipal outstanding graduate honor.": {
+    "en": "Beijing municipal outstanding graduate honor.",
+    "zh-CN": "北京市优秀毕业生荣誉。"
+  },
+  "Peking University outstanding graduate honor.": {
+    "en": "Peking University outstanding graduate honor.",
+    "zh-CN": "北京大学优秀毕业生荣誉。"
+  },
+  "Honor": {
+    "en": "Honor",
+    "zh-CN": "荣誉"
+  },
+  "Scholarship": {
+    "en": "Scholarship",
+    "zh-CN": "奖学金"
+  },
+  "Award": {
+    "en": "Award",
+    "zh-CN": "奖励"
+  },
+  "Prize": {
+    "en": "Prize",
+    "zh-CN": "奖项"
+  },
+  "Tailong Star Scholarship": {
+    "en": "Tailong Star Scholarship",
+    "zh-CN": "泰隆之星奖学金"
+  },
+  "Peking University scholarship record.": {
+    "en": "Peking University scholarship record.",
+    "zh-CN": "北京大学奖学金记录。"
+  },
+  "Peking University Academic Progress Award": {
+    "en": "Peking University Academic Progress Award",
+    "zh-CN": "北京大学学习进步奖"
+  },
+  "Academic progress recognition.": {
+    "en": "Academic progress recognition.",
+    "zh-CN": "学习进步表彰。"
+  },
+  "Peking University Merit Student": {
+    "en": "Peking University Merit Student",
+    "zh-CN": "北京大学三好学生"
+  },
+  "University honor.": {
+    "en": "University honor.",
+    "zh-CN": "校级荣誉。"
+  },
+  "Industrial and Commercial Bank of China Scholarship": {
+    "en": "Industrial and Commercial Bank of China Scholarship",
+    "zh-CN": "中国工商银行奖学金"
+  },
+  "Scholarship record.": {
+    "en": "Scholarship record.",
+    "zh-CN": "奖学金记录。"
+  },
+  "Peking University Second-class Scholarship": {
+    "en": "Peking University Second-class Scholarship",
+    "zh-CN": "北京大学二等奖学金"
+  },
+  "Competitions": {
+    "en": "Competitions",
+    "zh-CN": "竞赛"
+  },
+  "selected records": {
+    "en": "selected records",
+    "zh-CN": "部分获奖记录"
+  },
+  "Challenge Cup": {
+    "en": "Challenge Cup",
+    "zh-CN": "挑战杯"
+  },
+  "Math": {
+    "en": "Math",
+    "zh-CN": "数学"
+  },
+  "Third Prize, 32nd Peking University Challenge Cup": {
+    "en": "Third Prize, 32nd Peking University Challenge Cup",
+    "zh-CN": "北京大学第 32 届挑战杯三等奖"
+  },
+  "Competition award.": {
+    "en": "Competition award.",
+    "zh-CN": "竞赛获奖。"
+  },
+  "First Prize, 34th Beijing College Student Mathematics Competition": {
+    "en": "First Prize, 34th Beijing College Student Mathematics Competition",
+    "zh-CN": "第 34 届北京市大学生数学竞赛一等奖"
+  },
+  "First Prize, 35th Beijing College Student Mathematics Competition": {
+    "en": "First Prize, 35th Beijing College Student Mathematics Competition",
+    "zh-CN": "第 35 届北京市大学生数学竞赛一等奖"
+  },
+  "Mathematics competition award.": {
+    "en": "Mathematics competition award.",
+    "zh-CN": "数学竞赛获奖。"
+  },
+  "Undergraduate researcher at Peking University, School of Earth and Space Sciences. I use this website to keep research topics, public writing, notes, and personal progress in one calm place.": {
+    "en": "Undergraduate researcher at Peking University, School of Earth and Space Sciences. I use this website to keep research topics, public writing, notes, and personal progress in one calm place.",
+    "zh-CN": "北京大学地球与空间科学学院本科生研究者。在这里记录研究课题、公开写作、学习笔记与个人成长。"
+  },
+  "Research Interests": {
+    "en": "Research Interests",
+    "zh-CN": "研究兴趣"
+  },
+  "current academic direction": {
+    "en": "current academic direction",
+    "zh-CN": "当前研究方向"
+  },
+  "Research 01": {
+    "en": "Research 01",
+    "zh-CN": "研究方向 01"
+  },
+  "Research 02": {
+    "en": "Research 02",
+    "zh-CN": "研究方向 02"
+  },
+  "Research 03": {
+    "en": "Research 03",
+    "zh-CN": "研究方向 03"
+  },
+  "AI for Scientific Problems": {
+    "en": "AI for Scientific Problems",
+    "zh-CN": "面向科学问题的人工智能"
+  },
+  "Machine learning and deep learning methods for scientific discovery, inverse problems, and physical modeling.": {
+    "en": "Machine learning and deep learning methods for scientific discovery, inverse problems, and physical modeling.",
+    "zh-CN": "用于科学发现、反问题与物理建模的机器学习和深度学习方法。"
+  },
+  "Geophysics and Inversion": {
+    "en": "Geophysics and Inversion",
+    "zh-CN": "地球物理与反演"
+  },
+  "Wave propagation, subsurface imaging, full waveform inversion, and planetary radar data interpretation.": {
+    "en": "Wave propagation, subsurface imaging, full waveform inversion, and planetary radar data interpretation.",
+    "zh-CN": "波传播、地下成像、全波形反演与行星雷达数据解释。"
+  },
+  "Mathematical Tools": {
+    "en": "Mathematical Tools",
+    "zh-CN": "数学工具"
+  },
+  "Stochastic analysis, optimization, statistical field theory, and the mathematical language behind models.": {
+    "en": "Stochastic analysis, optimization, statistical field theory, and the mathematical language behind models.",
+    "zh-CN": "随机分析、优化、统计场论，以及模型背后的数学语言。"
+  },
+  "Writing": {
+    "en": "Writing",
+    "zh-CN": "写作"
+  },
+  "Learning and Public Notes": {
+    "en": "Learning and Public Notes",
+    "zh-CN": "学习与公开笔记"
+  },
+  "I keep this site as a long-term archive for research logs, public essays, lecture drafts, and study notes.": {
+    "en": "I keep this site as a long-term archive for research logs, public essays, lecture drafts, and study notes.",
+    "zh-CN": "将科研日志、公开文章、讲义草稿和学习笔记长期保存在这里。"
+  },
+  "个人履历": {
+    "en": "Education",
+    "zh-CN": "教育经历"
+  },
+  "education": {
+    "en": "education",
+    "zh-CN": "教育经历"
+  },
+  "Peking University": {
+    "en": "Peking University",
+    "zh-CN": "北京大学"
+  },
+  "取得数学与应用数学专业和物理学（地球物理方向）两个理学学士学位。": {
+    "en": "Earned two Bachelor of Science degrees: Mathematics and Applied Mathematics, and Physics (Geophysics).",
+    "zh-CN": "取得数学与应用数学专业和物理学（地球物理方向）两个理学学士学位。"
+  },
+  "B.S.": {
+    "en": "B.S.",
+    "zh-CN": "理学学士"
+  },
+  "methods": {
+    "en": "methods",
+    "zh-CN": "方法"
+  },
+  "models": {
+    "en": "models",
+    "zh-CN": "模型"
+  },
+  "tasks": {
+    "en": "tasks",
+    "zh-CN": "任务"
+  },
+  "topic": {
+    "en": "topic",
+    "zh-CN": "课题"
+  },
+  "data": {
+    "en": "data",
+    "zh-CN": "数据"
+  },
+  "ideas": {
+    "en": "ideas",
+    "zh-CN": "思路"
+  },
+  "reuse": {
+    "en": "reuse",
+    "zh-CN": "复用"
+  },
+  "public": {
+    "en": "public",
+    "zh-CN": "公开"
+  },
+  "study": {
+    "en": "study",
+    "zh-CN": "学习"
+  },
+  "research": {
+    "en": "research",
+    "zh-CN": "研究"
+  },
+  "AI": {
+    "en": "AI",
+    "zh-CN": "人工智能"
+  },
+  "ML": {
+    "en": "ML",
+    "zh-CN": "机器学习"
+  },
+  "Sci": {
+    "en": "Sci",
+    "zh-CN": "科学"
+  },
+  "Radar": {
+    "en": "Radar",
+    "zh-CN": "雷达"
+  },
+  "Proof": {
+    "en": "Proof",
+    "zh-CN": "证明"
+  },
+  "Tools": {
+    "en": "Tools",
+    "zh-CN": "工具"
+  },
+  "Logs": {
+    "en": "Logs",
+    "zh-CN": "日志"
+  },
+  "This page keeps formal academic outputs separate from research logs and working notes.": {
+    "en": "This page keeps formal academic outputs separate from research logs and working notes.",
+    "zh-CN": "本页汇集正式学术成果；研究过程与工作笔记另见科研日志和学习笔记。"
+  },
+  "Publication Record": {
+    "en": "Publication Record",
+    "zh-CN": "学术成果记录"
+  },
+  "formal outputs": {
+    "en": "formal outputs",
+    "zh-CN": "正式成果"
+  },
+  "Journal": {
+    "en": "Journal",
+    "zh-CN": "期刊"
+  },
+  "Journal Paper": {
+    "en": "Journal Paper",
+    "zh-CN": "期刊论文"
+  },
+  "None so far.": {
+    "en": "None so far.",
+    "zh-CN": "暂无。"
+  },
+  "Pending": {
+    "en": "Pending",
+    "zh-CN": "待补充"
+  },
+  "Conf.": {
+    "en": "Conf.",
+    "zh-CN": "会议"
+  },
+  "Conference Paper": {
+    "en": "Conference Paper",
+    "zh-CN": "会议论文"
+  },
+  "Project": {
+    "en": "Project",
+    "zh-CN": "项目"
+  },
+  "Early Project": {
+    "en": "Early Project",
+    "zh-CN": "早期项目"
+  },
+  "Project outputs will be organized here.": {
+    "en": "Project outputs will be organized here.",
+    "zh-CN": "项目成果将在这里整理。"
+  },
+  "Draft": {
+    "en": "Draft",
+    "zh-CN": "草稿"
+  },
+  "Thesis": {
+    "en": "Thesis",
+    "zh-CN": "学位论文"
+  },
+  "Degree Thesis": {
+    "en": "Degree Thesis",
+    "zh-CN": "学位论文"
+  },
+  "Degree thesis information will be added when ready.": {
+    "en": "Degree thesis information will be added when ready.",
+    "zh-CN": "学位论文信息将在整理完成后补充。"
+  },
+  "Future": {
+    "en": "Future",
+    "zh-CN": "待完善"
+  },
+  "A less formal archive for research progress, learning plans, technical problems, and occasional reflections.": {
+    "en": "A less formal archive for research progress, learning plans, technical problems, and occasional reflections.",
+    "zh-CN": "记录研究进展、学习计划、技术问题，以及不时产生的想法。"
+  },
+  "Diary Sections": {
+    "en": "Diary Sections",
+    "zh-CN": "日记分类"
+  },
+  "personal and technical records": {
+    "en": "personal and technical records",
+    "zh-CN": "个人与技术记录"
+  },
+  "Research": {
+    "en": "Research",
+    "zh-CN": "科研"
+  },
+  "Paper Reading": {
+    "en": "Paper Reading",
+    "zh-CN": "论文阅读"
+  },
+  "Paper reading, experiment ideas, and early research notes.": {
+    "en": "Paper reading, experiment ideas, and early research notes.",
+    "zh-CN": "论文阅读、实验构想与初步研究笔记。"
+  },
+  "Graduation Project": {
+    "en": "Graduation Project",
+    "zh-CN": "毕业设计"
+  },
+  "Graduation project records and planning.": {
+    "en": "Graduation project records and planning.",
+    "zh-CN": "毕业设计记录与计划。"
+  },
+  "Coding": {
+    "en": "Coding",
+    "zh-CN": "编程"
+  },
+  "Server-side work, Linux notes, Python problems, and library usage.": {
+    "en": "Server-side work, Linux notes, Python problems, and library usage.",
+    "zh-CN": "服务器使用、Linux 笔记、Python 问题与程序库使用记录。"
+  },
+  "Tech": {
+    "en": "Tech",
+    "zh-CN": "技术"
+  },
+  "Learning": {
+    "en": "Learning",
+    "zh-CN": "学习"
+  },
+  "Learning Diary": {
+    "en": "Learning Diary",
+    "zh-CN": "学习日记"
+  },
+  "Study plans and reflections outside immediate research tasks.": {
+    "en": "Study plans and reflections outside immediate research tasks.",
+    "zh-CN": "研究任务之外的学习计划与思考。"
+  },
+  "Old": {
+    "en": "Old",
+    "zh-CN": "往期"
+  },
+  "Archive": {
+    "en": "Archive",
+    "zh-CN": "归档"
+  },
+  "Machine Learning": {
+    "en": "Machine Learning",
+    "zh-CN": "机器学习"
+  },
+  "Geophysics": {
+    "en": "Geophysics",
+    "zh-CN": "地球物理"
+  },
+  "Ground Penetrating Radar Data and its applications": {
+    "en": "Ground Penetrating Radar Data and its applications",
+    "zh-CN": "探地雷达数据及其应用"
+  },
+  "Reinforcement Learning and its applications": {
+    "en": "Reinforcement Learning and its applications",
+    "zh-CN": "强化学习及其应用"
+  },
+  "Generative Model and its applications": {
+    "en": "Generative Model and its applications",
+    "zh-CN": "生成模型及其应用"
+  },
+  "Quantum Computation and its applications": {
+    "en": "Quantum Computation and its applications",
+    "zh-CN": "量子计算及其应用"
+  },
+  "AI Tools and AI Agents": {
+    "en": "AI Tools and AI Agents",
+    "zh-CN": "人工智能工具与智能体"
+  },
+  "Data processing, interpretation, inversion, and scientific applications of GPR observations.": {
+    "en": "Data processing, interpretation, inversion, and scientific applications of GPR observations.",
+    "zh-CN": "探地雷达观测的数据处理、解释、反演及科学应用。"
+  },
+  "Diffusion models, score-based methods, flow matching, and generative priors for scientific problems.": {
+    "en": "Diffusion models, score-based methods, flow matching, and generative priors for scientific problems.",
+    "zh-CN": "扩散模型、基于得分的方法、流匹配，以及用于科学问题的生成式先验。"
+  },
+  "Quantum algorithms, computation models, and possible applications to scientific computing.": {
+    "en": "Quantum algorithms, computation models, and possible applications to scientific computing.",
+    "zh-CN": "量子算法、计算模型及其在科学计算中的潜在应用。"
+  },
+  "Practical AI tools, coding assistants, agent workflows, and their impact on research productivity.": {
+    "en": "Practical AI tools, coding assistants, agent workflows, and their impact on research productivity.",
+    "zh-CN": "实用人工智能工具、编程助手、智能体工作流程及其对科研效率的影响。"
+  },
+  "Reinforcement Learning for Seismic Inversion: Mentor Experiment Report": {
+    "en": "Reinforcement Learning for Seismic Inversion: Mentor Experiment Report",
+    "zh-CN": "用于地震反演的强化学习：导师实验报告"
+  },
+  "Report": {
+    "en": "Report",
+    "zh-CN": "报告"
+  },
+  "Scientific Computing": {
+    "en": "Scientific Computing",
+    "zh-CN": "科学计算"
+  },
+  "Score-based Generative Models": {
+    "en": "Score-based Generative Models",
+    "zh-CN": "基于得分的生成模型"
+  },
+  "← Blogs": {
+    "en": "← Blogs",
+    "zh-CN": "← 博客"
+  },
+  "← Notes": {
+    "en": "← Notes",
+    "zh-CN": "← 学习笔记"
+  },
+  "← Research Log": {
+    "en": "← Research Log",
+    "zh-CN": "← 科研日志"
+  },
+  "旧 Blogs 和旧 Notes 先集中保存在这里。": {
+    "en": "Earlier blogs and notes are collected here.",
+    "zh-CN": "旧博客与旧笔记集中保存在这里。"
+  },
+  "这些内容没有删除，也没有批量移动。它们保留原路径，方便以后逐篇筛选、重写、合并到新的 Blogs、Notes 或 Research Log 中。": {
+    "en": "These materials remain at their original URLs, ready to be reviewed, revised, and incorporated into Blogs, Notes, or the Research Log over time.",
+    "zh-CN": "这些内容保留原路径，方便以后逐篇筛选、重写并整理到博客、学习笔记或科研日志中。"
+  },
+  "Old Blogs": {
+    "en": "Old Blogs",
+    "zh-CN": "往期博客"
+  },
+  "previous public posts": {
+    "en": "previous public posts",
+    "zh-CN": "早期公开文章"
+  },
+  "Old Notes": {
+    "en": "Old Notes",
+    "zh-CN": "往期笔记"
+  },
+  "previous study materials": {
+    "en": "previous study materials",
+    "zh-CN": "早期学习资料"
+  },
+  "Blog": {
+    "en": "Blog",
+    "zh-CN": "博客"
+  },
+  "Memoir": {
+    "en": "Memoir",
+    "zh-CN": "回忆"
+  },
+  "Note": {
+    "en": "Note",
+    "zh-CN": "笔记"
+  },
+  "Code": {
+    "en": "Code",
+    "zh-CN": "代码"
+  },
+  "Course": {
+    "en": "Course",
+    "zh-CN": "课程"
+  },
+  "Teaching": {
+    "en": "Teaching",
+    "zh-CN": "教学"
+  },
+  "Folder": {
+    "en": "Folder",
+    "zh-CN": "目录"
+  },
+  "Geo": {
+    "en": "Geo",
+    "zh-CN": "地球科学"
+  },
+  "建站纪念": {
+    "en": "Launching This Website",
+    "zh-CN": "建站纪念"
+  },
+  "怀旧有感": {
+    "en": "Reflections on Nostalgia",
+    "zh-CN": "怀旧有感"
+  },
+  "高中回顾": {
+    "en": "Looking Back on High School",
+    "zh-CN": "高中回顾"
+  },
+  "高中思考": {
+    "en": "Thoughts from High School",
+    "zh-CN": "高中思考"
+  },
+  "齐次化": {
+    "en": "Homogenization",
+    "zh-CN": "齐次化"
+  },
+  "高考中的“齐次化”": {
+    "en": "Homogenization in Entrance-Exam Mathematics",
+    "zh-CN": "高考中的“齐次化”"
+  },
+  "天平游戏": {
+    "en": "The Balance-Scale Game",
+    "zh-CN": "天平游戏"
+  },
+  "压轴题分享 1": {
+    "en": "Challenging Problems, Part 1",
+    "zh-CN": "压轴题分享 1"
+  },
+  "高考压轴题分享 2": {
+    "en": "Challenging Entrance-Exam Problems, Part 2",
+    "zh-CN": "高考压轴题分享 2"
+  },
+  "圆曲数列压轴": {
+    "en": "Challenging Problems on Conics and Sequences",
+    "zh-CN": "圆曲数列压轴"
+  },
+  "圆曲角度问题": {
+    "en": "Angle Problems in Conic Sections",
+    "zh-CN": "圆曲角度问题"
+  },
+  "大计算量圆曲定点": {
+    "en": "Fixed-Point Problems in Conic Sections",
+    "zh-CN": "大计算量圆曲定点"
+  },
+  "导数难题": {
+    "en": "Challenging Derivative Problems",
+    "zh-CN": "导数难题"
+  },
+  "高考可分数列": {
+    "en": "Separable Sequences in Entrance Exams",
+    "zh-CN": "高考可分数列"
+  },
+  "数列不动点法的理解": {
+    "en": "Understanding Fixed-Point Methods for Sequences",
+    "zh-CN": "数列不动点法的理解"
+  },
+  "新定义-导数": {
+    "en": "New Definitions: Derivatives",
+    "zh-CN": "新定义-导数"
+  },
+  "新定义-椭圆曲线": {
+    "en": "New Definitions: Elliptic Curves",
+    "zh-CN": "新定义-椭圆曲线"
+  },
+  "极小函数": {
+    "en": "Minimal Functions",
+    "zh-CN": "极小函数"
+  },
+  "组合压轴": {
+    "en": "Challenging Combinatorics Problems",
+    "zh-CN": "组合压轴"
+  },
+  "填空难题": {
+    "en": "Challenging Fill-in-the-Blank Problems",
+    "zh-CN": "填空难题"
+  },
+  "鸡蛋函数": {
+    "en": "The Egg Function",
+    "zh-CN": "鸡蛋函数"
+  },
+  "立几压轴-天文": {
+    "en": "Challenging Solid Geometry: Astronomy",
+    "zh-CN": "立几压轴-天文"
+  },
+  "绝对值数列新定义": {
+    "en": "New Definitions for Absolute-Value Sequences",
+    "zh-CN": "绝对值数列新定义"
+  },
+  "早期建站记录。": {
+    "en": "Early notes on building this website.",
+    "zh-CN": "早期建站记录。"
+  },
+  "个人随笔。": {
+    "en": "Personal reflections.",
+    "zh-CN": "个人随笔。"
+  },
+  "成长和学习阶段回顾。": {
+    "en": "Reflections on growth and learning.",
+    "zh-CN": "成长和学习阶段回顾。"
+  },
+  "早期学习思考。": {
+    "en": "Early reflections on learning.",
+    "zh-CN": "早期学习思考。"
+  },
+  "数学方法整理。": {
+    "en": "A collection of mathematical methods.",
+    "zh-CN": "数学方法整理。"
+  },
+  "数学游戏和解题思路。": {
+    "en": "Mathematical games and problem-solving ideas.",
+    "zh-CN": "数学游戏和解题思路。"
+  },
+  "数学压轴题笔记。": {
+    "en": "Notes on challenging mathematics problems.",
+    "zh-CN": "数学压轴题笔记。"
+  },
+  "数学题目记录。": {
+    "en": "Mathematics problem notes.",
+    "zh-CN": "数学题目记录。"
+  },
+  "数学方法理解。": {
+    "en": "Understanding mathematical methods.",
+    "zh-CN": "数学方法理解。"
+  },
+  "AI overview": {
+    "en": "AI overview",
+    "zh-CN": "人工智能概览"
+  },
+  "Score-function based generative models": {
+    "en": "Score-function based generative models",
+    "zh-CN": "基于得分函数的生成模型"
+  },
+  "Flow Matching 1": {
+    "en": "Flow Matching 1",
+    "zh-CN": "流匹配 1"
+  },
+  "Statistical Field Theory 1": {
+    "en": "Statistical Field Theory 1",
+    "zh-CN": "统计场论 1"
+  },
+  "Hybrid Optimization for FWI": {
+    "en": "Hybrid Optimization for FWI",
+    "zh-CN": "全波形反演的混合优化方法"
+  },
+  "Planetary Science Note 1": {
+    "en": "Planetary Science Note 1",
+    "zh-CN": "行星科学笔记 1"
+  },
+  "Devito Notes": {
+    "en": "Devito Notes",
+    "zh-CN": "Devito 笔记"
+  },
+  "HSR AI": {
+    "en": "HSR AI",
+    "zh-CN": "HSR 人工智能"
+  },
+  "中宏复习笔记": {
+    "en": "Intermediate Macroeconomics Review Notes",
+    "zh-CN": "中级宏观经济学复习笔记"
+  },
+  "函数基本性质 1.10": {
+    "en": "Basic Properties of Functions 1.10",
+    "zh-CN": "函数基本性质 1.10"
+  },
+  "出题 1": {
+    "en": "Problem Design 1",
+    "zh-CN": "出题 1"
+  },
+  "西方政治思想导言": {
+    "en": "Introduction to Western Political Thought",
+    "zh-CN": "西方政治思想导言"
+  },
+  "Exam materials folder": {
+    "en": "Exam materials folder",
+    "zh-CN": "考试资料目录"
+  },
+  "早期 AI 笔记。": {
+    "en": "Early AI notes.",
+    "zh-CN": "早期人工智能笔记。"
+  },
+  "生成模型学习笔记。": {
+    "en": "Study notes on generative models.",
+    "zh-CN": "生成模型学习笔记。"
+  },
+  "强化学习笔记。": {
+    "en": "Reinforcement learning notes.",
+    "zh-CN": "强化学习笔记。"
+  },
+  "统计场论笔记。": {
+    "en": "Statistical field theory notes.",
+    "zh-CN": "统计场论笔记。"
+  },
+  "FWI 相关笔记。": {
+    "en": "Notes on full waveform inversion.",
+    "zh-CN": "全波形反演相关笔记。"
+  },
+  "行星科学基础笔记。": {
+    "en": "Foundations of planetary science.",
+    "zh-CN": "行星科学基础笔记。"
+  },
+  "科学计算工具笔记。": {
+    "en": "Notes on scientific computing tools.",
+    "zh-CN": "科学计算工具笔记。"
+  },
+  "杂项学习笔记。": {
+    "en": "Miscellaneous study notes.",
+    "zh-CN": "杂项学习笔记。"
+  },
+  "课程复习材料。": {
+    "en": "Course review materials.",
+    "zh-CN": "课程复习材料。"
+  },
+  "备课教案。": {
+    "en": "Teaching plans.",
+    "zh-CN": "备课教案。"
+  },
+  "出题材料。": {
+    "en": "Problem-writing materials.",
+    "zh-CN": "出题材料。"
+  },
+  "课程笔记。": {
+    "en": "Course notes.",
+    "zh-CN": "课程笔记。"
+  },
+  "考试资料目录。": {
+    "en": "A directory of exam materials.",
+    "zh-CN": "考试资料目录。"
+  },
+  "从反演问题到生成模型：为什么我开始重新理解“先验”": {
+    "en": "From Inverse Problems to Generative Models: Rethinking Priors",
+    "zh-CN": "从反演问题到生成模型：为什么我开始重新理解“先验”"
+  },
+  "这类详情页的重点不是炫技，而是让长文、公式、补充材料和公众号同步状态都能安静地放在同一个页面里。": {
+    "en": "This article page brings long-form writing, equations, supplementary material, and the status of the WeChat version together in one place.",
+    "zh-CN": "这类详情页的重点不是炫技，而是让长文、公式、补充材料和公众号同步状态都能安静地放在同一个页面里。"
+  },
+  "Featured Observation": {
+    "en": "Featured Observation",
+    "zh-CN": "研究观察"
+  },
+  "Research Essay": {
+    "en": "Research Essay",
+    "zh-CN": "研究随笔"
+  },
+  "Wechat draft": {
+    "en": "Wechat draft",
+    "zh-CN": "公众号草稿"
+  },
+  "12 min read": {
+    "en": "12 min read",
+    "zh-CN": "阅读约 12 分钟"
+  },
+  "我一开始把“先验”理解成一种外加约束：数据不够时，给模型加一点额外偏好。但最近读 FWI 和生成模型相关论文时，我越来越觉得这个说法太粗糙。": {
+    "en": "I initially understood a prior as an added constraint: when data are insufficient, introduce an extra preference for the model. But while reading papers on FWI and generative models recently, I have increasingly felt that this description is too crude.",
+    "zh-CN": "我一开始把“先验”理解成一种外加约束：数据不够时，给模型加一点额外偏好。但最近读 FWI 和生成模型相关论文时，我越来越觉得这个说法太粗糙。"
+  },
+  "更准确的问题也许不是“要不要加先验”，而是：当观测数据不足以唯一决定答案时，我们希望模型借用哪一种结构性知识？": {
+    "en": "Perhaps the more precise question is not whether to add a prior, but what kind of structural knowledge we want the model to draw on when observations cannot uniquely determine the answer.",
+    "zh-CN": "更准确的问题也许不是“要不要加先验”，而是：当观测数据不足以唯一决定答案时，我们希望模型借用哪一种结构性知识？"
+  },
+  "Motivation": {
+    "en": "Motivation",
+    "zh-CN": "研究动机"
+  },
+  "在反演问题里，我们常常只有间接观测。速度模型、地下结构、边界条件和噪声都会影响最终结果。单纯优化数据 misfit 很容易得到看似合理但物理上不稳定的解。": {
+    "en": "In inverse problems, we often have only indirect observations. Velocity models, subsurface structures, boundary conditions, and noise all influence the result. Optimizing the data misfit alone can readily produce solutions that look plausible but are physically unstable.",
+    "zh-CN": "在反演问题里，我们常常只有间接观测。速度模型、地下结构、边界条件和噪声都会影响最终结果。单纯优化数据失配很容易得到看似合理但物理上不稳定的解。"
+  },
+  "这个表达式看起来简单，但真正困难的是右边的 R(m)：它到底是在惩罚什么？是在鼓励光滑、边缘、稀疏，还是某种从数据集中学来的地质结构？": {
+    "en": "The expression looks simple, but the real difficulty lies in R(m): what does it penalize? Does it encourage smoothness, edges, sparsity, or geological structures learned from a dataset?",
+    "zh-CN": "这个表达式看起来简单，但真正困难的是右边的 R(m)：它到底是在惩罚什么？是在鼓励光滑、边缘、稀疏，还是某种从数据集中学来的地质结构？"
+  },
+  "A Small Mathematical View": {
+    "en": "A Small Mathematical View",
+    "zh-CN": "一个数学视角"
+  },
+  "如果把生成模型看成一个结构分布的近似，那么先验就不再只是正则项，而是一个“可采样的知识空间”。这会改变我们看待实验失败的方式：失败不一定来自优化器，也可能来自训练分布与反演目标之间的错位。": {
+    "en": "If a generative model approximates a distribution over structures, a prior becomes more than a regularization term: it becomes a space of knowledge that we can sample. This changes how we interpret failed experiments. The optimizer may not be at fault; the training distribution may instead be misaligned with the inversion target.",
+    "zh-CN": "如果把生成模型看成一个结构分布的近似，那么先验就不再只是正则项，而是一个“可采样的知识空间”。这会改变我们看待实验失败的方式：失败不一定来自优化器，也可能来自训练分布与反演目标之间的错位。"
+  },
+  "Revision note": {
+    "en": "Revision note",
+    "zh-CN": "修订说明"
+  },
+  "v0.3 版本准备补一张示意图：把 classical regularization、learned prior 和 diffusion prior 放在同一张坐标轴上比较。": {
+    "en": "For version 0.3, I plan to add a diagram comparing classical regularization, learned priors, and diffusion priors within a common set of axes.",
+    "zh-CN": "v0.3 版本准备补一张示意图：把经典正则化、学习型先验和扩散先验放在同一张坐标轴上比较。"
+  },
+  "Experiment Note": {
+    "en": "Experiment Note",
+    "zh-CN": "实验记录"
+  },
+  "最近一次二维速度模型实验里，我发现 score prior 接入后结果并不稳定。复盘后更像是尺度问题：训练样本的速度范围、归一化方式和反演数据的物理尺度没有对齐。": {
+    "en": "In a recent experiment with a two-dimensional velocity model, adding a score-based prior produced unstable results. Looking back, this seems more like a scale mismatch: the velocity range and normalization of the training samples were not aligned with the physical scale of the inversion data.",
+    "zh-CN": "最近一次二维速度模型实验里，我发现接入得分先验后结果并不稳定。复盘后更像是尺度问题：训练样本的速度范围、归一化方式和反演数据的物理尺度没有对齐。"
+  },
+  "Wechat Version": {
+    "en": "Wechat Version",
+    "zh-CN": "公众号版本"
+  },
+  "公众号版本可以删去部分公式，把主线改成三个问题：为什么反演会不适定？先验到底在提供什么？生成模型为什么可能成为新的先验表达方式？": {
+    "en": "The WeChat version could omit some equations and focus on three questions: Why are inverse problems ill-posed? What does a prior provide? Why might generative models offer a new way to represent priors?",
+    "zh-CN": "公众号版本可以删去部分公式，把主线改成三个问题：为什么反演会不适定？先验到底在提供什么？生成模型为什么可能成为新的先验表达方式？"
+  },
+  "About Me / 个人学术主页": {
+    "en": "About Me",
+    "zh-CN": "个人学术主页"
+  },
+  "Awards / 荣誉记录": {
+    "en": "Awards",
+    "zh-CN": "荣誉记录"
+  },
+  "Publications / 学术产出": {
+    "en": "Publications",
+    "zh-CN": "学术成果"
+  },
+  "Diary / 日志": {
+    "en": "Diary",
+    "zh-CN": "日记"
+  },
+  "Old Archives / 旧内容归档": {
+    "en": "Old Archives",
+    "zh-CN": "旧文归档"
+  },
+  "Blog Entry / 公众号母稿": {
+    "en": "Blog Entry",
+    "zh-CN": "博客文章 / 公众号母稿"
+  },
+  "Topic 01": {
+    "en": "Topic 01",
+    "zh-CN": "课题 01"
+  },
+  "Topic 02": {
+    "en": "Topic 02",
+    "zh-CN": "课题 02"
+  },
+  "Topic 03": {
+    "en": "Topic 03",
+    "zh-CN": "课题 03"
+  },
+  "Topic 04": {
+    "en": "Topic 04",
+    "zh-CN": "课题 04"
+  },
+  "Topic 05": {
+    "en": "Topic 05",
+    "zh-CN": "课题 05"
+  },
+  "Note 01": {
+    "en": "Note 01",
+    "zh-CN": "笔记 01"
+  },
+  "Note 02": {
+    "en": "Note 02",
+    "zh-CN": "笔记 02"
+  },
+  "Note 03": {
+    "en": "Note 03",
+    "zh-CN": "笔记 03"
+  },
+  "Reinforcement Learning 1": {
+    "en": "Reinforcement Learning 1",
+    "zh-CN": "强化学习 1"
+  },
+  "Reinforcement Learning 2": {
+    "en": "Reinforcement Learning 2",
+    "zh-CN": "强化学习 2"
+  },
+  "Reinforcement Learning 3": {
+    "en": "Reinforcement Learning 3",
+    "zh-CN": "强化学习 3"
+  },
+  "Reinforcement Learning 4": {
+    "en": "Reinforcement Learning 4",
+    "zh-CN": "强化学习 4"
+  },
+  "Reinforcement Learning 5": {
+    "en": "Reinforcement Learning 5",
+    "zh-CN": "强化学习 5"
+  },
+  "Reinforcement Learning 6": {
+    "en": "Reinforcement Learning 6",
+    "zh-CN": "强化学习 6"
+  },
+  "Reinforcement Learning 7": {
+    "en": "Reinforcement Learning 7",
+    "zh-CN": "强化学习 7"
+  },
+  "Reinforcement Learning 8": {
+    "en": "Reinforcement Learning 8",
+    "zh-CN": "强化学习 8"
+  },
+  "Published with": {
+    "en": "Published with",
+    "zh-CN": "发布平台"
+  },
+  "Powered by": {
+    "en": "Powered by",
+    "zh-CN": "生成工具"
+  },
+  "Theme": {
+    "en": "Theme",
+    "zh-CN": "主题"
+  },
+  "Website source": {
+    "en": "Website source",
+    "zh-CN": "网站源代码"
+  },
+  "Zhihu": {
+    "en": "Zhihu",
+    "zh-CN": "知乎"
+  },
+  "Published on": {
+    "en": "Published on",
+    "zh-CN": "发表于"
+  },
+  "Last updated on": {
+    "en": "Last updated on",
+    "zh-CN": "最后更新于"
+  },
+  "Author": {
+    "en": "Author",
+    "zh-CN": "作者："
+  },
+  "You might also enjoy": {
+    "en": "You might also enjoy",
+    "zh-CN": "你可能还感兴趣"
+  },
+  "Archive records awaiting files": {
+    "en": "Archive records awaiting files",
+    "zh-CN": "待补全的旧条目"
+  },
+  "These older records have no matching article files yet.": {
+    "en": "These older records have no matching article files yet.",
+    "zh-CN": "以下旧记录暂缺对应文章文件。"
+  },
+  "Exam materials": {
+    "en": "Exam materials",
+    "zh-CN": "考试资料"
+  },
+  "The archive has moved to Blogs.": {
+    "en": "The archive has moved to Blogs.",
+    "zh-CN": "旧文归档已合并至博客。"
+  },
+  "Open Blogs": {
+    "en": "Open Blogs",
+    "zh-CN": "前往博客"
+  },
+  "Playground": {
+    "en": "Playground",
+    "zh-CN": "互动实验室"
+  },
+  "interactive experiments": {
+    "en": "interactive experiments",
+    "zh-CN": "互动实验"
+  },
+  "Interactive experiments": {
+    "en": "Interactive experiments",
+    "zh-CN": "互动实验"
+  },
+  "Small experiments to explore with your hands, eyes, and curiosity.": {
+    "en": "Small experiments to explore with your hands, eyes, and curiosity.",
+    "zh-CN": "用双手、双眼和好奇心，探索一些小实验。"
+  },
+  "Particle Animation": {
+    "en": "Particle Animation",
+    "zh-CN": "粒子动画"
+  },
+  "Open experiment →": {
+    "en": "Open experiment →",
+    "zh-CN": "进入体验 →"
+  },
+  "Shape a field of starlight into hearts, flowers, Saturn, and fireworks. Use the controls or enable camera gestures.": {
+    "en": "Shape a field of starlight into hearts, flowers, Saturn, and fireworks. Use the controls or enable camera gestures.",
+    "zh-CN": "让星光聚成爱心、花朵、土星与烟花。使用控制按钮，或开启摄像头手势互动。"
+  },
+  "This page collects formal academic outputs. Essays and study notes are available in Blogs.": {
+    "en": "This page collects formal academic outputs. Essays and study notes are available in Blogs.",
+    "zh-CN": "本页汇集正式学术成果，随笔与学习笔记请见博客。"
+  }
+}

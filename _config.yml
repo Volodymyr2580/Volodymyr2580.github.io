@@ -7,7 +7,7 @@ url: https://Volodymyr2580.github.io
 # Owner/author information
 owner:
   name: Wenzhe Sheng
-  avatar: bigheadwenzhe.jpg
+  avatar: wenzhe-portrait.png
   bio: Undergraduate researcher at Peking University, School of Earth and Space Sciences.
   email: 2200012437@stu.pku.edu.cn
   cv: 
@@ -33,20 +33,12 @@ links:
     url: /publications/
   - title: Awards
     url: /awards/
-  - title: Diary
-    url: /diary/
   # - title: Startups
     # url: /startups/
   - title: Blogs
     url: /blogs/
-  - title: Research Log
-    url: /research/
-  - title: Notes
-    url: /notes/
-  - title: Old Archives
-    url: /old-archives/
-  - title: Learn
-    url: /learn/
+  - title: Playground
+    url: /playground/
 
 # http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 timezone: Asia/Shanghai
@@ -82,6 +74,6 @@ giscus:
   lang: "zh-CN"
 
 include: [".htaccess", "blogs/.assets"]
-exclude: ["lib", "config.rb", "Capfile", "config", "log", "Rakefile", "Rakefile.rb", "tmp", "less", "minimal-mistakes.sublime-project", "minimal-mistakes.sublime-workspace", "AGENTS.md", "design-previews"]
+exclude: ["lib", "config.rb", "Capfile", "config", "log", "Rakefile", "Rakefile.rb", "tmp", "less", "minimal-mistakes.sublime-project", "minimal-mistakes.sublime-workspace", "AGENTS.md", "design-previews", "diary.md", "diary"]
 
 # Latest update in 2023/12/10 by Hanlin Cai.

@@ -9,6 +9,7 @@
 
 <head>
 {% include head.html %}
+<link rel="stylesheet" href="{{ '/assets/css/i18n.css?v=20261008' | relative_url }}">
 
 <script src="https://cdn.counter.dev/script.js" data-id="4c8f7caa-2b55-46cd-a995-2c4633303773" data-utcoffset="8"></script>
 
@@ -48,12 +49,13 @@
     </div><!--/ .headline-wrap -->
   {% endcomment %}
     <div class="article-wrap" itemprop="text">
+      {% include translation-notice.html %}
       {{ content }}
     </div><!-- /.article-wrap -->
     {% if page.comments != false %}
     <div class="comments-section">
       <hr>
-      <h3>Leave a Message</h3>
+      <h3 data-i18n="Leave a Message">Leave a Message</h3>
       {% include disqus.html %}
     </div>
     {% endif %}

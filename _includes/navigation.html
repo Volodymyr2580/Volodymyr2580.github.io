@@ -4,12 +4,12 @@
 			<span class="site-mark">PKU</span>
 			<span class="site-brand-text">
 				<span class="site-title">{{ site.title }}</span>
-				<span class="site-subtitle">School of Earth and Space Sciences</span>
+				<span class="site-subtitle" data-i18n="School of Earth and Space Sciences">School of Earth and Space Sciences</span>
 			</span>
 		</a>
 	</div><!-- /.site-name -->
   {% capture url %}{{ page.url | remove:'index.html' }}{% endcapture %}
-	<button class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false">
+	<button class="menu-toggle" aria-label="Toggle navigation" data-i18n-aria-label="Toggle navigation" aria-expanded="false">
 		<span class="bar"></span>
 		<span class="bar"></span>
 		<span class="bar"></span>
@@ -18,15 +18,16 @@
 		<nav role="navigation" itemscope itemtype="http://schema.org/SiteNavigationElement">
 		    <ul>
 		        {% for link in site.links %}
-            <li><a href="{{ link.url | relative_url }}" {% if url == link.url %}class="top-navigation-current"{% endif %}>{{ link.title }}</a></li>
+            <li><a href="{{ link.url | relative_url }}" {% if url == link.url %}class="top-navigation-current"{% endif %} data-i18n="{{ link.title | escape }}">{{ link.title }}</a></li>
 		        {% endfor %}
 		    </ul>
 		</nav>
-		<div class="nav-social-links" aria-label="Contact links">
+		<div class="nav-social-links" aria-label="Contact links" data-i18n-aria-label="Contact links">
 			{% if site.owner.github %}<a href="https://github.com/{{ site.owner.github }}" aria-label="GitHub"><i class="icon-github"></i></a>{% endif %}
-			{% if site.owner.email %}<a href="mailto:{{ site.owner.email }}" aria-label="Email"><i class="icon-mail"></i></a>{% endif %}
+			{% if site.owner.email %}<a href="mailto:{{ site.owner.email }}" aria-label="Email" data-i18n-aria-label="Email"><i class="icon-mail"></i></a>{% endif %}
 		</div>
 	</div><!-- /.top-navigation -->
+  {% include language-switcher.html %}
 </div><!-- /.navigation-wrapper -->
 
 <!-- Lastly modified by Hanlin CAI in 2023/05/01 -->
