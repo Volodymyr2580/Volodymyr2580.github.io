@@ -1,0 +1,112 @@
+.home-profile {
+  --home-rule: #bdd8ee;
+  max-width: 850px;
+  padding-bottom: 48px;
+}
+.home-profile .lab-hero { padding-bottom: 36px; }
+.home-profile .profile-section {
+  width: auto;
+  padding: 28px 0 0;
+  margin: 0 0 28px;
+  border: 0;
+  border-top: 1px solid var(--home-rule);
+}
+.home-profile .profile-section h2 {
+  margin: 0 0 20px;
+  font-size: 23px;
+  line-height: 1.4;
+}
+.home-profile .home-interests {
+  list-style: none;
+  counter-reset: research;
+  padding: 0;
+  margin: 0;
+}
+.home-profile .home-interests li {
+  counter-increment: research;
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr);
+  align-items: baseline;
+  gap: 16px;
+  margin: 0;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(189, 216, 238, .6);
+}
+.home-profile .home-interests li::before {
+  content: counter(research, decimal-leading-zero);
+  color: #226fa9;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+.home-profile .home-interests li:last-child { border-bottom: 0; }
+.home-profile .home-interests h3 {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+.home-profile .home-education-entry {
+  display: grid;
+  grid-template-columns: 148px minmax(0, 1fr);
+  gap: 24px;
+  padding: 4px 0 22px;
+}
+.home-profile .home-education-entry + .home-education-entry {
+  padding-top: 20px;
+  border-top: 1px solid rgba(189, 216, 238, .6);
+}
+.home-profile .home-education-entry time {
+  padding-top: 3px;
+  color: #52677f;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+.home-profile .home-education-entry h3 {
+  margin: 0 0 5px;
+  font-size: 18px;
+  line-height: 1.5;
+}
+.home-profile .home-education-entry p {
+  margin: 0;
+  color: #43556e;
+  font-size: 16px;
+  line-height: 1.8;
+}
+.home-profile .home-personal {
+  max-width: 760px;
+  color: #43556e;
+  font-size: 17px;
+  line-height: 1.9;
+  overflow-wrap: break-word;
+  text-wrap: pretty;
+}
+.home-profile .home-personal p { margin: 0 0 18px; }
+.home-profile .home-personal .home-greeting {
+  color: #0b2242;
+  font-size: 25px;
+  font-weight: 650;
+  line-height: 1.5;
+}
+.home-profile .home-favorite {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  padding-top: 8px;
+}
+.home-profile .home-favorite span:first-child {
+  color: #52677f;
+  font-size: 14px;
+}
+.home-profile .home-favorite cite {
+  color: #0b2242;
+  font-style: normal;
+  font-weight: 600;
+}
+@media (max-width: 600px) {
+  .home-profile .profile-section { padding-top: 24px; margin-bottom: 24px; }
+  .home-profile .home-interests li { grid-template-columns: 24px minmax(0, 1fr); gap: 12px; }
+  .home-profile .home-interests h3 { font-size: 17px; }
+  .home-profile .home-education-entry { grid-template-columns: 1fr; gap: 8px; }
+  .home-profile .home-personal { font-size: 16px; }
+}

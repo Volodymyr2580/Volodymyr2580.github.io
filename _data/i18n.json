@@ -111,10 +111,6 @@
     "en": "School of Earth and Space Sciences",
     "zh-CN": "地球与空间科学学院"
   },
-  "Undergraduate researcher at Peking University, School of Earth and Space Sciences.": {
-    "en": "Undergraduate researcher at Peking University, School of Earth and Space Sciences.",
-    "zh-CN": "北京大学地球与空间科学学院本科生研究者。"
-  },
   "This article is shown in its original language. A bilingual version will be added progressively.": {
     "en": "This article is shown in its original language. A bilingual version will be added progressively.",
     "zh-CN": "本文暂以原文呈现，后续将逐步补充完整双语版本。"
@@ -246,10 +242,6 @@
   "Mathematics competition award.": {
     "en": "Mathematics competition award.",
     "zh-CN": "数学竞赛获奖。"
-  },
-  "Undergraduate researcher at Peking University, School of Earth and Space Sciences. I use this website to keep research topics, public writing, notes, and personal progress in one calm place.": {
-    "en": "Undergraduate researcher at Peking University, School of Earth and Space Sciences. I use this website to keep research topics, public writing, notes, and personal progress in one calm place.",
-    "zh-CN": "北京大学地球与空间科学学院本科生研究者。在这里记录研究课题、公开写作、学习笔记与个人成长。"
   },
   "Research Interests": {
     "en": "Research Interests",
@@ -1138,5 +1130,77 @@
   "This page collects formal academic outputs. Essays and study notes are available in Blogs.": {
     "en": "This page collects formal academic outputs. Essays and study notes are available in Blogs.",
     "zh-CN": "本页汇集正式学术成果，随笔与学习笔记请见博客。"
+  },
+  "PhD student (2026 cohort), School of Earth and Space Sciences, Peking University.": {
+    "en": "PhD student (2026 cohort), School of Earth and Space Sciences, Peking University.",
+    "zh-CN": "北京大学地球与空间科学学院 2026 级在读博士生。"
+  },
+  "home.overview": {
+    "en": "I am a PhD student in the 2026 cohort at the School of Earth and Space Sciences, Peking University. My interests span geophysics, deep learning, planetary science, and science communication.",
+    "zh-CN": "我是北京大学地球与空间科学学院 2026 级在读博士生，关注地球物理与深度学习的交叉、行星科学，以及地球科学知识科普。"
+  },
+  "home.interest.inverse": {
+    "en": "Geophysical inverse problems × deep learning",
+    "zh-CN": "地球物理反问题 × 深度学习"
+  },
+  "home.interest.data": {
+    "en": "Geophysical data processing × deep learning",
+    "zh-CN": "地球物理数据处理 × 深度学习"
+  },
+  "home.interest.planetary": {
+    "en": "Planetary science — currently the Moon and Mars",
+    "zh-CN": "行星科学——目前关注月球与火星"
+  },
+  "home.interest.outreach": {
+    "en": "Geoscience communication and outreach",
+    "zh-CN": "地球科学知识科普"
+  },
+  "home.education": {
+    "en": "Education",
+    "zh-CN": "教育经历"
+  },
+  "home.phd.period": {
+    "en": "2026.09–present",
+    "zh-CN": "2026.09 至今"
+  },
+  "home.phd.title": {
+    "en": "PhD student, Peking University",
+    "zh-CN": "北京大学 · 博士研究生在读"
+  },
+  "home.phd.school": {
+    "en": "School of Earth and Space Sciences",
+    "zh-CN": "地球与空间科学学院"
+  },
+  "home.bachelors.title": {
+    "en": "Bachelor of Science, Peking University",
+    "zh-CN": "北京大学 · 理学学士"
+  },
+  "home.personal.title": {
+    "en": "Self Introduction",
+    "zh-CN": "自我介绍"
+  },
+  "home.personal.greeting": {
+    "en": "Hi! I'm Volodymyr.",
+    "zh-CN": "Hi！我是 Volodymyr。"
+  },
+  "home.personal.identity": {
+    "en": "I'm currently a PhD student at the School of Earth and Space Sciences, Peking University.",
+    "zh-CN": "我目前在北京大学地球与空间科学学院攻读博士学位。"
+  },
+  "home.personal.character": {
+    "en": "I'd describe myself as optimistic and self-disciplined, sentimental and thoughtful, capable and confident—and, I hope, adorable and approachable. I work diligently and persistently, treat my family and friends with sincerity and kindness, and have a deep passion for education and helping others.",
+    "zh-CN": "我想把自己描述成这样的人：乐观而自律，感性又爱思考，有能力也有自信——当然，希望也有几分可爱和亲和力。我做事认真而执着，珍惜家人与朋友，愿意以真诚和善意待人，也始终热爱教育、乐于帮助他人。"
+  },
+  "home.personal.pastimes": {
+    "en": "I love reading fiction, watching well-crafted TV dramas and films, and playing games that call for quick reflexes, careful decisions, or mental resilience. I enjoy tennis, badminton, and snooker, as well as cooking, caring for cats, and making things by hand.",
+    "zh-CN": "我喜欢读小说、看制作精良的剧集和电影，也喜欢各种考验反应速度、决策能力或心态的游戏。运动方面，我喜欢网球、羽毛球和斯诺克；生活里，也喜欢做饭、养猫和做手工。"
+  },
+  "home.personal.music": {
+    "en": "My playlist includes Anson Seabra, Peder Elias, Lauv, Taylor Swift, JVKE, Ed Sheeran, Troye Sivan, Charlie Puth, and Westlife. But if I had to pick just one favorite song…",
+    "zh-CN": "我的歌单里有 Anson Seabra、Peder Elias、Lauv、Taylor Swift、JVKE、Ed Sheeran、Troye Sivan、Charlie Puth 和 Westlife。不过，如果只能选一首最喜欢的歌……"
+  },
+  "home.personal.favorite": {
+    "en": "My all-time favorite",
+    "zh-CN": "最喜欢的一首歌"
   }
 }
