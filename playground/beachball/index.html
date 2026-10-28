@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#eef7ff">
+  <meta name="description" content="输入走向、倾角和滑动角，交互绘制双力偶震源机制球、P/T 轴和 P 波初动极性。">
+  <title>Beachball Plotter · Wenzhe Sheng</title>
+  <link rel="icon" href="../../images/favorite-avatar.jpg">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="mechanism.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <a class="brand" href="../../"><img src="../../images/favorite-avatar.jpg" alt=""><span><strong>Wenzhe Sheng</strong><small>an interactive lab notebook</small></span></a>
+      <a class="back" href="../">← 返回 Playground</a>
+    </header>
+    <main>
+      <header class="intro">
+        <p class="eyebrow">PLAYGROUND / SEISMOLOGY</p>
+        <h1>Beachball <em>Plotter</em><span>震源机制球</span></h1>
+        <p class="lead">从断层的三个角度，读懂地震的初动方向。</p>
+      </header>
+      <noscript><p class="error">请启用 JavaScript，才能计算和绘制震源机制球。</p></noscript>
+      <div class="workspace">
+        <section class="controls" aria-labelledby="parameters-title">
+          <div class="section-heading"><h2 id="parameters-title">断层参数</h2><span>01 / SOURCE</span></div>
+          <p class="section-note">拖动滑块，或输入角度，图形实时更新。</p>
+          <div class="parameter">
+            <div class="parameter-head"><label for="strike">走向 <span>Strike · φ</span></label><div class="number-wrap"><input id="strike" type="number" min="0" max="360" step="0.1" value="0" aria-describedby="strike-help input-error"><span>°</span></div></div>
+            <input id="strike-range" type="range" min="0" max="360" step="0.1" value="0" aria-label="走向滑块">
+            <div class="range-ends"><span>0°</span><span>360°</span></div>
+            <p id="strike-help">从北顺时针，断层向走向右侧倾斜。</p>
+          </div>
+          <div class="parameter">
+            <div class="parameter-head"><label for="dip">倾角 <span>Dip · δ</span></label><div class="number-wrap"><input id="dip" type="number" min="0" max="90" step="0.1" value="45" aria-describedby="dip-help input-error"><span>°</span></div></div>
+            <input id="dip-range" type="range" min="0" max="90" step="0.1" value="45" aria-label="倾角滑块">
+            <div class="range-ends"><span>0° 水平</span><span>90° 垂直</span></div>
+            <p id="dip-help">断层面与水平面的夹角。</p>
+          </div>
+          <div class="parameter">
+            <div class="parameter-head"><label for="rake">滑动角 <span>Rake · λ</span></label><div class="number-wrap"><input id="rake" type="number" min="-180" max="180" step="0.1" value="-90" aria-describedby="rake-help input-error"><span>°</span></div></div>
+            <input id="rake-range" type="range" min="-180" max="180" step="0.1" value="-90" aria-label="滑动角滑块">
+            <div class="range-ends"><span>−180°</span><span>0°</span><span>180°</span></div>
+            <p id="rake-help">+90° 逆断层；−90° 正断层；0° 左旋走滑。</p>
+          </div>
+          <p id="input-error" class="error" role="status" hidden></p>
+          <div class="presets" aria-label="典型断层示例">
+            <span class="micro-label">试试典型机制</span>
+            <div class="preset-grid">
+              <button type="button" data-preset="0,45,-90" aria-pressed="true">正断层 <span>Normal</span></button>
+              <button type="button" data-preset="0,45,90" aria-pressed="false">逆断层 <span>Reverse</span></button>
+              <button type="button" data-preset="0,90,0" aria-pressed="false">左旋走滑 <span>Strike-slip</span></button>
+              <button type="button" data-preset="35,60,125" aria-pressed="false">斜向滑动 <span>Oblique</span></button>
+            </div>
+          </div>
+          <fieldset class="view-options"><legend>图层与配色</legend>
+            <label><input type="checkbox" id="show-axes" checked> P / T 轴</label>
+            <label><input type="checkbox" id="show-planes" checked> 节面线</label>
+            <label><input type="checkbox" id="show-polarities" checked> 初动 + / −</label>
+            <label><input type="checkbox" id="monochrome"> 黑白配色</label>
+          </fieldset>
+        </section>
+
+        <section class="visual" aria-labelledby="plot-heading">
+          <div class="plot-heading"><div><p class="eyebrow">LOWER HEMISPHERE · EQUAL AREA</p><h2 id="plot-heading">下半球 · 等面积投影</h2></div><span class="tag">Double couple</span></div>
+          <div id="plot" class="plot"></div>
+          <p class="plot-hint">点击球内任意位置，探查该方向的 P 波初动。</p>
+          <div class="legend"><span><i class="swatch compression"></i>压缩初动 +</span><span><i class="swatch dilation"></i>膨胀初动 −</span><span><i class="line"></i>输入断层面</span><span><i class="line dashed"></i>辅助面</span></div>
+          <div class="axis-readouts" aria-live="polite">
+            <div><span class="axis-badge p">P</span><span>压缩轴<small id="p-readout"></small></span></div>
+            <div><span class="axis-badge t">T</span><span>张性轴<small id="t-readout"></small></span></div>
+          </div>
+          <div class="export-row"><p id="parameter-summary">φ 0° / δ 45° / λ −90°</p><div><button id="export-svg" type="button">下载 SVG</button><button id="export-png" type="button">下载 PNG</button></div></div>
+          <p id="export-status" class="sr-only" role="status"></p>
+        </section>
+      </div>
+
+      <section class="probe-section" aria-labelledby="probe-heading">
+        <div class="probe-intro"><p class="eyebrow">02 / FIRST MOTION</p><h2 id="probe-heading">沿一个方向，看看初动</h2><p>球上的金色圆点是探针。这里显示理论极性，不是台站观测。</p></div>
+        <div class="probe-controls">
+          <label for="azimuth">方位角 <small>从北顺时针</small><span class="number-wrap"><input id="azimuth" type="number" min="0" max="360" step="0.1" value="45" aria-describedby="probe-error"><span>°</span></span></label>
+          <label for="takeoff">出射角 <small>从竖直向下起算</small><span class="number-wrap"><input id="takeoff" type="number" min="0" max="90" step="0.1" value="60" aria-describedby="probe-error"><span>°</span></span></label>
+          <p id="probe-error" class="error" role="status" hidden></p>
+        </div>
+        <div class="probe-result" aria-live="polite"><span id="polarity-symbol">−</span><div><strong id="polarity-label">膨胀初动</strong><p id="amplitude-readout"></p><small>相对辐射系数；正向沿射线离开震源。</small></div></div>
+      </section>
+
+      <section class="notes" aria-label="读图方法与开源参考">
+        <details open><summary>如何读这张图？</summary><div class="note-content">
+          <p>北在上、东在右。圆心是竖直向下的射线（出射角 0°），圆周是水平方向（90°）。P/T 轴显示下半球端点，读数为方位角 / 俯角；竖直轴的方位角没有定义。</p>
+          <p>深色区域与 + 表示沿射线向外的压缩初动，白色区域与 − 表示向内的膨胀初动。两条节面上理论 P 波振幅为零。图上的 + / − 是示意采样，金色圆点用于精确探查。</p>
+          <p><strong>P/T 是震源的主轴，不是初动区的名称。</strong>在此符号约定下，T 轴落在压缩初动区，P 轴落在膨胀初动区。它们也不能直接等同于区域构造应力轴。</p>
+          <p>实线是输入断层面，虚线是辅助面。仅凭机制球无法判断哪个节面是真实断层；倾角为 0° 时，走向与滑动角的参数表达不唯一。</p>
+        </div></details>
+        <details><summary>计算约定与开源参考</summary><div class="note-content">
+          <p>采用 Aki–Richards 走向 / 倾角 / 滑动角约定与北–东–下（NED）坐标。单位滑动向量 s 与单位法向量 n 构成双力偶矩张量：<code>M = s nᵀ + n sᵀ</code>；方向 r 上的相对 P 波辐射系数为 <code>A = rᵀ M r</code>，范围为 −1 至 +1。</p>
+          <p>P 与 T 分别对应 M 的最小、最大特征值。球面使用 Lambert 等面积投影。此工具只描述纯双力偶与震源处的理论 P 波辐射，不包含传播路径、自由表面或仪器响应；读数不是地表记录振幅。</p>
+          <p>开源参考：<a href="https://github.com/obspy/obspy/blob/1.4.2/obspy/imaging/beachball.py">ObsPy Beachball</a> 与 <a href="https://github.com/obspy/obspy/blob/1.4.2/obspy/imaging/scripts/mopad.py">MoPaD</a>（LGPL-3.0）。浏览器端独立实现向量几何，数值核对使用 ObsPy。读图背景参考 <a href="https://www.usgs.gov/programs/earthquake-hazards/focal-mechanisms-or-beachballs">USGS 的机制球说明</a>。</p>
+        </div></details>
+      </section>
+    </main>
+    <footer><span>Wenzhe Sheng · Seismology playground</span><a href="../">更多互动实验 ↗</a></footer>
+  </div>
+</body>
+</html>

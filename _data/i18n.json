@@ -1199,6 +1199,18 @@
     "en": "My playlist includes Anson Seabra, Peder Elias, Lauv, Taylor Swift, JVKE, Ed Sheeran, Troye Sivan, Charlie Puth, and Westlife. But if I had to pick just one favorite song…",
     "zh-CN": "我的歌单里有 Anson Seabra、Peder Elias、Lauv、Taylor Swift、JVKE、Ed Sheeran、Troye Sivan、Charlie Puth 和 Westlife。不过，如果只能选一首最喜欢的歌……"
   },
+  "Beachball Plotter": {
+    "en": "Beachball Plotter",
+    "zh-CN": "震源机制球绘图器"
+  },
+  "Plot a focal mechanism →": {
+    "en": "Plot a focal mechanism →",
+    "zh-CN": "绘制震源机制球 →"
+  },
+  "Explore earthquake focal mechanisms with strike, dip, and rake. See P/T axes and P-wave first-motion polarities, then export your plot.": {
+    "en": "Explore earthquake focal mechanisms with strike, dip, and rake. See P/T axes and P-wave first-motion polarities, then export your plot.",
+    "zh-CN": "输入走向、倾角与滑动角，探索震源机制球、P/T 轴和 P 波初动极性，并导出图片。"
+  },
   "home.personal.favorite": {
     "en": "My all-time favorite",
     "zh-CN": "最喜欢的一首歌"

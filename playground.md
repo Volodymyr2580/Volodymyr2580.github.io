@@ -15,6 +15,11 @@ lab_subtitle: interactive experiments
     <p class="lab-lead" data-i18n="Small experiments to explore with your hands, eyes, and curiosity.">Small experiments to explore with your hands, eyes, and curiosity.</p>
   </header>
   <div class="lab-simple-list">
+    <a class="lab-simple-item" href="{{ '/playground/beachball/' | relative_url }}">
+      <span data-i18n="Beachball Plotter">Beachball Plotter</span>
+      <time data-i18n="Plot a focal mechanism →">Plot a focal mechanism →</time>
+    </a>
+    <p data-i18n="Explore earthquake focal mechanisms with strike, dip, and rake. See P/T axes and P-wave first-motion polarities, then export your plot.">Explore earthquake focal mechanisms with strike, dip, and rake. See P/T axes and P-wave first-motion polarities, then export your plot.</p>
     <a class="lab-simple-item" href="{{ '/playground/particle-animation/' | relative_url }}">
       <span data-i18n="Particle Animation">Particle Animation</span>
       <time data-i18n="Open experiment →">Open experiment →</time>
