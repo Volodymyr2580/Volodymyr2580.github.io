@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f4f9fd" />
+    <meta name="description" content="输入矩阵，快速计算逆矩阵、特征值与特征向量，或伪逆与奇异值分解。计算在浏览器本地完成。" />
+    <title>Matrix Lab · 矩阵求解器</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23e6f2fa'/%3E%3Cpath d='M10 7H6v18h4m12-18h4v18h-4' fill='none' stroke='%2317537a' stroke-width='2'/%3E%3Cpath d='M12 11h3v3h-3zm6 0h3v3h-3zm-6 7h3v3h-3zm6 0h3v3h-3z' fill='%232c83b2'/%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="./assets/app.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="site-header">
+        <a class="back-link" href="/playground/">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m9 4-6 6 6 6M3 10h14" /></svg>
+          <span data-i18n="back">返回 Playground</span>
+        </a>
+        <a class="brand" href="#main" aria-label="Matrix Lab">
+          <span class="brand-mark" aria-hidden="true">[<span>m</span>]</span>
+          <span>Matrix Lab</span>
+        </a>
+        <button id="language-button" class="language-button" type="button" aria-label="Switch to English">EN <span aria-hidden="true">↗</span></button>
+      </header>
+
+      <main id="main">
+        <section class="intro" aria-labelledby="page-title">
+          <div>
+            <p class="eyebrow">PLAYGROUND / LINEAR ALGEBRA</p>
+            <h1 id="page-title" data-i18n="heroTitle">矩阵求解器</h1>
+            <p class="intro-description" data-i18n="heroDescription">输入矩阵，让结构一目了然。</p>
+          </div>
+          <div class="intro-aside">
+            <span class="privacy-dot" aria-hidden="true"></span>
+            <span data-i18n="localComputation">本地计算 · 数据不会上传</span>
+          </div>
+        </section>
+
+        <noscript>
+          <div class="notice error"><strong>需要开启 JavaScript 才能计算。</strong><p>这个求解器直接在浏览器中运行。请开启 JavaScript 后刷新页面，或返回 Playground。</p></div>
+          <style>.workspace { display: none; }</style>
+        </noscript>
+
+        <div class="workspace">
+          <section class="input-panel" aria-labelledby="input-title">
+            <div class="section-heading">
+              <div><span class="section-index">01</span><h2 id="input-title" data-i18n="inputTitle">定义矩阵</h2></div>
+              <span id="mode-label" class="mode-label" data-i18n="squareMode">方阵 · 求逆 + EVD</span>
+            </div>
+
+            <form id="dimensions-form" class="dimensions-form">
+              <label for="rows"><span data-i18n="rowsLabel">行数</span> <i>m</i><input id="rows" name="rows" type="number" min="1" max="50" step="1" value="3" inputmode="numeric" required /></label>
+              <span class="dimension-times" aria-hidden="true">×</span>
+              <label for="cols"><span data-i18n="colsLabel">列数</span> <i>n</i><input id="cols" name="cols" type="number" min="1" max="50" step="1" value="3" inputmode="numeric" required /></label>
+              <button id="resize-button" class="secondary-button" type="submit" data-i18n="generateMatrix">生成矩阵</button>
+            </form>
+            <p id="dimension-error" class="notice error" role="alert" hidden></p>
+
+            <div class="editor-heading">
+              <span class="matrix-symbol" aria-label="Matrix A">A <span id="input-shape" class="matrix-dimensions">3 × 3</span></span>
+              <div class="entry-actions">
+                <button id="identity-button" class="text-button" type="button" data-i18n="identity">单位矩阵</button>
+                <button id="random-button" class="text-button" type="button" data-i18n="random">随机</button>
+                <button id="clear-button" class="text-button" type="button" data-i18n="clear">清零</button>
+              </div>
+            </div>
+            <div id="matrix-editor" class="matrix-editor" aria-label="矩阵元素输入区"></div>
+            <p class="field-help" data-i18n="numberHelp">支持小数、科学计数法与分数，如 0.5、1e-3、1/3。</p>
+
+            <div class="example-row">
+              <label for="examples" data-i18n="examplesLabel">试一个例子</label>
+              <select id="examples" name="examples">
+                <option value="symmetric" data-i18n="exampleSymmetric">对称方阵 · 实特征值</option>
+                <option value="tall" data-i18n="exampleTall">高矩阵 · 3 × 2</option>
+                <option value="wide" data-i18n="exampleWide">宽矩阵 · 2 × 3</option>
+                <option value="singular" data-i18n="exampleSingular">奇异方阵 · 无逆矩阵</option>
+                <option value="complex" data-i18n="exampleComplex">旋转矩阵 · 复特征值</option>
+                <option value="jordan" data-i18n="exampleJordan">Jordan 块 · 不可对角化</option>
+              </select>
+            </div>
+
+            <details class="paste-section">
+              <summary><span data-i18n="pasteTitle">从表格或文本粘贴</span><span class="summary-plus" aria-hidden="true">+</span></summary>
+              <label for="paste-input" class="field-help" data-i18n="pasteHelp">每行一行矩阵，用空格、逗号或 Tab 分隔；行列数需与上方一致。</label>
+              <textarea id="paste-input" rows="4" placeholder="4  1  0&#10;1  3  1&#10;0  1  2" spellcheck="false" autocomplete="off" aria-label="粘贴矩阵文本"></textarea>
+              <button id="paste-button" class="secondary-button" type="button" data-i18n="pasteApply">填入矩阵</button>
+            </details>
+
+            <p id="input-error" class="notice error" role="alert" hidden></p>
+            <div class="compute-row">
+              <button id="compute-button" class="primary-button" type="button"><span data-i18n="compute">计算分解</span><span aria-hidden="true">→</span></button>
+              <button id="cancel-button" class="secondary-button" type="button" data-i18n="cancel" hidden>取消计算</button>
+              <label class="precision-control" for="precision"><span data-i18n="precisionLabel">显示有效位数</span><select id="precision"><option value="4">4</option><option value="6" selected>6</option><option value="10">10</option><option value="15">15</option></select></label>
+            </div>
+            <p id="compute-status" class="compute-status" role="status" aria-live="polite" data-i18n="ready">设置维数、填写元素，然后开始计算。</p>
+          </section>
+
+          <section class="output-panel" aria-labelledby="output-title">
+            <div class="section-heading results-heading">
+              <div><span class="section-index">02</span><h2 id="output-title" data-i18n="outputTitle">计算结果</h2></div>
+              <div id="results-toolbar" class="results-toolbar">
+                <button id="copy-all-button" class="text-button" type="button" data-i18n="copyAll" disabled>复制全部</button>
+                <button id="download-button" class="text-button" type="button" data-i18n="download" disabled>下载 JSON</button>
+              </div>
+            </div>
+            <div id="results" aria-live="polite" aria-atomic="false">
+              <div class="empty-results">
+                <div class="empty-matrix" aria-hidden="true"><span>λ</span><span>0</span><span>0</span><span>σ</span></div>
+                <h3 data-i18n="emptyTitle">从一个矩阵开始</h3>
+                <p data-i18n="emptyDescription">根据矩阵形状，自动选择对应的分解。</p>
+                <div class="route-list">
+                  <div><span class="route-condition">m = n</span><span data-i18n="squareRoute">逆矩阵与特征值分解</span><span class="formula">A⁻¹ &nbsp;·&nbsp; AV = VΛ</span></div>
+                  <div><span class="route-condition">m ≠ n</span><span data-i18n="rectangleRoute">伪逆与奇异值分解</span><span class="formula">A⁺ &nbsp;·&nbsp; A = UΣVᵀ</span></div>
+                </div>
+                <p class="empty-footnote" data-i18n="emptyFootnote">同时检查数值秩、条件数与分解残差。</p>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <footer class="page-footer">
+          <p><span class="privacy-dot" aria-hidden="true"></span><span data-i18n="localComputation">本地计算 · 数据不会上传</span></p>
+          <p data-i18n="precisionNote">双精度数值计算。显示位数不改变计算精度；数值秩由相对阈值判定。</p>
+        </footer>
+      </main>
+    </div>
+    <script type="module" src="./assets/app.js"></script>
+  </body>
+</html>

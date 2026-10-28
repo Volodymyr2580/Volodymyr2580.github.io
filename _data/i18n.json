@@ -1,4 +1,16 @@
 {
+  "Matrix Lab": {
+    "en": "Matrix Lab",
+    "zh-CN": "Matrix Lab · 矩阵求解器"
+  },
+  "Open matrix solver →": {
+    "en": "Open matrix solver →",
+    "zh-CN": "打开矩阵求解器 →"
+  },
+  "Compute inverses and eigendecompositions for square matrices, or pseudoinverses and SVD for rectangular matrices. All calculations run locally in your browser.": {
+    "en": "Compute inverses and eigendecompositions for square matrices, or pseudoinverses and SVD for rectangular matrices. All calculations run locally in your browser.",
+    "zh-CN": "方阵求逆与特征值分解，非方阵求伪逆与奇异值分解（SVD）。所有计算均在浏览器本地完成。"
+  },
   "Language": {
     "en": "Language",
     "zh-CN": "语言"

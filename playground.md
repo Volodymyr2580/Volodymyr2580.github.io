@@ -15,6 +15,11 @@ lab_subtitle: interactive experiments
     <p class="lab-lead" data-i18n="Small experiments to explore with your hands, eyes, and curiosity.">Small experiments to explore with your hands, eyes, and curiosity.</p>
   </header>
   <div class="lab-simple-list">
+    <a class="lab-simple-item" href="{{ '/playground/matrix-solver/' | relative_url }}">
+      <span data-i18n="Matrix Lab">Matrix Lab</span>
+      <time data-i18n="Open matrix solver →">Open matrix solver →</time>
+    </a>
+    <p data-i18n="Compute inverses and eigendecompositions for square matrices, or pseudoinverses and SVD for rectangular matrices. All calculations run locally in your browser.">Compute inverses and eigendecompositions for square matrices, or pseudoinverses and SVD for rectangular matrices. All calculations run locally in your browser.</p>
     <a class="lab-simple-item" href="{{ '/playground/beachball/' | relative_url }}">
       <span data-i18n="Beachball Plotter">Beachball Plotter</span>
       <time data-i18n="Plot a focal mechanism →">Plot a focal mechanism →</time>
