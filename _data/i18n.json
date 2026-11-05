@@ -1223,6 +1223,18 @@
     "en": "Explore earthquake focal mechanisms with strike, dip, and rake. See P/T axes and P-wave first-motion polarities, then export your plot.",
     "zh-CN": "输入走向、倾角与滑动角，探索震源机制球、P/T 轴和 P 波初动极性，并导出图片。"
   },
+  "File Bridge": {
+    "en": "File Bridge",
+    "zh-CN": "文件传输助手"
+  },
+  "Transfer files →": {
+    "en": "Transfer files →",
+    "zh-CN": "开始传输文件 →"
+  },
+  "Pair two computers and send files directly between browsers. Includes receive confirmation, transfer progress, and optional TURN relay settings.": {
+    "en": "Pair two computers and send files directly between browsers. Includes receive confirmation, transfer progress, and optional TURN relay settings.",
+    "zh-CN": "配对两台电脑，在浏览器之间直接传文件。支持接收确认、传输进度和可选的 TURN 中转配置。"
+  },
   "home.personal.favorite": {
     "en": "My all-time favorite",
     "zh-CN": "最喜欢的一首歌"

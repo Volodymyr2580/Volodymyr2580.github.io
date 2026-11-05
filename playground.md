@@ -15,6 +15,11 @@ lab_subtitle: interactive experiments
     <p class="lab-lead" data-i18n="Small experiments to explore with your hands, eyes, and curiosity.">Small experiments to explore with your hands, eyes, and curiosity.</p>
   </header>
   <div class="lab-simple-list">
+    <a class="lab-simple-item" href="{{ '/playground/file-transfer/' | relative_url }}">
+      <span data-i18n="File Bridge">File Bridge</span>
+      <time data-i18n="Transfer files →">Transfer files →</time>
+    </a>
+    <p data-i18n="Pair two computers and send files directly between browsers. Includes receive confirmation, transfer progress, and optional TURN relay settings.">Pair two computers and send files directly between browsers. Includes receive confirmation, transfer progress, and optional TURN relay settings.</p>
     <a class="lab-simple-item" href="{{ '/playground/matrix-solver/' | relative_url }}">
       <span data-i18n="Matrix Lab">Matrix Lab</span>
       <time data-i18n="Open matrix solver →">Open matrix solver →</time>

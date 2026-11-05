@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#eef7ff">
+  <meta name="referrer" content="no-referrer">
+  <meta name="description" content="两台电脑之间的临时文件传输助手。配对后直接互传文件，无需账号。">
+  <title>File Bridge · 文件传输助手</title>
+  <link rel="icon" href="../../images/favorite-avatar.jpg">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="vendor/peerjs-1.5.5.min.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+<div class="page">
+  <header class="topbar">
+    <a class="brand" href="../../"><img src="../../images/favorite-avatar.jpg" alt=""><span><strong>Wenzhe Sheng</strong><small>an interactive lab notebook</small></span></a>
+    <a class="back" href="../">← Playground</a>
+  </header>
+  <main>
+    <header class="intro">
+      <div><p class="eyebrow">PLAYGROUND / EVERYDAY TOOLS</p><h1>File <em>Bridge</em><span>文件传输助手</span></h1><p class="lead">让文件，从这台电脑到那台电脑。</p></div>
+      <div class="bridge" aria-hidden="true"><span class="laptop"></span><span class="bridge-line">↔</span><span class="laptop"></span><small>两端在线 · 即连即传</small></div>
+    </header>
+    <noscript><p class="notice">请启用 JavaScript 后使用文件传输。</p></noscript>
+    <div class="statusbar" role="status"><span id="connection-state" class="badge">尚未连接</span><span id="connection-detail">先连接两台设备，再选择文件。</span><button id="disconnect" class="text-button" hidden>断开连接</button></div>
+    <p id="notice" class="notice" role="status" hidden></p>
+    <div class="workspace">
+      <section class="pair-panel" aria-labelledby="pair-title">
+        <div class="section-head"><h2 id="pair-title">连接设备</h2><span>01 / CONNECT</span></div>
+        <div id="pair-actions">
+          <p class="muted">两台电脑都打开这个页面。一台创建，另一台加入。</p>
+          <button id="create" class="primary wide">创建临时连接 <span>↗</span></button>
+          <div class="divider"><span>或者，加入另一台电脑</span></div>
+          <form id="join-form"><label for="join-code">对方的配对码或邀请链接</label><input id="join-code" type="text" placeholder="粘贴链接 / XXXX-XXXX-XXXX-XXXX" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="2048"><button id="join" class="secondary wide" type="submit">连接对方</button></form>
+        </div>
+        <div id="room" hidden><p id="room-caption" class="muted">在另一台电脑输入配对码</p><output id="room-code"></output><div class="button-row"><button id="copy-code" class="secondary">复制配对码</button><button id="copy-link" class="secondary">复制邀请链接</button></div><p id="room-help" class="fine">等待配对时，15 分钟后失效。仅分享给你自己的设备。</p></div>
+        <div class="connection-notes"><p><span class="dot"></span>同一 Wi-Fi 下通常更容易连接</p><p><span class="dot"></span>跨网络先尝试直连，失败可配置中转</p><p><span class="dot"></span>传输期间，请保持两端页面打开</p></div>
+      </section>
+      <section class="transfer-panel" aria-labelledby="transfer-title">
+        <div class="section-head"><h2 id="transfer-title">传送文件</h2><span>02 / TRANSFER</span></div>
+        <div id="drop-zone" class="drop-zone" aria-disabled="true">
+          <svg viewBox="0 0 64 64" width="64" height="64" fill="none" aria-hidden="true"><path d="M13 20h15l5 6h18v25H13z" fill="#dceeff" stroke="currentColor" stroke-width="1.5"/><path d="M32 40V9m-8 8 8-8 8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <h3>把文件拖到这里</h3><p id="drop-hint">连接后即可发送，支持多选文件</p><button id="choose-files" class="primary" disabled>选择文件</button><input id="file-input" type="file" multiple hidden>
+        </div>
+        <div class="transfer-meta"><span>无需登录 · 文件不存入网站</span><span id="storage-mode">检测接收方式中</span></div>
+        <div id="incoming" class="incoming" hidden><p class="eyebrow">INCOMING / 收到文件请求</p><h3 id="incoming-name"></h3><p id="incoming-size"></p><div class="button-row"><button id="accept" class="primary">选择保存位置并接收</button><button id="reject" class="secondary">拒绝</button></div><p id="receive-hint" class="fine"></p></div>
+        <div class="history-head"><h3>本次传输 <span id="queue-count"></span></h3><button id="clear-history" class="text-button">清空已完成记录</button></div>
+        <p id="empty-history" class="empty">还没有文件经过这座小桥。</p><div id="transfers" class="transfers" aria-label="传输记录"></div>
+      </section>
+    </div>
+    <section class="help">
+      <details><summary>跨网络连不上？配置中转服务</summary><div class="details-body"><p>默认使用直连，不含可用的 TURN 中转账号。校园网、公司网或部分移动网络可能限制直连。如果有自己的 TURN 服务，可在两端分别填写；设置仅保留在当前页面，刷新后清除。</p>
+        <fieldset id="network-settings"><legend>连接设置（开始连接前填写）</legend><label for="turn-urls">TURN 地址（每行一个）</label><textarea id="turn-urls" rows="2" placeholder="turn:your-server.example:3478&#10;turns:your-server.example:5349"></textarea><div class="field-grid"><div><label for="turn-user">用户名</label><input id="turn-user" autocomplete="off"></div><div><label for="turn-password">密码 / 临时凭据</label><input id="turn-password" type="password" autocomplete="off"></div></div><label class="checkbox"><input id="relay-only" type="checkbox">仅通过中转连接（用于检查中转是否可用）</label></fieldset>
+        <p class="fine">连接失败也可以让两台电脑接入同一 Wi-Fi 或手机热点，并检查 VPN、访客网络及设备隔离设置。</p></div></details>
+      <details><summary>文件如何传输？能传多大的文件？</summary><div class="details-body"><p>配对通过公共 PeerJS 信令服务建立连接；文件通过 WebRTC 加密传输。默认不配置中转，文件直接在两台设备间传递。配置 TURN 后，中转服务器会转发加密流量，并可能产生流量费用。</p><p>桌面 Chrome / Edge 在支持保存接口时，可边接收边写入硬盘，适合大文件。其他浏览器采用内存接收，本页所有待下载文件合计限制为 128 MiB；下载后可清空记录释放空间。暂不支持文件夹、断点续传或离线投递。中断后请重新发送。</p><p>配对需要互联网，两端必须同时在线。邀请链接和配对码相当于临时钥匙，请勿公开。信令服务和 STUN / TURN 服务会接触连接所需的网络信息。此页面不加载网站统计脚本，不在服务器存储文件或传输记录。</p><p>传输速度取决于实际网络与硬盘，没有固定速率保证。首次使用，建议先传一个小文件确认连接。</p></div></details>
+    </section>
+  </main>
+  <footer><span>FILE BRIDGE <span class="footer-separator">/</span> a small tool for everyday work</span><a href="../">更多 Playground 实验 ↗</a></footer>
+</div>
+</body>
+</html>

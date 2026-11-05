@@ -1,0 +1,88 @@
+# File Bridge · 文件传输助手
+
+位于 `playground/file-transfer/` 的独立静态网页，从 Playground 索引进入。沿用已有 Jekyll / GitHub Pages 项目，不需要生产环境的 Node、数据库或构建步骤。此版本为“直连优先，可自行填写 TURN 配置”，不含可用的 TURN 账号。
+
+## 使用
+
+1. 两台电脑都打开发布后的 `/playground/file-transfer/` 页面。
+2. 一台点击“创建临时连接”；另一台输入配对码，或打开邀请链接后点击“连接对方”。
+3. 显示“已连接”后，任意一台选择或拖入文件。可多选，队列逐个发送。
+4. 对方确认接收。桌面 Chrome / Edge 支持保存接口时先选择位置，再边接收边写入磁盘；不支持时接收至内存，完成后点击“下载”。
+5. 两端保持页面打开。传输完成后可断开，配对码随连接结束作废。
+
+同一 Wi-Fi 下通常更容易直连，但访客网络、设备隔离、防火墙、VPN 等仍可能影响连接。配对需要互联网，不能当作完全离线的局域网传输工具。跨网络直连取决于 NAT 和网络策略，失败时可用同一热点或配置自己的 TURN 服务。
+
+### 本地预览
+
+在仓库根目录运行：
+
+```powershell
+python -m http.server 8765 --bind 127.0.0.1
+```
+
+打开 `http://127.0.0.1:8765/playground/file-transfer/`，按 Ctrl+C 结束服务。不能直接双击 HTML 文件。此回环地址仅供当前电脑预览；第二台电脑应使用正式 HTTPS 网站，或各自在本地启动同一份页面。普通局域网 HTTP 地址不是安全上下文，不能代替 HTTPS 部署。
+
+## 文件组织
+
+- `playground/file-transfer/index.html`：页面和使用说明。
+- `playground/file-transfer/style.css`：独立样式，不影响主站。
+- `playground/file-transfer/app.js`：配对、接收确认、流控、传输与错误处理。
+- `playground/file-transfer/vendor/`：固定版本 PeerJS 1.5.5 及 MIT 许可证，页面不依赖远程脚本 CDN。
+- `_playground/file-transfer/`：维护说明、测试及锁定开发依赖；Jekyll 默认不发布此下划线目录。
+- `design-previews/file-transfer/`：桌面、手机、连接状态截图及机器可读测试结果，主站配置已排除此目录。
+
+仅在 `playground.md` 和 `_data/i18n.json` 追加本工具的入口与翻译，保留它们已有未提交变更。新增中文文本使用 UTF-8。
+
+## 连接与隐私边界
+
+- 默认公共 PeerJS Cloud 负责信令，Cloudflare / Google STUN 辅助地址发现；显式覆盖 PeerJS 默认 ICE 配置，不自动使用任何共享 TURN 凭据。
+- 文件经过 WebRTC 加密数据通道；默认直连。手动配置 TURN 后，中转转发加密流量，流量费用由中转服务决定。
+- 16 位配对码使用 `crypto.getRandomValues` 生成，每位 5 bit，共 80 bit。主机信令 ID 使用带版本前缀的 SHA-256 派生，信令不携带明文配对码。
+- 数据通道内通过随机挑战和双向、区分角色的 HMAC-SHA256 证明配对码持有权。认证完成前不接受文件元数据或文件内容。
+- 邀请码放在 URL fragment 中，读取后从地址栏移除；不会作为 HTTP 请求路径发送。复制或分享链接仍会把临时钥匙交给接收者。
+- 等待配对的主机 15 分钟后失效；连接尝试 35 秒超时。每个房间只容纳另一台设备。
+- 不使用 localStorage、文件上传接口或统计脚本；TURN 凭据仅保留在当前页内存及输入框中。信令、STUN 和 TURN 服务仍会接触连接所需的网络信息。
+- 不支持身份账号体系、离线投递、断点续传和文件夹。不要把配对码或邀请链接公开。
+
+## 传输约定
+
+- PeerJS 采用 `raw` 序列化、可靠有序数据通道。控制消息为有界 JSON。
+- 二进制帧为 8 字节头（32 位传输 ID、32 位分块序号，网络字节序）加最多 16 KiB 内容。
+- 发送窗口最多约 1 MiB；接收端每累计 64 KiB 或到达文件末尾时回执。回执在磁盘写入完成后发送，使内存占用不随整个大文件增长。
+- 每个方向同一时间一个文件，两方向独立，可同时互传。待发送队列最多 100 个文件；超限拒绝本次添加。
+- 接收端核对分块顺序和总字节数；不会仅因发送端发完就显示保存成功。磁盘接收须等待 `writer.close()` 成功；内存接收明确显示“待下载”。
+- 传输 ID 隔离取消后的迟到帧。取消、断线及写入失败会清理活动接收状态、尝试中止临时磁盘写入；不会提供未完成文件的下载入口。
+- 活动传输 90 秒没有接收进度则取消。等待用户选保存位置或确认接收时不使用此数据超时。
+- 内存模式全部待下载文件合计上限 128 MiB；下载并清空完成记录可释放 Blob URL。磁盘模式协议上限 1 TiB，但尚未测试此规模，不代表稳定性或容量承诺。
+- WebRTC 自身提供传输完整性保护；本应用另做序号和长度检查，没有显示或承诺整文件密码学摘要校验。测试中的 SHA-256 是独立验证下载字节，非产品端的摘要功能。
+
+## 复现测试
+
+```powershell
+Set-Location _playground/file-transfer
+npm ci --ignore-scripts --no-audit --no-fund
+# 使用已安装的 Chromium；按实际位置填写。
+$env:CHROMIUM_PATH = 'C:/path/to/chrome.exe'
+$env:TEST_PUBLIC_SIGNAL = '1'
+npm test
+```
+
+测试启动仅监听 `127.0.0.1` 的临时网页和 PeerServer，运行后关闭。两个独立浏览器上下文使用真正的 WebRTC 数据通道；仅测试时将配对服务切换到本地。公开信令冒烟测试使用正式默认服务。
+
+### 2026-11-05 验证结果与限制
+
+- 浏览器实际传输 3 MiB 多窗口二进制文件，下载后与原始数据 SHA-256 一致；UTF-8 文件、零字节、反向传输、双向同时传输均通过。
+- 配对码校验、无 TURN 的仅中转配置、邀请链接、认证消息重放、拒收、多文件队列、取消待接收请求、慢速写入途中取消、内存额度拒绝、断开与重连均通过。
+- 磁盘保存适配器的字节、关闭与中止行为通过。自动化替换了操作系统保存对话框和写入对象，因此尚未验证真实文件选择器、磁盘满状态或多 GiB 文件。
+- 公共 PeerJS Cloud 配对及实际文件传输成功；此项仍是同一台机器两个浏览器上下文，不能证明两个真实设备、不同网络、真实 TURN 的可用性。
+- 1440、1000、768、700、390、320 px 无横向溢出；人工检查桌面和手机截图；无未捕获浏览器异常。
+- JavaScript 语法、翻译 JSON 与 Git 差异空白检查通过。没有 Ruby / Jekyll，未做全站 Jekyll 构建。
+- 发布通过推送仓库 `main` 分支触发 GitHub Pages；还需两台真实笔记本在目标网络下验收。
+
+## 依赖来源
+
+- [PeerJS 1.5.5](https://github.com/peers/peerjs/tree/v1.5.5)，[PeerJS 入门](https://peerjs.com/client/getting-started)，[连接限制](https://peerjs.com/client/faq)。
+- 浏览器包来自 `https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js`，SHA-256：`7604d8c31bec4f134b0d15c2d80b1d095ea18af005354f439f14291fcd7b4168`。
+- [WebRTC 数据通道](https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API/Using_data_channels)、[保存文件接口兼容性](https://developer.mozilla.org/en-US/docs/Web/API/Window/showSaveFilePicker)。
+
+公共服务没有本项目提供的可用性保证。如果以后要提高跨网络连接成功率，需要配置并验收自己的 TURN 服务；无需改动主站框架。
