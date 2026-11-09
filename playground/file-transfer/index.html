@@ -8,9 +8,9 @@
   <meta name="description" content="两台电脑之间的临时文件传输助手。配对后直接互传文件，无需账号。">
   <title>File Bridge · 文件传输助手</title>
   <link rel="icon" href="../../images/favorite-avatar.jpg">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=20261109">
   <script defer src="vendor/peerjs-1.5.5.min.js"></script>
-  <script defer src="app.js"></script>
+  <script defer src="app.js?v=20261109"></script>
 </head>
 <body>
 <div class="page">
@@ -37,6 +37,20 @@
         </div>
         <div id="room" hidden><p id="room-caption" class="muted">在另一台电脑输入配对码</p><output id="room-code"></output><div class="button-row"><button id="copy-code" class="secondary">复制配对码</button><button id="copy-link" class="secondary">复制邀请链接</button></div><p id="room-help" class="fine">等待配对时，15 分钟后失效。仅分享给你自己的设备。</p></div>
         <div class="connection-notes"><p><span class="dot"></span>同一 Wi-Fi 下通常更容易连接</p><p><span class="dot"></span>跨网络先尝试直连，失败可配置中转</p><p><span class="dot"></span>传输期间，请保持两端页面打开</p></div>
+        <section id="chat-panel" class="chat-panel" aria-labelledby="chat-title" hidden>
+          <div class="chat-heading"><h2 id="chat-title">临时聊天</h2><button id="clear-chat" class="text-button" type="button">清空本机</button></div>
+          <p id="chat-help" class="fine">仅本次连接 · 断开或刷新后清空</p>
+          <p id="chat-empty" class="chat-empty">发一句话，或把一段文字传到另一台电脑。</p>
+          <div id="chat-log" class="chat-log" role="log" aria-label="临时聊天记录" aria-live="polite" aria-relevant="additions text" tabindex="0"></div>
+          <button id="chat-latest" type="button" class="text-button" hidden>有新消息 ↓</button>
+          <form id="chat-form">
+            <label for="chat-input">发送消息</label>
+            <textarea id="chat-input" rows="3" maxlength="1000" placeholder="输入文字…" aria-describedby="chat-shortcuts chat-feedback" disabled></textarea>
+            <div class="chat-compose-footer"><span id="chat-count">0 / 1000</span><button id="send-chat" class="primary" type="submit" disabled>发送</button></div>
+            <p id="chat-shortcuts" class="fine">Enter 发送 · Shift+Enter 换行<br>只保留最近 200 条；清空本机不影响对方。</p>
+            <p id="chat-feedback" class="fine" role="status"></p>
+          </form>
+        </section>
       </section>
       <section class="transfer-panel" aria-labelledby="transfer-title">
         <div class="section-head"><h2 id="transfer-title">传送文件</h2><span>02 / TRANSFER</span></div>

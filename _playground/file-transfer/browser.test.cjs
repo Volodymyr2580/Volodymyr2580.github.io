@@ -6,6 +6,7 @@ const fs = require('node:fs/promises');
 const path = require('node:path');
 const http = require('node:http');
 const {createHash} = require('node:crypto');
+const {execFileSync} = require('node:child_process');
 const root = path.resolve(__dirname, '../..');
 const output = path.join(root, 'design-previews/file-transfer');
 const hash = b => createHash('sha256').update(b).digest('hex');
@@ -30,12 +31,13 @@ const check = text => { report.checks.push(text); console.log('PASS', text); };
   const url = `http://127.0.0.1:${server.address().port}/playground/file-transfer/`;
   const browser = await chromium.launch({headless: true, executablePath: process.env.CHROMIUM_PATH || undefined});
   const contexts = [];
-  async function page({disk = false, cloud = false} = {}) {
+  async function page({disk = false, cloud = false, legacy = false} = {}) {
     const context = await browser.newContext({viewport: {width: 1440, height: 1100}, acceptDownloads: true}); contexts.push(context);
     if (!cloud) await context.route('**/vendor/peerjs-1.5.5.min.js', async route => {
       const library = await fs.readFile(path.join(root, 'playground/file-transfer/vendor/peerjs-1.5.5.min.js'), 'utf8');
       await route.fulfill({contentType: 'text/javascript', body: library + `\n;window.Peer=class extends window.Peer {constructor(id,opts){super(id,{...opts,host:'127.0.0.1',port:${port},secure:false,config:{iceServers:[]}});window.__peer=this;}};`});
     });
+    if (legacy) await context.route('**/app.js?*', route => route.fulfill({contentType: 'text/javascript', body: execFileSync('git', ['show', 'd5fd9ca:playground/file-transfer/app.js'], {cwd: root}).toString('utf8')}));
     await context.addInitScript(({disk}) => {
       window.__writes = []; window.__aborted = false; window.__closed = false;
       Object.defineProperty(window, 'showSaveFilePicker', {value: disk ? async () => ({createWritable: async () => ({
@@ -68,6 +70,7 @@ const check = text => { report.checks.push(text); console.log('PASS', text); };
   try {
     const a = await page(), b = await page();
     assert.equal(await a.locator('#choose-files').isDisabled(), true);
+    assert.equal(await a.locator('#chat-panel').isVisible(), false);
     await a.screenshot({path: path.join(output, 'desktop.png'), fullPage: true});
     for (const width of [1440, 1000, 768, 700, 390, 320]) {
       await a.setViewportSize({width, height: 1000});
@@ -79,11 +82,59 @@ const check = text => { report.checks.push(text); console.log('PASS', text); };
     assert.match(await a.locator('#notice').textContent(), /16 位/); check('Invalid pairing code rejected');
     const code = await pair(a, b); assert.match(code, /^[A-Z2-9]{4}(?:-[A-Z2-9]{4}){3}$/);
     check('Two isolated browser contexts pair over real WebRTC and mutual code authentication');
+    assert.equal(await a.locator('#chat-panel').isVisible(), true);
+    assert.equal(await a.locator('#send-chat').isDisabled(), true);
+    await a.locator('#chat-input').fill('你好，另一台电脑！'); await a.locator('#chat-input').press('Enter');
+    await b.waitForFunction(() => document.querySelector('.chat-text')?.textContent === '你好，另一台电脑！');
+    await a.waitForFunction(() => document.querySelector('.chat-delivery')?.textContent === '已送达');
+    await b.locator('#chat-input').fill('第一行'); await b.locator('#chat-input').press('Shift+Enter'); await b.locator('#chat-input').press('End'); await b.locator('#chat-input').press('a');
+    assert.equal(await b.locator('#chat-input').inputValue(), '第一行\na');
+    await b.locator('#chat-input').fill('<img src=x onerror=alert(1)>\n纯文字，不执行 HTML'); await b.locator('#send-chat').click();
+    await a.waitForFunction(() => document.querySelectorAll('.chat-text').length === 2);
+    assert.equal(await a.locator('.chat-text').last().textContent(), '<img src=x onerror=alert(1)>\n纯文字，不执行 HTML');
+    assert.equal(await a.locator('#chat-log img').count(), 0);
+    check('Chat: bidirectional text, multiline keyboard input, delivery receipts and literal HTML');
+    await a.locator('#chat-input').fill('输入法确认');
+    await a.locator('#chat-input').evaluate(el => el.dispatchEvent(new KeyboardEvent('keydown', {key:'Enter', isComposing:true, bubbles:true})));
+    assert.equal(await a.locator('#chat-input').inputValue(), '输入法确认');
+    assert.equal(await a.locator('.chat-text').count(), 2);
+    await a.locator('#chat-input').evaluate(el => { el.value='x'.repeat(1001); el.dispatchEvent(new Event('input')); }); await a.locator('#send-chat').click();
+    assert.match(await a.locator('#chat-feedback').textContent(), /过长/);
+    await a.locator('#chat-input').fill('   \n'); assert.equal(await a.locator('#send-chat').isDisabled(), true);
+    await a.locator('#chat-input').fill(''); check('Chat: IME confirmation does not send; blank and over-limit messages rejected');
+    await a.screenshot({path: path.join(output, 'chat-desktop.png'), fullPage: true});
+    for (const width of [1000, 768, 700, 390, 320]) {
+      await a.setViewportSize({width, height:1000}); assert.ok(await a.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `chat overflow ${width}`);
+      if (width === 390) await a.screenshot({path: path.join(output, 'chat-mobile.png'), fullPage: true});
+    }
+    await a.setViewportSize({width:1440,height:1100});
+    await a.locator('#clear-chat').click(); assert.equal(await a.locator('.chat-text').count(), 0); assert.equal(await b.locator('.chat-text').count(), 2);
+    check('Chat: responsive layout and local-only clearing');
     const bytes = Buffer.alloc(3 * 1024 * 1024 + 79); for (let i = 0; i < bytes.length; i++) bytes[i] = (i * 17 + 23) % 256;
     await offer(a, b, '实验数据.bin', bytes); await b.locator('#accept').click();
+    await b.locator('#chat-input').fill('文件正在传，可以继续聊天。'); await b.locator('#send-chat').click();
+    await a.waitForFunction(() => document.querySelector('.chat-text')?.textContent === '文件正在传，可以继续聊天。');
     assert.equal(hash(await download(b, '实验数据.bin')), hash(bytes));
     await a.waitForFunction(() => document.querySelector('.file-note').textContent.includes('对方已接收，待下载'));
     check('3 MiB multi-window file downloaded with independent SHA-256 match; sender distinguishes received from saved');
+    check('Chat and file transfer share the connection without corrupting file bytes');
+    await b.evaluate(() => {
+      const conn=Object.values(window.__peer.connections).flat()[0];
+      for(let i=0;i<205;i++) conn.send(JSON.stringify({type:'chat',id:i.toString(16).padStart(32,'0'),text:`history-${i}`}));
+    });
+    await a.waitForFunction(() => document.querySelector('.chat-message:last-child .chat-text')?.textContent === 'history-204');
+    assert.equal(await a.locator('.chat-message').count(),200); assert.equal(await a.locator('.chat-text').first().textContent(),'history-5');
+    await a.locator('#chat-log').evaluate(el=>{el.scrollTop=0;el.dispatchEvent(new Event('scroll'));});
+    await b.locator('#chat-input').fill('新消息提示'); await b.locator('#send-chat').click(); await a.locator('#chat-latest').waitFor({state:'visible'});
+    await a.locator('#chat-latest').click(); assert.ok(await a.locator('#chat-log').evaluate(el=>el.scrollHeight-el.scrollTop-el.clientHeight<45));
+    check('Chat: history capped at 200; reading earlier messages shows a jump-to-latest button');
+    await a.clock.install();
+    await b.evaluate(() => { const conn=Object.values(window.__peer.connections).flat()[0]; conn.__originalSend=conn.send;conn.send=function(data){if(typeof data==='string'&&JSON.parse(data).type==='chat-ack')return;return this.__originalSend(data);}; });
+    await a.locator('#chat-input').fill('回执超时检查');await a.locator('#send-chat').click();
+    await b.waitForFunction(()=>document.querySelector('.chat-message:last-child .chat-text')?.textContent==='回执超时检查');
+    await a.clock.runFor(31000);assert.equal(await a.locator('.chat-delivery').last().textContent(),'暂未确认送达');
+    await a.clock.resume();await b.evaluate(()=>{const conn=Object.values(window.__peer.connections).flat()[0];conn.send=conn.__originalSend;});
+    check('Chat: missing acknowledgement never becomes delivered');
     await offer(b, a, 'reverse.txt', Buffer.from('另一台电脑 → 这台电脑\nUTF-8')); await a.locator('#accept').click();
     assert.equal((await download(a, 'reverse.txt')).toString(), '另一台电脑 → 这台电脑\nUTF-8'); check('Reverse direction UTF-8 file');
     await offer(a, b, 'empty.txt', Buffer.alloc(0)); await b.locator('#accept').click(); assert.equal((await download(b, 'empty.txt')).length, 0); check('Zero-byte file');
@@ -101,6 +152,8 @@ const check = text => { report.checks.push(text); console.log('PASS', text); };
     await new Promise(resolve => setTimeout(resolve, 150)); assert.equal(await b.locator('#incoming').isVisible(), false); check('Memory receiver refuses an offer above 128 MiB');
     await offer(a, b, 'disconnect.bin', bytes); await a.locator('#disconnect').click();
     await b.waitForFunction(() => document.getElementById('connection-state').textContent === '尚未连接'); assert.equal(await b.locator('#incoming').isVisible(), false); check('Disconnect clears partial state');
+    for (const p of [a,b]) { assert.equal(await p.locator('#chat-panel').isVisible(), false); assert.equal(await p.locator('.chat-text').count(),0); assert.equal(await p.locator('#chat-input').inputValue(),''); }
+    check('Chat: disconnect erases both sides of the temporary conversation');
     await pair(a, b); await offer(a, b, 'again.txt', Buffer.from('again')); await b.locator('#accept').click(); assert.equal((await download(b, 'again.txt')).toString(), 'again'); check('Re-pair and resend after disconnect');
     await a.locator('#disconnect').click();
     const disk = await page({disk: true}); await pair(a, disk);
@@ -135,6 +188,10 @@ const check = text => { report.checks.push(text); console.log('PASS', text); };
     await offer(a, b, 'premature.txt', Buffer.from('not sent'));
     await b.evaluate(() => { const conn = Object.values(window.__peer.connections).flat()[0]; conn.send(JSON.stringify({type:'proof',proof:'0'.repeat(64)})); });
     await a.waitForFunction(() => document.getElementById('connection-state').textContent === '尚未连接'); check('Replayed/invalid authentication proof terminates the connection');
+    const legacy = await page({legacy:true}); await pair(a,legacy);
+    assert.equal(await a.locator('#chat-input').isDisabled(),true); assert.match(await a.locator('#chat-help').textContent(),/版本较旧/);
+    await offer(a,legacy,'legacy.txt',Buffer.from('backward compatible')); await legacy.locator('#accept').click(); assert.equal((await download(legacy,'legacy.txt')).toString(),'backward compatible');
+    await a.locator('#disconnect').click(); check('Old client compatibility: chat disabled, file transfer remains usable');
     // Public signaling is an environment smoke test, separate from deterministic checks.
     if (process.env.TEST_PUBLIC_SIGNAL === '1') {
       const c = await page({cloud: true}), d = await page({cloud: true});

@@ -8,6 +8,8 @@
   const diskSupported = typeof window.showSaveFilePicker === 'function';
   let session = null, tx = null, rx = null, queue = [], retainedBytes = 0;
   const records = new Set();
+  const CHAT_LIMIT = 1000, CHAT_HISTORY = 200;
+  const chatPending = new Map();
   const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
   const hex = bytes => Array.from(new Uint8Array(bytes), b => b.toString(16).padStart(2, '0')).join('');
   const randomHex = () => hex(crypto.getRandomValues(new Uint8Array(16)));
@@ -32,6 +34,62 @@
     $('drop-hint').textContent = connected ? '双方都可发送 · 支持多选 · 接收前需确认' : '连接后即可发送，支持多选文件';
     $('queue-count').textContent = queue.length ? `· ${queue.length} 个排队中` : '';
     $('empty-history').hidden = records.size > 0;
+    $('chat-panel').hidden = !connected;
+    document.querySelector('.connection-notes').hidden = connected;
+    $('chat-help').textContent = session?.chatEnabled ? '仅本次连接 · 断开或刷新后清空' : '对方页面版本较旧，请双方刷新后重新连接以启用聊天。';
+    refreshChat();
+  }
+  function refreshChat() {
+    const enabled = !!session?.authenticated && !!session.chatEnabled;
+    $('chat-input').disabled = !enabled;
+    $('send-chat').disabled = !enabled || !$('chat-input').value.trim() || chatPending.size >= 20;
+    $('chat-count').textContent = `${$('chat-input').value.length} / ${CHAT_LIMIT}`;
+    $('chat-empty').hidden = $('chat-log').childElementCount > 0;
+    $('clear-chat').disabled = !$('chat-log').childElementCount && !$('chat-input').value;
+  }
+  function clearChat() {
+    for (const item of chatPending.values()) clearTimeout(item.timer);
+    chatPending.clear(); $('chat-log').replaceChildren(); $('chat-input').value = '';
+    $('chat-latest').hidden = true; $('chat-feedback').textContent = ''; refreshChat();
+  }
+  function latestChat() {
+    const log = $('chat-log'); log.scrollTop = log.scrollHeight; $('chat-latest').hidden = true;
+  }
+  function appendChat(text, own, id) {
+    const log = $('chat-log'), follow = log.scrollHeight - log.scrollTop - log.clientHeight < 45;
+    const row = document.createElement('div'); row.className = `chat-message${own ? ' own' : ''}`; row.dataset.id = id;
+    const meta = document.createElement('div'); meta.className = 'chat-meta';
+    const author = document.createElement('span'); author.textContent = own ? '我' : '对方';
+    const time = document.createElement('time'); time.dateTime = new Date().toISOString(); time.textContent = new Date().toLocaleTimeString('zh-CN', {hour: '2-digit', minute: '2-digit', hour12: false});
+    const body = document.createElement('p'); body.className = 'chat-text'; body.textContent = text;
+    const delivery = document.createElement('span'); delivery.className = 'chat-delivery'; delivery.textContent = own ? '发送中…' : '';
+    meta.append(author, time); row.append(meta, body, delivery); log.append(row);
+    while (log.childElementCount > CHAT_HISTORY) {
+      const first = log.firstElementChild, pending = chatPending.get(first.dataset.id);
+      if (pending) { clearTimeout(pending.timer); chatPending.delete(first.dataset.id); }
+      first.remove();
+    }
+    refreshChat();
+    if (own || follow) latestChat(); else $('chat-latest').hidden = false;
+    return delivery;
+  }
+  function sendChat() {
+    const s = session, text = $('chat-input').value.trim();
+    if (!s?.authenticated || !s.chatEnabled || !text) return;
+    if (text.length > CHAT_LIMIT) { $('chat-feedback').textContent = '消息过长，请分段发送。'; return; }
+    if (chatPending.size >= 20 || s.conn.dataChannel.bufferedAmount > 2 * WINDOW) {
+      $('chat-feedback').textContent = '连接繁忙，请稍后再发送；输入内容已保留。'; return;
+    }
+    const id = randomHex(), delivery = appendChat(text, true, id);
+    try {
+      send({type: 'chat', id, text}, s);
+      const timer = setTimeout(() => {
+        chatPending.delete(id); delivery.textContent = '暂未确认送达'; refreshChat();
+      }, 30000);
+      chatPending.set(id, {delivery, timer});
+      $('chat-input').value = ''; $('chat-feedback').textContent = '';
+    } catch { delivery.textContent = '发送失败'; $('chat-feedback').textContent = '消息未发出，输入内容已保留。'; }
+    refreshChat(); $('chat-input').focus();
   }
   function readCode(value) {
     let text = value.trim();
@@ -100,6 +158,7 @@
   }
   function stop(message = '已断开连接。重新创建或加入即可继续。') {
     const old = session; session = null;
+    clearChat();
     for (const item of queue) { finish(item.record, '连接结束，已移出队列', true); item.file = null; }
     queue = [];
     if (old) { clearTimeout(old.timer); clearTimeout(old.expiry); old.conn?.close(); old.peer?.destroy(); }
@@ -211,10 +270,29 @@
       const valid = await crypto.subtle.verify('HMAC', s.key, proof, encoder.encode(`file-bridge:${s.host ? 'guest' : 'host'}:${s.challenge}`));
       if (!valid) throw new Error('Wrong code');
       if (session !== s) return;
-      s.verified = true; send({type: 'ready'}, s); await connected(s); return;
+      s.verified = true; send({type: 'ready', features: ['chat-v1']}, s); await connected(s); return;
     }
-    if (m.type === 'ready') { if (!s.verified) throw new Error('Not verified'); s.remoteReady = true; await connected(s); return; }
+    if (m.type === 'ready') {
+      if (!s.verified || s.remoteReady) throw new Error('Invalid ready');
+      s.chatEnabled = Array.isArray(m.features) && m.features.includes('chat-v1');
+      s.chatSeen = new Set(); s.remoteReady = true; await connected(s); return;
+    }
     if (!s.authenticated) throw new Error('Not authenticated');
+    if (m.type === 'chat' || m.type === 'chat-ack') {
+      if (!s.chatEnabled || typeof m.id !== 'string' || !/^[a-f0-9]{32}$/.test(m.id)) throw new Error('Invalid chat message');
+      if (m.type === 'chat') {
+        if (typeof m.text !== 'string' || !m.text.trim() || m.text.length > CHAT_LIMIT) throw new Error('Invalid chat text');
+        if (!s.chatSeen.has(m.id)) {
+          appendChat(m.text, false, m.id); s.chatSeen.add(m.id);
+          if (s.chatSeen.size > CHAT_HISTORY) s.chatSeen.delete(s.chatSeen.values().next().value);
+        }
+        send({type: 'chat-ack', id: m.id}, s);
+      } else {
+        const pending = chatPending.get(m.id);
+        if (pending) { clearTimeout(pending.timer); pending.delivery.textContent = '已送达'; chatPending.delete(m.id); refreshChat(); }
+      }
+      return;
+    }
     if (!Number.isInteger(m.id) || m.id < 1 || m.id > 0xffffffff) throw new Error('Invalid transfer ID');
     switch (m.type) {
       case 'offer': {
@@ -336,6 +414,15 @@
   $('join-form').onsubmit = event => { event.preventDefault(); start(false); };
   $('disconnect').onclick = () => { stop(); notice(''); };
   $('copy-code').onclick = () => copy(false); $('copy-link').onclick = () => copy(true);
+  $('chat-form').onsubmit = event => { event.preventDefault(); sendChat(); };
+  $('chat-input').oninput = () => { $('chat-feedback').textContent = ''; refreshChat(); };
+  $('chat-input').onkeydown = event => {
+    if (event.key === 'Enter' && !event.shiftKey && !event.isComposing && event.keyCode !== 229) { event.preventDefault(); sendChat(); }
+  };
+  $('clear-chat').onclick = clearChat; $('chat-latest').onclick = latestChat;
+  $('chat-log').onscroll = () => {
+    const log = $('chat-log'); if (log.scrollHeight - log.scrollTop - log.clientHeight < 45) $('chat-latest').hidden = true;
+  };
   $('choose-files').onclick = () => $('file-input').click();
   $('file-input').onchange = event => { enqueue([...event.target.files]); event.target.value = ''; };
   $('accept').onclick = accept; $('reject').onclick = () => cancelRx('对方拒绝接收');
