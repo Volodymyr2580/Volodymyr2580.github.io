@@ -10,7 +10,7 @@
   <link rel="icon" href="../../images/favorite-avatar.jpg">
   <link rel="stylesheet" href="style.css?v=20261109">
   <script defer src="vendor/peerjs-1.5.5.min.js"></script>
-  <script defer src="app.js?v=20261109"></script>
+  <script defer src="app.js?v=20261109-pairing-1"></script>
 </head>
 <body>
 <div class="page">
@@ -68,6 +68,7 @@
       <details><summary>跨网络连不上？配置中转服务</summary><div class="details-body"><p>默认使用直连，不含可用的 TURN 中转账号。校园网、公司网或部分移动网络可能限制直连。如果有自己的 TURN 服务，可在两端分别填写；设置仅保留在当前页面，刷新后清除。</p>
         <fieldset id="network-settings"><legend>连接设置（开始连接前填写）</legend><label for="turn-urls">TURN 地址（每行一个）</label><textarea id="turn-urls" rows="2" placeholder="turn:your-server.example:3478&#10;turns:your-server.example:5349"></textarea><div class="field-grid"><div><label for="turn-user">用户名</label><input id="turn-user" autocomplete="off"></div><div><label for="turn-password">密码 / 临时凭据</label><input id="turn-password" type="password" autocomplete="off"></div></div><label class="checkbox"><input id="relay-only" type="checkbox">仅通过中转连接（用于检查中转是否可用）</label></fieldset>
         <p class="fine">连接失败也可以让两台电脑接入同一 Wi-Fi 或手机热点，并检查 VPN、访客网络及设备隔离设置。</p></div></details>
+      <details id="connection-debug" hidden><summary>连接诊断（仅在本机显示）</summary><div class="details-body"><p>如果配对仍然失败，可以把下方文字复制给维护者。这里只记录阶段和连接状态，不含配对码、文件内容、聊天内容、IP 地址或中转密码。</p><pre id="connection-diagnostic" style="white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;user-select:all"></pre></div></details>
       <details><summary>文件如何传输？能传多大的文件？</summary><div class="details-body"><p>配对通过公共 PeerJS 信令服务建立连接；文件通过 WebRTC 加密传输。默认不配置中转，文件直接在两台设备间传递。配置 TURN 后，中转服务器会转发加密流量，并可能产生流量费用。</p><p>桌面 Chrome / Edge 在支持保存接口时，可边接收边写入硬盘，适合大文件。其他浏览器采用内存接收，本页所有待下载文件合计限制为 128 MiB；下载后可清空记录释放空间。暂不支持文件夹、断点续传或离线投递。中断后请重新发送。</p><p>配对需要互联网，两端必须同时在线。邀请链接和配对码相当于临时钥匙，请勿公开。信令服务和 STUN / TURN 服务会接触连接所需的网络信息。此页面不加载网站统计脚本，不在服务器存储文件或传输记录。</p><p>传输速度取决于实际网络与硬盘，没有固定速率保证。首次使用，建议先传一个小文件确认连接。</p></div></details>
     </section>
   </main>

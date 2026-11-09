@@ -1,6 +1,6 @@
 {
   "name": "file-bridge-checks",
   "private": true,
-  "scripts": {"test": "node browser.test.cjs"},
+  "scripts": {"test": "node browser.test.cjs", "test:pairing": "node pairing.test.cjs"},
   "devDependencies": {"peer": "1.0.2", "playwright": "1.58.2"}
 }

@@ -9,6 +9,7 @@
   let session = null, tx = null, rx = null, queue = [], retainedBytes = 0;
   const records = new Set();
   const CHAT_LIMIT = 1000, CHAT_HISTORY = 200;
+  const BUILD = '20261109-pairing-1';
   const chatPending = new Map();
   const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
   const hex = bytes => Array.from(new Uint8Array(bytes), b => b.toString(16).padStart(2, '0')).join('');
@@ -21,6 +22,50 @@
     $('connection-state').textContent = title;
     $('connection-state').classList.toggle('connected', connected);
     $('connection-detail').textContent = detail;
+  }
+  function diagnose(s, event) {
+    s.diagnostics ||= [];
+    const pc = s.conn?.peerConnection;
+    s.diagnostics.push({event, stage: s.stage, ice: pc?.iceConnectionState || 'none', remoteDescription: !!pc?.remoteDescription});
+    if (s.diagnostics.length > 15) s.diagnostics.shift();
+    $('connection-debug').hidden = false;
+    $('connection-diagnostic').textContent = JSON.stringify({version: BUILD, role: s.host ? 'create' : 'join', turnConfigured: s.turnConfigured, events: s.diagnostics}, null, 2);
+  }
+  function pairingStage(s, stage) {
+    s.stage = stage;
+    const descriptions = {
+      signal: ['正在连接', '1/3 · 正在联系配对服务…'],
+      waiting: ['等待另一台设备', '配对码已就绪，请在另一台电脑输入。'],
+      connecting: ['正在连接', '2/3 · 正在协商设备直连，请保持两端页面打开…'],
+      authenticating: ['正在验证', '3/3 · 网络已连通，正在验证配对码…']
+    };
+    if (descriptions[stage]) status(...descriptions[stage]);
+    diagnose(s, stage);
+  }
+  function pairingDeadline(s, milliseconds) {
+    clearTimeout(s.timer);
+    s.timer = setTimeout(() => {
+      if (session !== s || s.authenticated) return;
+      const message = s.stage === 'signal' ? '联系配对服务超时，请检查网络后重试。'
+        : s.stage === 'authenticating' ? '网络已连通，但配对验证超时。请双方刷新后重试。'
+        : '设备直连超时。请检查两端浏览器的本地网络权限、VPN、防火墙或 Wi-Fi 设备隔离；也可换同一手机热点重试。';
+      failPairing(s, message, 'timeout');
+    }, milliseconds);
+  }
+  function failPairing(s, message, reason) {
+    if (session !== s) return;
+    diagnose(s, reason);
+    // A failed guest attempt must not invalidate the host's otherwise live room.
+    if (s.host && !s.authenticated && s.peer?.open && s.conn) {
+      clearTimeout(s.timer);
+      const conn = s.conn; s.conn = null;
+      s.releaseCandidates?.(); s.releaseCandidates = null;
+      conn.close(); s.chain = Promise.resolve();
+      pairingStage(s, 'waiting');
+      notice(`${message} 当前配对码仍有效，对方可以用同一码重试。`);
+      refresh(); return;
+    }
+    stop(); notice(message);
   }
   function refresh() {
     const connected = !!session?.authenticated;
@@ -161,7 +206,7 @@
     clearChat();
     for (const item of queue) { finish(item.record, '连接结束，已移出队列', true); item.file = null; }
     queue = [];
-    if (old) { clearTimeout(old.timer); clearTimeout(old.expiry); old.conn?.close(); old.peer?.destroy(); }
+    if (old) { clearTimeout(old.timer); clearTimeout(old.expiry); old.releaseCandidates?.(); old.conn?.close(); old.peer?.destroy(); }
     cancelTx('连接结束，未完成；请重新发送', false); cancelRx('连接结束，未完成；请重新发送', false);
     $('pair-actions').hidden = false; $('room').hidden = true;
     $('room-code').textContent = ''; status('尚未连接', message); refresh();
@@ -176,9 +221,8 @@
       if (host) {
         for (const b of crypto.getRandomValues(new Uint8Array(16))) code += ALPHABET[b % 32];
       } else code = readCode($('join-code').value);
-      const s = {code, host, authenticated: false, conn: null, peer: null, chain: Promise.resolve(), challenge: randomHex()};
-      session = s; refresh(); notice(''); status('正在连接', '正在联系配对服务…');
-      s.timer = setTimeout(() => { if (session === s) { stop(); notice('连接超时。检查网络后重试；跨网络失败时可尝试同一热点或配置 TURN 中转。'); } }, 35000);
+      const s = {code, host, authenticated: false, conn: null, peer: null, chain: Promise.resolve(), challenge: randomHex(), turnConfigured: config.iceServers.length > 1};
+      session = s; refresh(); notice(''); pairingStage(s, 'signal'); pairingDeadline(s, 30000);
       const digest = hex(await crypto.subtle.digest('SHA-256', encoder.encode(`file-bridge-v1:${code}`)));
       s.key = await crypto.subtle.importKey('raw', encoder.encode(code), {name: 'HMAC', hash: 'SHA-256'}, false, ['sign', 'verify']);
       if (session !== s) return;
@@ -189,7 +233,7 @@
         if (host) {
           clearTimeout(s.timer);
           s.expiry = setTimeout(() => { if (session === s && !s.authenticated) stop('配对码已过期，请重新创建连接。'); }, 15 * 60 * 1000);
-          status('等待另一台设备', '在另一台电脑粘贴邀请链接，或输入配对码。');
+          pairingStage(s, 'waiting');
         } else attach(s, s.peer.connect(target, {serialization: 'raw', reliable: true}));
         $('pair-actions').hidden = true; $('room').hidden = false; $('room-code').textContent = formatCode(code);
         $('room-caption').textContent = host ? '在另一台电脑输入配对码' : '正在加入临时连接';
@@ -197,35 +241,87 @@
       });
       s.peer.on('connection', conn => {
         if (session !== s || !host || s.conn || conn.serialization !== 'raw') { conn.close(); return; }
-        s.timer = setTimeout(() => { if (session === s && !s.authenticated) { stop(); notice('配对未完成，请重新创建连接。'); } }, 35000);
         attach(s, conn);
       });
       s.peer.on('error', error => {
         if (session !== s) return;
+        if (error.type === 'webrtc') {
+          // Provider-level WebRTC errors have no connection ID and may belong to
+          // a canceled attempt. Let the active channel or its deadline decide.
+          diagnose(s, 'peer:webrtc'); return;
+        }
         if (s.authenticated && s.conn?.open && ['network', 'socket-error', 'socket-closed'].includes(error.type)) {
           notice('配对服务暂时断开，现有文件连接仍可使用。断开后需重新配对。'); return;
         }
         const messages = {'peer-unavailable': '未找到对方，请确认配对码正确、对方页面已创建连接且未关闭。', 'unavailable-id': '配对码暂时不可用，请重新创建。', 'network': '无法联系公共配对服务，请检查网络或稍后重试。'};
-        stop(); notice(messages[error.type] || '连接失败。请重试；如果跨网络无法直连，可在下方配置 TURN 中转。');
+        failPairing(s, messages[error.type] || `连接协商失败（${error.type || 'unknown'}），请重试；可展开下方“连接诊断”查看阶段。`, `peer:${error.type || 'unknown'}`);
       });
       s.peer.on('disconnected', () => { if (session === s && !s.authenticated) { stop(); notice('配对服务已断开，请重新创建或加入。'); } });
     } catch (error) { stop(); notice(error.message); }
   }
+  function deferRemoteCandidates(s, conn) {
+    const pc = conn.peerConnection, add = pc.addIceCandidate;
+    let pending = [], disposed = false;
+    const current = () => !disposed && session === s && s.conn === conn;
+    function flush() {
+      if (!current() || !pc.remoteDescription) return;
+      const batch = pending; pending = [];
+      for (const item of batch) {
+        // PeerJS 1.5.5 handles trickled candidates without awaiting remote SDP.
+        // Queue only this connection's candidates until its SDP has been applied.
+        Promise.resolve().then(() => current() ? add.call(pc, item.candidate) : undefined)
+          .then(item.resolve, error => current() ? item.reject(error) : item.resolve());
+      }
+    }
+    pc.addIceCandidate = function (candidate) {
+      if (!current()) return Promise.resolve();
+      if (pc.remoteDescription) return add.call(pc, candidate);
+      return new Promise((resolve, reject) => { pending.push({candidate, resolve, reject}); });
+    };
+    pc.addEventListener('signalingstatechange', flush);
+    return () => {
+      disposed = true; pc.removeEventListener('signalingstatechange', flush);
+      pc.addIceCandidate = add;
+      // Cancellation discards queued candidates; it is not a new negotiation error.
+      for (const item of pending) item.resolve(); pending = [];
+    };
+  }
   function attach(s, conn) {
-    s.conn = conn;
-    conn.on('open', () => { if (session === s) send({type: 'challenge', nonce: s.challenge}, s); });
+    s.conn = conn; s.chain = Promise.resolve(); s.challenge = randomHex();
+    s.signed = false; s.verified = false; s.remoteReady = false; s.chatEnabled = false;
+    s.releaseCandidates = deferRemoteCandidates(s, conn);
+    notice(''); pairingStage(s, 'connecting'); pairingDeadline(s, 60000);
+    conn.on('iceStateChanged', state => { if (session === s && s.conn === conn) diagnose(s, `ice:${state}`); });
+    const beginHandshake = () => {
+      if (session !== s || s.conn !== conn || s.stage === 'authenticating' || s.authenticated) return;
+      pairingStage(s, 'authenticating'); pairingDeadline(s, 15000);
+      send({type: 'challenge', nonce: s.challenge}, s);
+    };
+    conn.on('open', beginHandshake);
     conn.on('data', data => {
       // Serialize asynchronous writes, ensuring 'end' cannot overtake the last disk write.
-      s.chain = s.chain.then(() => session === s ? onData(s, data) : undefined).catch(() => {
-        if (session === s) { stop(); notice('传输协议或文件写入出错，已停止连接。未完成的文件请重新发送。'); }
+      s.chain = s.chain.then(() => session === s && s.conn === conn ? onData(s, data, conn) : undefined).catch(() => {
+        if (session === s && s.conn === conn) {
+          if (!s.authenticated) failPairing(s, '配对验证失败，请确认双方使用最新页面后重试。', 'handshake-error');
+          else { stop(); notice('传输协议或文件写入出错，已停止连接。未完成的文件请重新发送。'); }
+        }
       });
     });
-    conn.on('close', () => { if (session === s) stop('对方已断开连接。未完成的文件需要重新发送。'); });
-    conn.on('error', () => { if (session === s) { stop(); notice('设备连接中断，请重新配对。'); } });
+    conn.on('close', () => {
+      if (session !== s || s.conn !== conn) return;
+      if (!s.authenticated) failPairing(s, '对方在配对完成前断开了连接。', 'channel-closed');
+      else stop('对方已断开连接。未完成的文件需要重新发送。');
+    });
+    conn.on('error', error => {
+      if (session !== s || s.conn !== conn) return;
+      failPairing(s, '设备直连协商中断，请检查网络权限、VPN 或防火墙后重试。', `channel:${error.type || 'error'}`);
+    });
+    if (conn.open) beginHandshake();
   }
   async function connected(s) {
     if (session !== s || s.authenticated || !s.verified || !s.remoteReady) return;
     s.authenticated = true; clearTimeout(s.timer); clearTimeout(s.expiry);
+    s.stage = 'connected'; diagnose(s, 'connected');
     $('room-caption').textContent = '两台设备已连接'; $('room-help').textContent = '现在双方都可以发送文件。关闭或刷新页面会结束连接。';
     status('已连接', '加密连接已建立 · 正在确认网络路径', true); refresh();
     try {
@@ -238,7 +334,7 @@
       if (session === s) status('已连接', `${path} · 加密传输 · 双方均可发送`, true);
     } catch { if (session === s) status('已连接', '加密传输 · 双方均可发送', true); }
   }
-  async function onData(s, data) {
+  async function onData(s, data, conn) {
     if (data instanceof ArrayBuffer) {
       if (!s.authenticated || data.byteLength < 8 || data.byteLength > CHUNK + 8) throw new Error('Invalid binary frame');
       const view = new DataView(data), r = rx;
@@ -261,7 +357,7 @@
       if (s.signed || !/^[a-f0-9]{32}$/.test(m.nonce)) throw new Error('Invalid challenge');
       s.signed = true;
       const proof = hex(await crypto.subtle.sign('HMAC', s.key, encoder.encode(`file-bridge:${s.host ? 'host' : 'guest'}:${m.nonce}`)));
-      if (session === s) send({type: 'proof', proof}, s);
+      if (session === s && s.conn === conn) send({type: 'proof', proof}, s);
       return;
     }
     if (m.type === 'proof') {
@@ -269,7 +365,7 @@
       const proof = new Uint8Array(m.proof.match(/../g).map(b => parseInt(b, 16)));
       const valid = await crypto.subtle.verify('HMAC', s.key, proof, encoder.encode(`file-bridge:${s.host ? 'guest' : 'host'}:${s.challenge}`));
       if (!valid) throw new Error('Wrong code');
-      if (session !== s) return;
+      if (session !== s || s.conn !== conn) return;
       s.verified = true; send({type: 'ready', features: ['chat-v1']}, s); await connected(s); return;
     }
     if (m.type === 'ready') {
