@@ -21,10 +21,23 @@
   const envelope = pick('break-seal');
   const letter = pick('letter');
   const greeting = pick('letter-greeting');
+  const letterBody = pick('letter-body');
+  const letterSignature = pick('letter-signature');
+  const letterDate = pick('letter-date');
+  const quill = pick('quill-pen');
+  const skipBtn = pick('skip-writing');
+  const replayBtn = pick('replay-writing');
   const recipient = pick('recipient');
   const code = pick('pickup-code');
   const status = pick('pickup-status');
+
   let delivery;
+  let openTimers = [];
+  let isOpening = false;
+  let writeRaf = 0;
+  let writeChars = [];
+  let writeIndex = 0;
+  let isWriting = false;
 
   // Fractions are measured in the original images, before object-fit crops them.
   function artPoint(feature) {
@@ -73,6 +86,167 @@
     ], { duration: 820, easing: 'cubic-bezier(.24,.66,.28,1)' });
   }
 
+  function clearOpenTimers() {
+    for (const id of openTimers) clearTimeout(id);
+    openTimers = [];
+    isOpening = false;
+    sealed.classList.remove('is-opening', 'is-exiting');
+    envelope.classList.remove('is-opening');
+  }
+
+  function stopWriting() {
+    cancelAnimationFrame(writeRaf);
+    writeRaf = 0;
+    isWriting = false;
+  }
+
+  function appendCharSpans(container, text, targetList) {
+    for (const ch of Array.from(text)) {
+      const span = document.createElement('span');
+      span.className = 'ink-char';
+      span.textContent = ch;
+      container.appendChild(span);
+      targetList.push({ el: span, ch });
+    }
+  }
+
+  function prepareLetterContent(recipientName, paragraphs) {
+    const chars = [];
+    greeting.replaceChildren();
+    appendCharSpans(greeting, 'Dear ' + recipientName + ',', chars);
+    if (chars.length) chars[chars.length - 1].pauseAfter = 170;
+
+    letterBody.replaceChildren();
+    paragraphs.forEach((line, idx) => {
+      const p = document.createElement('p');
+      appendCharSpans(p, line, chars);
+      if (chars.length) chars[chars.length - 1].pauseAfter = idx === paragraphs.length - 1 ? 180 : 140;
+      letterBody.appendChild(p);
+    });
+
+    letterSignature.replaceChildren();
+    appendCharSpans(letterSignature, 'Warm wishes,', chars);
+    if (chars.length) chars[chars.length - 1].pauseAfter = 110;
+    letterSignature.appendChild(document.createElement('br'));
+    const em = document.createElement('em');
+    appendCharSpans(em, 'Wenzhe', chars);
+    if (chars.length) chars[chars.length - 1].pauseAfter = 120;
+    letterSignature.appendChild(em);
+
+    letterDate.replaceChildren();
+    appendCharSpans(letterDate, 'Christmas 2026', chars);
+
+    return chars;
+  }
+
+  function finishWritingImmediately() {
+    stopWriting();
+    for (const item of writeChars) {
+      item.el.classList.add('is-written');
+    }
+    writeIndex = writeChars.length;
+    quill.classList.remove('is-writing', 'is-lifting');
+    skipBtn.hidden = true;
+    replayBtn.hidden = false;
+  }
+
+  function moveQuillToChar(el, stepIndex) {
+    const letterRect = letter.getBoundingClientRect();
+    const charRect = el.getBoundingClientRect();
+    if (!charRect.width && !charRect.height) return null;
+    const x = charRect.right - letterRect.left + letter.scrollLeft;
+    const y = charRect.bottom - letterRect.top + letter.scrollTop - 3;
+    // Gentle rhythmic nib oscillation to mimic brisk cursive strokes
+    const strokeY = Math.sin(stepIndex * 1.45) * 2.2;
+    const tilt = Math.cos(stepIndex * 1.15) * 4.5;
+    quill.style.transform = `translate3d(${x.toFixed(1)}px, ${(y + strokeY).toFixed(1)}px, 0) rotate(${tilt.toFixed(1)}deg)`;
+
+    // Keep the active writing line comfortably visible inside scrollable mobile viewports
+    const visibleBottom = letter.scrollTop + letter.clientHeight - 44;
+    if (y > visibleBottom) {
+      letter.scrollTop = y - letter.clientHeight + 72;
+    }
+    return { x, y };
+  }
+
+  function charDelay(item) {
+    if (item.pauseAfter) return item.pauseAfter;
+    const ch = item.ch;
+    if (ch === ' ') return 13;
+    if (',;'.includes(ch)) return 95;
+    if ('.!?'.includes(ch)) return 135;
+    return 24;
+  }
+
+  function startQuillWriting(initialDelay = 0) {
+    stopWriting();
+    for (const item of writeChars) {
+      item.el.classList.remove('is-written');
+    }
+    writeIndex = 0;
+
+    if (motion.matches || !writeChars.length) {
+      finishWritingImmediately();
+      return;
+    }
+
+    isWriting = true;
+    skipBtn.hidden = false;
+    replayBtn.hidden = true;
+    quill.classList.remove('is-writing', 'is-lifting');
+    letter.scrollTop = 0;
+
+    let lastPos = null;
+    let quillShown = false;
+    let nextTime = performance.now() + initialDelay;
+
+    function step(now) {
+      if (!isWriting) return;
+      if (!quillShown && now >= nextTime - 120) {
+        lastPos = moveQuillToChar(writeChars[0].el, 0);
+        quill.classList.add('is-writing');
+        quillShown = true;
+      }
+
+      let stepsThisFrame = 0;
+      while (writeIndex < writeChars.length && now >= nextTime && stepsThisFrame < 3) {
+        const current = writeChars[writeIndex];
+        current.el.classList.add('is-written');
+        const pos = moveQuillToChar(current.el, writeIndex);
+        if (pos) lastPos = pos;
+        nextTime += charDelay(current);
+        writeIndex += 1;
+        stepsThisFrame += 1;
+      }
+
+      if (writeIndex >= writeChars.length) {
+        isWriting = false;
+        writeRaf = 0;
+        skipBtn.hidden = true;
+        replayBtn.hidden = false;
+        // Lift the quill gracefully off the parchment
+        if (lastPos) {
+          quill.classList.add('is-lifting');
+          quill.style.transform = `translate3d(${(lastPos.x + 18).toFixed(1)}px, ${(lastPos.y - 20).toFixed(1)}px, 0) rotate(14deg)`;
+        }
+        return;
+      }
+
+      writeRaf = requestAnimationFrame(step);
+    }
+
+    writeRaf = requestAnimationFrame(step);
+  }
+
+  function revealLetter() {
+    clearOpenTimers();
+    sealed.hidden = true;
+    letter.hidden = false;
+    greeting.focus({ preventScroll: true });
+    // Wait for the parchment unfold animation to settle before touching the quill down
+    startQuillWriting(560);
+  }
+
   pick('pickup').addEventListener('submit', (event) => {
     event.preventDefault();
     const name = recipient.value.trim().normalize('NFKC').toLowerCase();
@@ -83,33 +257,58 @@
     }
     status.textContent = '';
     code.value = '';
+    clearOpenTimers();
+    stopWriting();
     pick('envelope-recipient').textContent = 'To: ' + demo.recipient;
-    greeting.textContent = 'Dear ' + demo.recipient + ',';
-    pick('letter-body').replaceChildren(...demo.paragraphs.map((line) => {
-      const paragraph = document.createElement('p');
-      paragraph.textContent = line;
-      return paragraph;
-    }));
+    writeChars = prepareLetterContent(demo.recipient, demo.paragraphs);
     sealed.hidden = false;
     letter.hidden = true;
     mail.showModal();
     pick('waiting-letter').hidden = true;
     deliver();
   });
+
   for (const input of [recipient, code]) {
     input.addEventListener('input', () => { status.textContent = ''; });
   }
+
   envelope.addEventListener('click', () => {
+    if (isOpening) return;
     delivery?.cancel();
-    sealed.hidden = true;
-    letter.hidden = false;
-    greeting.focus({ preventScroll: true });
+    if (motion.matches) {
+      revealLetter();
+      return;
+    }
+    isOpening = true;
+    sealed.classList.add('is-opening');
+    envelope.classList.add('is-opening');
+
+    openTimers.push(setTimeout(() => {
+      sealed.classList.add('is-exiting');
+    }, 680));
+
+    openTimers.push(setTimeout(() => {
+      revealLetter();
+    }, 960));
   });
+
+  skipBtn.addEventListener('click', () => {
+    finishWritingImmediately();
+  });
+
+  replayBtn.addEventListener('click', () => {
+    startQuillWriting();
+  });
+
   mail.addEventListener('close', () => {
     delivery?.cancel();
     delivery = undefined;
+    clearOpenTimers();
+    stopWriting();
+    quill.classList.remove('is-writing', 'is-lifting');
     pick('waiting-letter').hidden = false;
   });
+
   artwork.addEventListener('load', placeSceneDetails);
   if (artwork.complete) placeSceneDetails();
   pick('pickup-fields').disabled = false;

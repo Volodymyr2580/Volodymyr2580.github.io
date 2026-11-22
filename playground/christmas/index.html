@@ -7,8 +7,8 @@
   <meta name="description" content="A little Christmas letter, written for you.">
   <title>Volodymyr's Christmas Gift · Playground</title>
   <link rel="icon" href="postmark.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="style.css">
-  <script defer src="app.js"></script>
+  <link rel="stylesheet" href="style.css?v=20261122">
+  <script defer src="app.js?v=20261122"></script>
 </head>
 <body>
   <main class="scene">
@@ -57,21 +57,66 @@
     <div id="sealed" class="sealed">
       <p class="delivery-note">Special delivery · December 2026</p>
       <button id="break-seal" class="envelope" type="button" aria-label="Break the wax seal and read your letter" autofocus>
+        <span class="envelope-back" aria-hidden="true"></span>
+        <span class="envelope-peek" aria-hidden="true">
+          <span class="peek-line"></span>
+          <span class="peek-line short"></span>
+          <span class="peek-line"></span>
+        </span>
+        <span class="envelope-pocket" aria-hidden="true"></span>
         <span class="envelope-flap" aria-hidden="true"></span>
         <span id="envelope-recipient" class="envelope-recipient" aria-hidden="true"></span>
         <span class="wax" aria-hidden="true">❄</span>
+        <span class="seal-sparkle" aria-hidden="true"></span>
       </button>
       <p class="seal-hint">Tap the seal to open your letter</p>
     </div>
     <article id="letter" class="letter" hidden aria-labelledby="letter-greeting">
+      <div id="quill-pen" class="quill-pen" aria-hidden="true">
+        <svg viewBox="0 0 72 72" width="66" height="66" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="quill-feather" x1="16" y1="54" x2="66" y2="6" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#c49a6c"/>
+              <stop offset="35%" stop-color="#f7ead3"/>
+              <stop offset="78%" stop-color="#fffaf0"/>
+              <stop offset="100%" stop-color="#e8c89b"/>
+            </linearGradient>
+            <linearGradient id="quill-edge" x1="18" y1="56" x2="62" y2="8" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#843829"/>
+              <stop offset="60%" stop-color="#c97d56"/>
+              <stop offset="100%" stop-color="#e9c38d"/>
+            </linearGradient>
+          </defs>
+          <!-- Feather vane -->
+          <path d="M16 54 C18 36, 30 20, 48 11 C56 7, 64 5, 68 5 C65 13, 60 22, 53 29 L46 27 L50 32 C43 39, 34 45, 24 50 L29 44 L21 48 Z" fill="url(#quill-feather)" stroke="url(#quill-edge)" stroke-width="1.35" stroke-linejoin="round"/>
+          <!-- Feather barb accents -->
+          <path d="M28 42 C34 34, 43 24, 58 13" stroke="#b98a5b" stroke-width="0.9" stroke-linecap="round" opacity="0.55"/>
+          <path d="M36 27 L41 20 M44 21 L49 15 M26 39 L30 33" stroke="#c89b6c" stroke-width="0.9" stroke-linecap="round" opacity="0.5"/>
+          <!-- Shaft (rachis) -->
+          <path d="M65 8 C48 20, 30 36, 12 58" stroke="#6f3626" stroke-width="2.1" stroke-linecap="round"/>
+          <!-- Gold collar -->
+          <path d="M11 55 L17 61" stroke="#d49a47" stroke-width="3.2" stroke-linecap="round"/>
+          <!-- Metallic nib -->
+          <path d="M13 58 L2 69 L6 66 L15 60 Z" fill="#3b2723"/>
+          <path d="M12 57 L2 69" stroke="#d8a256" stroke-width="0.9" stroke-linecap="round"/>
+          <!-- Fresh ink drop at nib tip -->
+          <circle cx="2.5" cy="68.5" r="1.5" fill="#3b2723"/>
+        </svg>
+      </div>
       <header class="letter-header">
         <p class="eyebrow">Volodymyr's Christmas Gift</p>
         <img src="postmark.svg" alt="" width="52" height="52">
       </header>
       <h3 id="letter-greeting" tabindex="-1"></h3>
       <div id="letter-body"></div>
-      <p class="signature">Warm wishes,<br><em>Wenzhe</em></p>
-      <p class="letter-date">Christmas 2026</p>
+      <p id="letter-signature" class="signature">Warm wishes,<br><em>Wenzhe</em></p>
+      <footer class="letter-footer">
+        <p id="letter-date" class="letter-date">Christmas 2026</p>
+        <div class="letter-controls">
+          <button id="skip-writing" class="letter-action" type="button" hidden>Show all</button>
+          <button id="replay-writing" class="letter-action" type="button" hidden>↺ Replay writing</button>
+        </div>
+      </footer>
     </article>
   </dialog>
 </body>
