@@ -8,8 +8,8 @@
   <title>Volodymyr's Christmas Gift · Playground</title>
   <link rel="icon" href="postmark.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Dancing+Script:wght@600;700&display=swap" media="print" onload="this.media='all'">
-  <link rel="stylesheet" href="style.css?v=20261122h">
-  <script defer src="app.js?v=20261122h"></script>
+  <link rel="stylesheet" href="style.css?v=20261123a">
+  <script defer src="app.js?v=20261123a"></script>
 </head>
 <body>
   <main class="scene">
@@ -72,9 +72,66 @@
           <span class="peek-line"></span>
         </span>
         <span class="envelope-pocket" aria-hidden="true"></span>
-        <span class="envelope-flap" aria-hidden="true"></span>
+        <span class="envelope-flap-wrap" aria-hidden="true">
+          <span class="envelope-flap"></span>
+        </span>
+        <span class="envelope-twine" aria-hidden="true"></span>
         <span id="envelope-recipient" class="envelope-recipient" aria-hidden="true"></span>
-        <span class="wax" aria-hidden="true">❄</span>
+        <span class="wax" aria-hidden="true">
+          <svg viewBox="0 0 120 120" width="84" height="84" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="wax-outer" cx="38%" cy="32%" r="68%">
+                <stop offset="0%" stop-color="#cc523e"/>
+                <stop offset="42%" stop-color="#96281e"/>
+                <stop offset="82%" stop-color="#6b1812"/>
+                <stop offset="100%" stop-color="#480d0a"/>
+              </radialGradient>
+              <radialGradient id="wax-well" cx="62%" cy="64%" r="65%">
+                <stop offset="0%" stop-color="#a83326"/>
+                <stop offset="55%" stop-color="#7c1e17"/>
+                <stop offset="100%" stop-color="#4b0e0a"/>
+              </radialGradient>
+              <linearGradient id="wax-rim-light" x1="20" y1="18" x2="98" y2="100" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#f2a288" stop-opacity="0.72"/>
+                <stop offset="35%" stop-color="#c95642" stop-opacity="0.18"/>
+                <stop offset="72%" stop-color="#360906" stop-opacity="0.35"/>
+                <stop offset="100%" stop-color="#290604" stop-opacity="0.65"/>
+              </linearGradient>
+              <linearGradient id="wax-emboss" x1="34" y1="34" x2="86" y2="86" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#f0a68b"/>
+                <stop offset="52%" stop-color="#b94232"/>
+                <stop offset="100%" stop-color="#6e1913"/>
+              </linearGradient>
+              <filter id="wax-drop" x="-16%" y="-14%" width="132%" height="136%">
+                <feDropShadow dx="0" dy="5" stdDeviation="4.2" flood-color="#220907" flood-opacity="0.58"/>
+              </filter>
+            </defs>
+            <!-- Organic hand-poured molten wax puddle -->
+            <path filter="url(#wax-drop)" fill="url(#wax-outer)" d="M58 9 C71 7, 83 11, 93 19 C102 26, 111 38, 110 53 C112 66, 108 79, 98 90 C90 100, 77 109, 62 109 C48 111, 34 106, 24 96 C14 87, 8 73, 10 58 C8 44, 15 30, 25 21 C35 12, 46 10, 58 9 Z"/>
+            <!-- Raised molten outer lip specular highlight -->
+            <path fill="none" stroke="url(#wax-rim-light)" stroke-width="3.2" d="M58 13 C70 11, 81 15, 90 22 C98 29, 106 40, 105 53 C107 65, 103 77, 94 87 C86 96, 75 104, 61 104 C48 106, 36 101, 27 92 C18 84, 13 71, 15 58 C13 45, 19 33, 28 24 C37 16, 47 14, 58 13 Z"/>
+            <!-- Glossy wax sheen on upper-left molten bulge -->
+            <ellipse cx="38" cy="27" rx="13" ry="5.5" transform="rotate(-28 38 27)" fill="#f8bfa9" opacity="0.26"/>
+            <!-- Pressed-in circular stamp bowl -->
+            <circle cx="60" cy="60" r="34" fill="url(#wax-well)"/>
+            <!-- Deep pressed rim shadow (top-left) & catchlight (bottom-right) -->
+            <circle cx="60" cy="60" r="34" fill="none" stroke="#360906" stroke-width="2.6" stroke-dasharray="107 107" stroke-dashoffset="-14" opacity="0.72"/>
+            <circle cx="60" cy="60" r="34" fill="none" stroke="#e48f74" stroke-width="1.8" stroke-dasharray="107 107" stroke-dashoffset="93" opacity="0.5"/>
+            <!-- Inner embossed ring -->
+            <circle cx="60" cy="60" r="28" fill="none" stroke="#3c0b08" stroke-width="1.3" opacity="0.55"/>
+            <circle cx="59.4" cy="59.4" r="28" fill="none" stroke="#ea9c81" stroke-width="0.9" opacity="0.45"/>
+            <!-- Sculpted 3D embossed snowflake (debossed shadow + raised highlight) -->
+            <g transform="translate(1.2 1.6)" stroke="#380a07" stroke-width="2.8" stroke-linecap="round" opacity="0.68">
+              <path d="M60 39 V81 M41.8 49.5 L78.2 70.5 M78.2 49.5 L41.8 70.5"/>
+              <path d="M55 44 L60 49 L65 44 M55 76 L60 71 L65 76 M45 56 L51 54 L49 48 M75 64 L69 66 L71 72 M71 48 L69 54 L75 56 M49 72 L51 66 L45 64"/>
+            </g>
+            <g stroke="url(#wax-emboss)" stroke-width="2.5" stroke-linecap="round">
+              <path d="M60 39 V81 M41.8 49.5 L78.2 70.5 M78.2 49.5 L41.8 70.5"/>
+              <path d="M55 44 L60 49 L65 44 M55 76 L60 71 L65 76 M45 56 L51 54 L49 48 M75 64 L69 66 L71 72 M71 48 L69 54 L75 56 M49 72 L51 66 L45 64"/>
+            </g>
+            <circle cx="60" cy="60" r="3.6" fill="#d97b62" stroke="#470e0a" stroke-width="1"/>
+          </svg>
+        </span>
         <span class="seal-sparkle" aria-hidden="true"></span>
       </button>
       <p class="seal-hint">Tap the seal to open your letter</p>

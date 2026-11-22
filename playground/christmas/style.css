@@ -305,12 +305,12 @@ h1 {
   position: relative;
   isolation: isolate;
   display: block;
-  inline-size: min(100%, 23rem, 85vh);
-  aspect-ratio: 1.67;
+  inline-size: min(100%, 24.5rem, 86vh);
+  aspect-ratio: 1.64;
   margin-inline: auto;
   padding: 0;
   border: 0;
-  border-radius: .28rem;
+  border-radius: .22rem;
   overflow: visible;
   background: transparent;
   color: var(--ink);
@@ -322,20 +322,30 @@ h1 {
   position: absolute;
   inset: 0;
   z-index: 1;
-  border-radius: .28rem;
-  border: 1px solid #fff3df;
-  background: linear-gradient(160deg, #f3dfc1, #d7b689);
-  box-shadow: 0 20px 44px #030811a8;
+  border-radius: .22rem;
+  border: 1px solid rgba(255, 240, 214, .45);
+  background-color: #d6b687;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.09'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse at 50% 45%, #ebd5b0 18%, #cca46f 100%);
+  box-shadow:
+    0 26px 54px rgba(2, 7, 15, .74),
+    0 6px 14px rgba(2, 7, 15, .42),
+    inset 0 0 28px rgba(96, 56, 20, .28);
 }
 .envelope-peek {
   position: absolute;
   inset: 10% 7% 10%;
   z-index: 2;
   padding: 1.1rem 1.25rem;
-  border-radius: .22rem;
-  border: 1px solid #fff5e1;
-  background: radial-gradient(ellipse at top left, #fbf1df, #eedbc0);
-  box-shadow: 0 6px 18px #26140c45;
+  border-radius: .14rem;
+  border: 1px solid #d7ba8c;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.09'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse at center, #f3e2be 28%, #d7b47c 100%);
+  box-shadow:
+    0 6px 18px rgba(38, 20, 12, .38),
+    inset 0 0 22px rgba(112, 68, 24, .28);
   display: flex;
   flex-direction: column;
   gap: .55rem;
@@ -344,67 +354,132 @@ h1 {
 }
 .peek-line {
   display: block;
-  block-size: 5px;
-  inline-size: 76%;
+  block-size: 4px;
+  inline-size: 74%;
   border-radius: 999px;
-  background: #84382928;
+  background: rgba(74, 42, 22, .2);
 }
 .peek-line.short {
-  inline-size: 48%;
+  inline-size: 46%;
 }
 .envelope-pocket {
   position: absolute;
   inset: 0;
   z-index: 3;
-  border-radius: .28rem;
+  border-radius: .22rem;
   overflow: hidden;
-  background:
-    linear-gradient(31deg, #e0c6a0 49.6%, transparent 50%) left bottom / 50.5% 92% no-repeat,
-    linear-gradient(-31deg, #e8cba2 49.6%, transparent 50%) right bottom / 50.5% 92% no-repeat,
-    linear-gradient(to top, #e4c79d 0 46%, transparent 46.5%);
-  box-shadow: inset 0 -1px 0 #fff3df88;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.09'/%3E%3C/svg%3E"),
+    linear-gradient(31.5deg, #d7b788 49.4%, rgba(78, 44, 16, .28) 49.8%, rgba(255, 245, 225, .45) 50.2%, transparent 50.7%),
+    linear-gradient(-31.5deg, #dfc194 49.4%, rgba(78, 44, 16, .28) 49.8%, rgba(255, 245, 225, .45) 50.2%, transparent 50.7%),
+    linear-gradient(to top, #d9ba8b 0 46%, rgba(88, 52, 20, .24) 46.5%, transparent 48%);
+  background-position: 0 0, left bottom, right bottom, center bottom;
+  background-size: auto, 50.5% 92%, 50.5% 92%, 100% 100%;
+  background-repeat: repeat, no-repeat, no-repeat, no-repeat;
+  box-shadow:
+    inset 0 0 34px rgba(102, 60, 22, .32),
+    inset 0 -1px 0 rgba(255, 244, 224, .55),
+    inset 1px 0 0 rgba(255, 244, 224, .32),
+    inset -1px 0 0 rgba(102, 60, 22, .25);
 }
-.envelope-flap {
+.envelope-flap-wrap {
   position: absolute;
   inset: 0 0 auto;
   z-index: 5;
-  block-size: 62%;
-  clip-path: polygon(0 0, 100% 0, 50% 100%);
-  background: linear-gradient(165deg, #fff3dc, #efdab6);
-  filter: drop-shadow(0 3px 5px #3b27232b);
+  block-size: 63%;
+  pointer-events: none;
+  filter: drop-shadow(0 8px 10px rgba(42, 21, 9, .36));
   transform-origin: top center;
   transform: rotateX(0deg);
-  transition: transform .5s cubic-bezier(.34, .08, .22, 1) .14s, filter .3s ease .14s;
+  transition: transform .52s cubic-bezier(.34, .08, .22, 1) .14s, filter .32s ease .14s;
+}
+.envelope-flap {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  clip-path: polygon(0 0, 100% 0, 52% 99%, 50% 100%, 48% 99%);
+  background-color: #e6cca0;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.1'/%3E%3C/svg%3E"),
+    linear-gradient(175deg, #f5e5c6 0%, #e6cb9e 58%, #d2af7b 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 250, 238, .72);
+}
+.envelope-twine {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+  border-radius: .22rem;
+  overflow: hidden;
+  transition: opacity .34s ease, transform .34s ease;
+}
+.envelope-twine::before,
+.envelope-twine::after {
+  content: "";
+  position: absolute;
+  box-shadow: 0 2px 4px rgba(42, 20, 8, .38);
+}
+.envelope-twine::before {
+  inset: 57% 0 auto;
+  block-size: 4px;
+  translate: 0 -50%;
+  background: repeating-linear-gradient(
+    -55deg,
+    #b7905d 0 3px,
+    #7e5832 3px 5px,
+    #d4b27e 5px 7px
+  );
+  opacity: .88;
+}
+.envelope-twine::after {
+  inset: 0 auto 0 50%;
+  inline-size: 4px;
+  translate: -50% 0;
+  background: repeating-linear-gradient(
+    35deg,
+    #b7905d 0 3px,
+    #7e5832 3px 5px,
+    #d4b27e 5px 7px
+  );
+  opacity: .88;
 }
 .envelope-recipient {
   position: absolute;
-  inset: auto 1rem 12%;
+  inset: auto 1.25rem 9%;
   z-index: 4;
-  font: italic clamp(1rem, 4vw, 1.32rem)/1.2 var(--serif);
+  color: #3d2218;
+  font: 700 clamp(1.25rem, 4.4vw, 1.62rem)/1.15 var(--script);
+  text-shadow: 0 1px 0 rgba(255, 245, 224, .55);
 }
 .wax {
   position: absolute;
   inset: 57% auto auto 50%;
-  z-index: 6;
+  z-index: 7;
   translate: -50% -50%;
   display: grid;
   place-items: center;
-  inline-size: clamp(2.6rem, 10vw, 3.55rem);
+  inline-size: clamp(3.9rem, 13vw, 4.95rem);
   aspect-ratio: 1;
-  border-radius: 46% 53% 48% 51%;
-  border: 2px solid #b35a41;
-  box-shadow: 0 3px 7px #4219165e, inset 0 0 0 3px #773026;
-  background: radial-gradient(circle at 40% 28%, #b75e45, var(--wax) 65%);
-  color: #ffe0ba;
-  font-size: 1.4rem;
-  transition: scale .25s var(--ease), opacity .28s ease;
+  transition: transform .22s var(--ease), filter .22s ease, opacity .28s ease;
 }
-.envelope:hover:not(.is-opening) .wax { scale: 1.1; }
+.wax svg {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+}
+.envelope:hover:not(.is-opening) .wax {
+  transform: scale(1.06);
+  filter: brightness(1.06);
+}
+.envelope:active:not(.is-opening) .wax {
+  transform: scale(.92) translateY(2px);
+  filter: brightness(.96);
+}
 .seal-sparkle {
   position: absolute;
   inset: 57% auto auto 50%;
-  z-index: 7;
-  inline-size: 4.5rem;
+  z-index: 8;
+  inline-size: 5.4rem;
   aspect-ratio: 1;
   translate: -50% -50%;
   border-radius: 50%;
@@ -416,16 +491,20 @@ h1 {
   cursor: default;
   transform: translateY(16px);
 }
+.envelope.is-opening .envelope-twine {
+  opacity: 0;
+  transform: scale(1.04);
+}
 .envelope.is-opening .wax {
   animation: wax-break .34s var(--ease) forwards;
 }
 .envelope.is-opening .seal-sparkle {
   animation: seal-glow .46s var(--ease) forwards;
 }
-.envelope.is-opening .envelope-flap {
+.envelope.is-opening .envelope-flap-wrap {
   transform: rotateX(-172deg);
-  filter: brightness(.93);
-  animation: flap-z .5s step-end forwards;
+  filter: drop-shadow(0 2px 4px rgba(42, 21, 9, .22)) brightness(.92);
+  animation: flap-z .52s step-end forwards;
 }
 .envelope.is-opening .envelope-peek {
   transform: translateY(-56%) scale(1.04);
