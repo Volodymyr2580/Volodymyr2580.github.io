@@ -25,6 +25,7 @@
   const letterSignature = pick('letter-signature');
   const letterDate = pick('letter-date');
   const quill = pick('quill-pen');
+  const soundBtn = pick('toggle-sound');
   const skipBtn = pick('skip-writing');
   const replayBtn = pick('replay-writing');
   const recipient = pick('recipient');
@@ -38,6 +39,100 @@
   let writeChars = [];
   let writeIndex = 0;
   let isWriting = false;
+
+  // Subtle Web Audio API quill-on-parchment & paper rustle synthesizer
+  let audioCtx = null;
+  let noiseBuffer = null;
+  let soundEnabled = true;
+  let lastStrokeAudio = 0;
+
+  function ensureAudio() {
+    if (!soundEnabled || motion.matches) return null;
+    try {
+      const Ctx = window.AudioContext || window.webkitAudioContext;
+      if (!Ctx) return null;
+      if (!audioCtx) {
+        audioCtx = new Ctx();
+        const sampleRate = audioCtx.sampleRate;
+        const length = Math.floor(sampleRate * 0.6);
+        noiseBuffer = audioCtx.createBuffer(1, length, sampleRate);
+        const data = noiseBuffer.getChannelData(0);
+        // Pink-ish smoothed noise for soft paper texture (never harsh static)
+        let prev = 0;
+        for (let i = 0; i < length; i += 1) {
+          const white = Math.random() * 2 - 1;
+          prev = (prev + 0.06 * white) / 1.06;
+          data[i] = prev * 3.2;
+        }
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume().catch(() => {});
+      }
+      return audioCtx;
+    } catch {
+      return null;
+    }
+  }
+
+  function playPaperRustle() {
+    const ctx = ensureAudio();
+    if (!ctx || !noiseBuffer) return;
+    try {
+      const now = ctx.currentTime;
+      const src = ctx.createBufferSource();
+      src.buffer = noiseBuffer;
+      const filter = ctx.createBiquadFilter();
+      filter.type = 'bandpass';
+      filter.frequency.setValueAtTime(850, now);
+      filter.frequency.exponentialRampToValueAtTime(1450, now + 0.14);
+      filter.frequency.exponentialRampToValueAtTime(620, now + 0.36);
+      filter.Q.value = 1.4;
+
+      const gain = ctx.createGain();
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.linearRampToValueAtTime(0.055, now + 0.06);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.38);
+
+      src.connect(filter).connect(gain).connect(ctx.destination);
+      src.start(now, 0, 0.4);
+    } catch {}
+  }
+
+  function playQuillStroke(ch, nowMs) {
+    if (!soundEnabled || motion.matches || !ch || ch === ' ') return;
+    if (nowMs - lastStrokeAudio < 46) return;
+    lastStrokeAudio = nowMs;
+    const ctx = ensureAudio();
+    if (!ctx || !noiseBuffer) return;
+    try {
+      const t = ctx.currentTime;
+      const dur = 0.048 + Math.random() * 0.026;
+      const offset = Math.random() * Math.max(0.05, noiseBuffer.duration - dur - 0.02);
+
+      const src = ctx.createBufferSource();
+      src.buffer = noiseBuffer;
+
+      const band = ctx.createBiquadFilter();
+      band.type = 'bandpass';
+      const baseFreq = ',.;:!?'.includes(ch) ? 1650 : 1950 + Math.random() * 650;
+      band.frequency.setValueAtTime(baseFreq, t);
+      band.frequency.linearRampToValueAtTime(baseFreq * (0.9 + Math.random() * 0.2), t + dur);
+      band.Q.value = 2.4;
+
+      const lowpass = ctx.createBiquadFilter();
+      lowpass.type = 'lowpass';
+      lowpass.frequency.value = 3400;
+
+      const gain = ctx.createGain();
+      const peak = 0.032 + Math.random() * 0.015;
+      gain.gain.setValueAtTime(0.0001, t);
+      gain.gain.linearRampToValueAtTime(peak, t + 0.012);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+
+      src.connect(band).connect(lowpass).connect(gain).connect(ctx.destination);
+      src.start(t, offset, dur + 0.01);
+    } catch {}
+  }
 
   // Fractions are measured in the original images, before object-fit crops them.
   function artPoint(feature) {
@@ -212,6 +307,7 @@
       while (writeIndex < writeChars.length && now >= nextTime && stepsThisFrame < 3) {
         const current = writeChars[writeIndex];
         current.el.classList.add('is-written');
+        playQuillStroke(current.ch, now);
         const pos = moveQuillToChar(current.el, writeIndex);
         if (pos) lastPos = pos;
         nextTime += charDelay(current);
@@ -280,6 +376,7 @@
       return;
     }
     isOpening = true;
+    playPaperRustle();
     sealed.classList.add('is-opening');
     envelope.classList.add('is-opening');
 
@@ -292,12 +389,20 @@
     }, 960));
   });
 
+  soundBtn.addEventListener('click', () => {
+    soundEnabled = !soundEnabled;
+    soundBtn.setAttribute('aria-pressed', soundEnabled ? 'true' : 'false');
+    soundBtn.textContent = soundEnabled ? 'Sound: On' : 'Sound: Off';
+    if (soundEnabled) ensureAudio();
+  });
+
   skipBtn.addEventListener('click', () => {
     finishWritingImmediately();
   });
 
   replayBtn.addEventListener('click', () => {
-    startQuillWriting();
+    ensureAudio();
+    startQuillWriting(140);
   });
 
   mail.addEventListener('close', () => {

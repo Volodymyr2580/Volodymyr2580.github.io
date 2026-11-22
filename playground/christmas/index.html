@@ -7,8 +7,9 @@
   <meta name="description" content="A little Christmas letter, written for you.">
   <title>Volodymyr's Christmas Gift · Playground</title>
   <link rel="icon" href="postmark.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="style.css?v=20261122">
-  <script defer src="app.js?v=20261122"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Dancing+Script:wght@600;700&display=swap" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="style.css?v=20261122c">
+  <script defer src="app.js?v=20261122c"></script>
 </head>
 <body>
   <main class="scene">
@@ -113,6 +114,7 @@
       <footer class="letter-footer">
         <p id="letter-date" class="letter-date">Christmas 2026</p>
         <div class="letter-controls">
+          <button id="toggle-sound" class="letter-action" type="button" aria-pressed="true" title="Toggle writing sound">Sound: On</button>
           <button id="skip-writing" class="letter-action" type="button" hidden>Show all</button>
           <button id="replay-writing" class="letter-action" type="button" hidden>↺ Replay writing</button>
         </div>
