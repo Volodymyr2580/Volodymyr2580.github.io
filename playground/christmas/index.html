@@ -8,8 +8,8 @@
   <title>Volodymyr's Christmas Gift · Playground</title>
   <link rel="icon" href="postmark.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Dancing+Script:wght@600;700&display=swap" media="print" onload="this.media='all'">
-  <link rel="stylesheet" href="style.css?v=20261122e">
-  <script defer src="app.js?v=20261122e"></script>
+  <link rel="stylesheet" href="style.css?v=20261122f">
+  <script defer src="app.js?v=20261122f"></script>
 </head>
 <body>
   <main class="scene">
@@ -24,8 +24,15 @@
 
     <header class="topline">
       <a class="backlink" href="../"><span aria-hidden="true">‹</span> Playground</a>
-      <time datetime="2026-12">December 2026</time>
+      <div class="topline-meta">
+        <button id="bgm-toggle" class="bgm-button" type="button" aria-pressed="false" aria-label="Play background music: Once Upon a Christmas Eve by Anson Seabra">
+          <span class="bgm-icon" aria-hidden="true">♪</span>
+          <span class="bgm-label">Music</span>
+        </button>
+        <time datetime="2026-12">December 2026</time>
+      </div>
     </header>
+    <audio id="bgm" src="audio/once-upon-a-christmas-eve.m4a" loop preload="metadata"></audio>
 
     <section class="hero" aria-labelledby="title">
       <p class="eyebrow christmas-wish">Merry Christmas~</p>
@@ -114,7 +121,6 @@
       <footer class="letter-footer">
         <p id="letter-date" class="letter-date">Christmas 2026</p>
         <div class="letter-controls">
-          <button id="toggle-sound" class="letter-action" type="button" aria-pressed="true" title="Toggle writing sound">Sound: On</button>
           <button id="skip-writing" class="letter-action" type="button" hidden>Show all</button>
           <button id="replay-writing" class="letter-action" type="button" hidden>↺ Replay writing</button>
         </div>

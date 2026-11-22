@@ -25,12 +25,14 @@
   const letterSignature = pick('letter-signature');
   const letterDate = pick('letter-date');
   const quill = pick('quill-pen');
-  const soundBtn = pick('toggle-sound');
   const skipBtn = pick('skip-writing');
   const replayBtn = pick('replay-writing');
   const recipient = pick('recipient');
   const code = pick('pickup-code');
   const status = pick('pickup-status');
+  const bgm = pick('bgm');
+  const bgmToggle = pick('bgm-toggle');
+  const bgmLabel = bgmToggle ? bgmToggle.querySelector('.bgm-label') : null;
 
   let delivery;
   let openTimers = [];
@@ -40,148 +42,85 @@
   let writeIndex = 0;
   let isWriting = false;
 
-  // Subtle continuous Web Audio API quill-on-parchment ("沙沙") synthesizer
-  let audioCtx = null;
-  let noiseBuffer = null;
-  let soundEnabled = true;
-  let quillAudio = null;
+  // Background music controller (Anson Seabra - Once Upon a Christmas Eve)
+  const TARGET_BGM_VOLUME = 0.45;
+  let bgmFadeRaf = 0;
+  let userPausedBgm = false;
 
-  function ensureAudio() {
-    if (!soundEnabled || motion.matches) return null;
-    try {
-      const Ctx = window.AudioContext || window.webkitAudioContext;
-      if (!Ctx) return null;
-      if (!audioCtx) {
-        audioCtx = new Ctx();
-        const sampleRate = audioCtx.sampleRate;
-        const length = Math.floor(sampleRate * 2.4);
-        noiseBuffer = audioCtx.createBuffer(1, length, sampleRate);
-        const data = noiseBuffer.getChannelData(0);
-        // Warm pink-brown noise (naturally mellow, zero harsh high-frequency hiss)
-        let b0 = 0;
-        let b1 = 0;
-        let b2 = 0;
-        for (let i = 0; i < length; i += 1) {
-          const white = Math.random() * 2 - 1;
-          b0 = 0.997 * b0 + white * 0.029;
-          b1 = 0.985 * b1 + white * 0.032;
-          b2 = 0.950 * b2 + white * 0.048;
-          data[i] = (b0 + b1 + b2 + white * 0.015) * 1.6;
-        }
-        // Smooth seam for completely click-free looping
-        const fade = Math.floor(sampleRate * 0.03);
-        for (let i = 0; i < fade; i += 1) {
-          const w = i / fade;
-          data[i] = data[i] * w + data[length - fade + i] * (1 - w);
-        }
+  function syncBgmUi(playing) {
+    if (!bgmToggle) return;
+    bgmToggle.classList.toggle('is-playing', playing);
+    bgmToggle.setAttribute('aria-pressed', playing ? 'true' : 'false');
+    if (bgmLabel) bgmLabel.textContent = playing ? 'Playing' : 'Music';
+  }
+
+  function fadeBgmVolume(from, to, durationMs, onDone) {
+    cancelAnimationFrame(bgmFadeRaf);
+    if (!bgm) return;
+    const start = performance.now();
+    bgm.volume = from;
+    function step(now) {
+      const progress = Math.min(1, (now - start) / durationMs);
+      bgm.volume = from + (to - from) * progress;
+      if (progress < 1) {
+        bgmFadeRaf = requestAnimationFrame(step);
+      } else {
+        bgmFadeRaf = 0;
+        if (onDone) onDone();
       }
-      if (audioCtx.state === 'suspended') {
-        audioCtx.resume().catch(() => {});
-      }
-      return audioCtx;
-    } catch {
-      return null;
+    }
+    bgmFadeRaf = requestAnimationFrame(step);
+  }
+
+  function startBgm() {
+    if (!bgm || userPausedBgm) return;
+    if (!bgm.paused) {
+      syncBgmUi(true);
+      return;
+    }
+    bgm.volume = 0;
+    const promise = bgm.play();
+    if (promise && typeof promise.then === 'function') {
+      promise.then(() => {
+        syncBgmUi(true);
+        fadeBgmVolume(0, TARGET_BGM_VOLUME, 1400);
+      }).catch(() => {
+        syncBgmUi(false);
+      });
+    } else {
+      syncBgmUi(true);
+      fadeBgmVolume(0, TARGET_BGM_VOLUME, 1400);
     }
   }
 
-  function playPaperRustle() {
-    const ctx = ensureAudio();
-    if (!ctx || !noiseBuffer) return;
-    try {
-      const now = ctx.currentTime;
-      const src = ctx.createBufferSource();
-      src.buffer = noiseBuffer;
-
-      const hp = ctx.createBiquadFilter();
-      hp.type = 'highpass';
-      hp.frequency.value = 320;
-
-      const bp = ctx.createBiquadFilter();
-      bp.type = 'bandpass';
-      bp.frequency.setValueAtTime(720, now);
-      bp.frequency.exponentialRampToValueAtTime(1180, now + 0.18);
-      bp.frequency.exponentialRampToValueAtTime(640, now + 0.44);
-      bp.Q.value = 0.7;
-
-      const lp = ctx.createBiquadFilter();
-      lp.type = 'lowpass';
-      lp.frequency.value = 1750;
-
-      const gain = ctx.createGain();
-      gain.gain.setValueAtTime(0.0001, now);
-      gain.gain.linearRampToValueAtTime(0.05, now + 0.09);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.46);
-
-      src.connect(hp).connect(bp).connect(lp).connect(gain).connect(ctx.destination);
-      src.start(now, 0, 0.48);
-    } catch {}
+  function pauseBgm() {
+    if (!bgm) return;
+    syncBgmUi(false);
+    if (bgm.paused) return;
+    fadeBgmVolume(bgm.volume, 0, 320, () => {
+      bgm.pause();
+    });
   }
 
-  function startQuillAudio() {
-    stopQuillAudio();
-    const ctx = ensureAudio();
-    if (!ctx || !noiseBuffer) return;
-    try {
-      const now = ctx.currentTime;
-      const src = ctx.createBufferSource();
-      src.buffer = noiseBuffer;
-      src.loop = true;
-
-      const hp = ctx.createBiquadFilter();
-      hp.type = 'highpass';
-      hp.frequency.value = 420;
-
-      const bp = ctx.createBiquadFilter();
-      bp.type = 'bandpass';
-      bp.frequency.value = 1050;
-      bp.Q.value = 0.55;
-
-      const lp = ctx.createBiquadFilter();
-      lp.type = 'lowpass';
-      lp.frequency.value = 2000;
-
-      const gain = ctx.createGain();
-      gain.gain.setValueAtTime(0.0001, now);
-
-      src.connect(hp).connect(bp).connect(lp).connect(gain).connect(ctx.destination);
-      src.start(now, Math.random() * 1.2);
-      quillAudio = { src, bp, gain };
-    } catch {}
-  }
-
-  function modulateQuillAudio(item, stepIndex) {
-    if (!soundEnabled || !quillAudio || !audioCtx) return;
-    try {
-      const now = audioCtx.currentTime;
-      const ch = item.ch;
-      if (item.pauseAfter || ',.;:!?'.includes(ch)) {
-        quillAudio.gain.gain.setTargetAtTime(0.0005, now, 0.055);
-      } else if (ch === ' ') {
-        quillAudio.gain.gain.setTargetAtTime(0.005, now, 0.04);
+  if (bgmToggle && bgm) {
+    bgmToggle.addEventListener('click', (event) => {
+      event.stopPropagation();
+      if (bgm.paused) {
+        userPausedBgm = false;
+        startBgm();
       } else {
-        // Warm, mellow, low-mid paper friction whisper (zero harshness)
-        const wave = 0.5 + 0.5 * Math.sin(stepIndex * 0.55);
-        const targetGain = 0.036 + wave * 0.02;
-        const targetFreq = 860 + wave * 520;
-        quillAudio.gain.gain.setTargetAtTime(targetGain, now, 0.05);
-        quillAudio.bp.frequency.setTargetAtTime(targetFreq, now, 0.07);
+        userPausedBgm = true;
+        pauseBgm();
       }
-    } catch {}
-  }
+    });
 
-  function stopQuillAudio() {
-    if (!quillAudio) return;
-    const active = quillAudio;
-    quillAudio = null;
-    try {
-      if (audioCtx) {
-        const now = audioCtx.currentTime;
-        active.gain.gain.setTargetAtTime(0.0001, now, 0.035);
-        active.src.stop(now + 0.14);
-      } else {
-        active.src.stop();
-      }
-    } catch {}
+    // Attempt gentle autoplay; if browser blocks before gesture, start smoothly on first interaction
+    startBgm();
+    const unlockBgm = () => {
+      if (!userPausedBgm && bgm.paused) startBgm();
+    };
+    window.addEventListener('pointerdown', unlockBgm, { once: true, passive: true });
+    window.addEventListener('keydown', unlockBgm, { once: true, passive: true });
   }
 
   // Fractions are measured in the original images, before object-fit crops them.
@@ -243,7 +182,6 @@
     cancelAnimationFrame(writeRaf);
     writeRaf = 0;
     isWriting = false;
-    stopQuillAudio();
   }
 
   function appendCharSpans(container, text, targetList) {
@@ -302,12 +240,10 @@
     if (!charRect.width && !charRect.height) return null;
     const x = charRect.right - letterRect.left + letter.scrollLeft;
     const y = charRect.bottom - letterRect.top + letter.scrollTop - 3;
-    // Gentle rhythmic nib oscillation to mimic brisk cursive strokes
     const strokeY = Math.sin(stepIndex * 1.45) * 2.2;
     const tilt = Math.cos(stepIndex * 1.15) * 4.5;
     quill.style.transform = `translate3d(${x.toFixed(1)}px, ${(y + strokeY).toFixed(1)}px, 0) rotate(${tilt.toFixed(1)}deg)`;
 
-    // Keep the active writing line comfortably visible inside scrollable mobile viewports
     const visibleBottom = letter.scrollTop + letter.clientHeight - 44;
     if (y > visibleBottom) {
       letter.scrollTop = y - letter.clientHeight + 72;
@@ -324,7 +260,7 @@
     return 24;
   }
 
-  function startQuillWriting(initialDelay = 0) {
+  function startQuillWriting(initialDelay = 140) {
     stopWriting();
     for (const item of writeChars) {
       item.el.classList.remove('is-written');
@@ -351,7 +287,6 @@
       if (!quillShown && now >= nextTime - 120) {
         lastPos = moveQuillToChar(writeChars[0].el, 0);
         quill.classList.add('is-writing');
-        startQuillAudio();
         quillShown = true;
       }
 
@@ -359,7 +294,6 @@
       while (writeIndex < writeChars.length && now >= nextTime && stepsThisFrame < 3) {
         const current = writeChars[writeIndex];
         current.el.classList.add('is-written');
-        modulateQuillAudio(current, writeIndex);
         const pos = moveQuillToChar(current.el, writeIndex);
         if (pos) lastPos = pos;
         nextTime += charDelay(current);
@@ -370,10 +304,8 @@
       if (writeIndex >= writeChars.length) {
         isWriting = false;
         writeRaf = 0;
-        stopQuillAudio();
         skipBtn.hidden = true;
         replayBtn.hidden = false;
-        // Lift the quill gracefully off the parchment
         if (lastPos) {
           quill.classList.add('is-lifting');
           quill.style.transform = `translate3d(${(lastPos.x + 18).toFixed(1)}px, ${(lastPos.y - 20).toFixed(1)}px, 0) rotate(14deg)`;
@@ -392,7 +324,6 @@
     sealed.hidden = true;
     letter.hidden = false;
     greeting.focus({ preventScroll: true });
-    // Wait for the parchment unfold animation to settle before touching the quill down
     startQuillWriting(560);
   }
 
@@ -429,7 +360,6 @@
       return;
     }
     isOpening = true;
-    playPaperRustle();
     sealed.classList.add('is-opening');
     envelope.classList.add('is-opening');
 
@@ -442,25 +372,11 @@
     }, 960));
   });
 
-  soundBtn.addEventListener('click', () => {
-    soundEnabled = !soundEnabled;
-    soundBtn.setAttribute('aria-pressed', soundEnabled ? 'true' : 'false');
-    soundBtn.textContent = soundEnabled ? 'Sound: On' : 'Sound: Off';
-    if (!soundEnabled) {
-      stopQuillAudio();
-    } else if (isWriting) {
-      startQuillAudio();
-    } else {
-      ensureAudio();
-    }
-  });
-
   skipBtn.addEventListener('click', () => {
     finishWritingImmediately();
   });
 
   replayBtn.addEventListener('click', () => {
-    ensureAudio();
     startQuillWriting(140);
   });
 
