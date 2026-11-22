@@ -1250,5 +1250,41 @@
   "home.personal.favorite": {
     "en": "My all-time favorite",
     "zh-CN": "最喜欢的一首歌"
+  },
+  "tag.webrtc": {
+    "en": "WebRTC · P2P",
+    "zh-CN": "WebRTC · 点对点"
+  },
+  "tag.linalg": {
+    "en": "Linear Algebra",
+    "zh-CN": "线性代数"
+  },
+  "tag.geophysics": {
+    "en": "Geophysics",
+    "zh-CN": "地球物理"
+  },
+  "tag.canvas": {
+    "en": "Canvas · Gestures",
+    "zh-CN": "Canvas · 手势交互"
+  },
+  "tag.story": {
+    "en": "Interactive Story",
+    "zh-CN": "互动叙事"
+  },
+  "blog.filter.all": {
+    "en": "All",
+    "zh-CN": "全部"
+  },
+  "blog.filter.research": {
+    "en": "AI & Research",
+    "zh-CN": "AI 与科研笔记"
+  },
+  "blog.filter.math": {
+    "en": "Mathematics",
+    "zh-CN": "数学与教案"
+  },
+  "blog.filter.essays": {
+    "en": "Essays & Notes",
+    "zh-CN": "随笔与杂记"
   }
 }

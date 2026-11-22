@@ -3,10 +3,11 @@
 
   var storageKey = 'site-language';
   var root = document.documentElement;
-  var dictionary = JSON.parse(document.getElementById('site-translations').textContent);
+  var translationEl = document.getElementById('site-translations');
+  var dictionary = translationEl ? JSON.parse(translationEl.textContent) : {};
   var title = document.querySelector('title');
-  var titleKey = title.getAttribute('data-i18n-title');
-  var titleSuffix = title.getAttribute('data-i18n-suffix');
+  var titleKey = title ? title.getAttribute('data-i18n-title') : null;
+  var titleSuffix = title ? title.getAttribute('data-i18n-suffix') : '';
 
   function translate(key, language) {
     return Object.prototype.hasOwnProperty.call(dictionary, key)
@@ -33,12 +34,20 @@
       var value = translate(element.getAttribute('data-i18n-aria-label'), language);
       if (value != null) element.setAttribute('aria-label', value);
     });
-    var translatedTitle = translate(titleKey, language);
-    if (translatedTitle != null) title.textContent = translatedTitle + titleSuffix;
+    if (title && titleKey) {
+      var translatedTitle = translate(titleKey, language);
+      if (translatedTitle != null) title.textContent = translatedTitle + titleSuffix;
+    }
     updateComments(language);
     document.querySelectorAll('.language-switcher').forEach(function (element) {
       element.hidden = false;
-      element.querySelector('select').value = language;
+      var select = element.querySelector('select');
+      if (select) select.value = language;
+      element.querySelectorAll('.lang-btn[data-lang]').forEach(function (btn) {
+        var active = btn.getAttribute('data-lang') === language;
+        btn.classList.toggle('is-active', active);
+        btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+      });
     });
     if (persist) {
       try { localStorage.setItem(storageKey, language); } catch (error) {
@@ -57,6 +66,11 @@
     document.querySelectorAll('.language-switcher select').forEach(function (select) {
       select.addEventListener('change', function () {
         applyLanguage(select.value, true);
+      });
+    });
+    document.querySelectorAll('.language-switcher .lang-btn[data-lang]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        applyLanguage(btn.getAttribute('data-lang'), true);
       });
     });
     window.addEventListener('storage', function (event) {

@@ -1,9 +1,9 @@
 <!doctype html>
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<html class="no-js" lang="en">
 <head>
 {% include head.html %}
-<link rel="stylesheet" href="{{ '/assets/css/lab-notebook.css?v=20260624' | relative_url }}">
-<link rel="stylesheet" href="{{ '/assets/css/i18n.css?v=20261008' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/lab-notebook.css?v=20261122' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/i18n.css?v=20261122' | relative_url }}">
 {% if page.home_profile %}<link rel="stylesheet" href="{{ '/assets/css/home-profile.css?v=20261009' | relative_url }}">{% endif %}
 </head>
 
@@ -40,6 +40,10 @@
       {{ content }}
     </div>
   </div>
+
+  <footer class="lab-footer" role="contentinfo">
+    {% include footer.html %}
+  </footer>
 </main>
 
 {% include scripts.html %}

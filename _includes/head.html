@@ -17,7 +17,7 @@
 }());
 </script>
 <script id="site-translations" type="application/json">{{ site.data.i18n | jsonify }}</script>
-<script defer src="{{ '/assets/js/i18n.js?v=20261008' | relative_url }}"></script>
+<script defer src="{{ '/assets/js/i18n.js?v=20261122' | relative_url }}"></script>
 {% if page.description %}<meta name="description" content="{{ page.description }}">{% endif %}
 {% if page.tags %}<meta name="keywords" content="{{ page.tags | join: ', ' }}">{% endif %}
 {% if site.owner.twitter %}<!-- Twitter Card and Open Graph meta -->
@@ -62,14 +62,7 @@
 <!-- For all browsers -->
 <link rel="stylesheet" href="{{ '/assets/css/main.css?v=20260502' | relative_url }}">
 
-<!--[if (lt IE 9) & (!IEMobile)]>
-<link rel="stylesheet" href="/assets/css/ie.css">
-<![endif]-->
-
 <meta http-equiv="cleartype" content="on">
-
-<!-- Load Modernizr -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" integrity="sha512-3n19xznO0ubPpSwYCRRBgHh63DrV+bdZfHK52b1esvId4GsfwStQNPJFjeQos2h3JwCmZl0/LgLxSKMAI55hgw==" crossorigin="anonymous"></script>
 
 <!-- MathJax 3 -->
 <script>
@@ -104,15 +97,6 @@ window.MathJax = {
 </script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
-<!-- 16x16 -->
-<link rel="shortcut icon" href="{{ site.url }}/images/fav.ico">
-<!-- 32x32 -->
-<link rel="shortcut icon" href="{{ site.url }}/images/fav.png">
-<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
-<link rel="apple-touch-icon-precomposed" href="{{ site.url }}/images/apple-touch-icon-precomposed.png">
-<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
-<link rel="apple-touch-icon-precomposed" sizes="72x72" href="{{ site.url }}/images/fav.png">
-<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
-<link rel="apple-touch-icon-precomposed" sizes="114x114" href="{{ site.url }}/images/fav.png">
-<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
-<link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{ site.url }}/images/fav.png">
+<!-- Favicon -->
+<link rel="icon" type="image/jpeg" href="{{ '/images/favorite-avatar.jpg' | relative_url }}">
+<link rel="apple-touch-icon" href="{{ '/images/favorite-avatar.jpg' | relative_url }}">

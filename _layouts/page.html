@@ -1,75 +1,87 @@
-<!-- Lastly modified by Hanlin CAI in 2023/04/26 -->
-<!-- It is not recommended to modify this code, unless you are a Pro-->
-
 <!doctype html>
-<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
-<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
-<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
-
+<html class="no-js" lang="en">
 <head>
 {% include head.html %}
-<link rel="stylesheet" href="{{ '/assets/css/i18n.css?v=20261008' | relative_url }}">
-
-<script src="https://cdn.counter.dev/script.js" data-id="4c8f7caa-2b55-46cd-a995-2c4633303773" data-utcoffset="8"></script>
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-T5N5JY1E21"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-T5N5JY1E21');
-</script>
-
+<link rel="stylesheet" href="{{ '/assets/css/lab-notebook.css?v=20261122' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/i18n.css?v=20261122' | relative_url }}">
 </head>
 
+{% assign is_blog_or_note = false %}
+{% if page.url contains '/blogs/' or page.url contains '/notes/' %}
+  {% assign is_blog_or_note = true %}
+{% endif %}
 
-<body class="page{% if page.academic_home %} academic-home-page{% endif %}" itemscope itemtype="http://schema.org/WebPage">
-
+<body class="lab-notebook lab-article-page" itemscope itemtype="http://schema.org/WebPage">
 {% include chrome-frame.html %}
 
-{% include navigation.html %}
+<main class="lab-notebook-page" role="main" itemprop="mainContentOfPage">
+  <header class="lab-topbar">
+    <a class="lab-brand" href="{{ '/' | relative_url }}">
+      <img class="lab-brand-avatar" src="{{ '/images/favorite-avatar.jpg' | relative_url }}" alt="{{ site.owner.name | default: site.title }}">
+      <span>
+        <strong>{{ site.owner.name | default: site.title }}</strong>
+        <span data-i18n="{{ page.lab_subtitle | default: 'blogs' | escape }}">{{ page.lab_subtitle | default: 'blogs' }}</span>
+      </span>
+    </a>
+    <nav class="lab-nav" aria-label="Primary" data-i18n-aria-label="Primary">
+      {% for link in site.links %}
+        {% assign is_active = false %}
+        {% if page.lab_nav == link.title %}
+          {% assign is_active = true %}
+        {% elsif is_blog_or_note and link.title == 'Blogs' %}
+          {% assign is_active = true %}
+        {% endif %}
+        <a href="{{ link.url | relative_url }}"{% if is_active %} class="active"{% endif %} data-i18n="{{ link.title | escape }}">{{ link.title }}</a>
+      {% endfor %}
+    </nav>
+    {% include language-switcher.html %}
+  </header>
 
-{% if page.image.feature %}<div class="image-wrap">
-  <img src="{{ site.url }}/images/{{ page.image.feature }}" alt="{{ page.title }} feature image" itemprop="primaryImageOfPage">
-</div><!-- /.image-wrap -->{% endif %}
+  <div class="lab-site-frame">
+    <aside class="lab-author-sidebar" aria-label="Author profile" data-i18n-aria-label="Author profile">
+      {% include author-bio.html %}
+    </aside>
+    <div class="lab-main-column lab-article-column">
+      {% if is_blog_or_note %}
+      <nav class="lab-simple-switch lab-back-nav" aria-label="Back" data-i18n-aria-label="Back">
+        <a href="{{ '/blogs/' | relative_url }}" data-i18n="← Blogs">← Blogs</a>
+      </nav>
+      {% endif %}
 
-<div id="main" role="main"  itemprop="mainContentOfPage">
-  {% unless page.academic_home %}
-  <div class="article-author-top">
-    {% include author-bio.html %}
-  </div>
-  {% endunless %}
-  <article{% if page.academic_home %} class="academic-home-article"{% endif %} itemscope itemtype="http://schema.org/CreativeWork">
-  {% comment %}
-    <div class="headline-wrap">
-      <h1 itemprop="headline">{{ page.title }}</h1>
-    </div><!--/ .headline-wrap -->
-  {% endcomment %}
-    <div class="article-wrap" itemprop="text">
-      {% include translation-notice.html %}
-      {{ content }}
-    </div><!-- /.article-wrap -->
-    {% if page.comments != false %}
-    <div class="comments-section">
-      <hr>
-      <h3 data-i18n="Leave a Message">Leave a Message</h3>
-      {% include disqus.html %}
+      <article class="lab-article-paper lab-markdown-article" itemscope itemtype="http://schema.org/CreativeWork">
+        {% if page.image.feature %}
+        <div class="lab-feature-image">
+          <img src="{{ '/images/' | append: page.image.feature | relative_url }}" alt="{{ page.title }} feature image" itemprop="primaryImageOfPage">
+        </div>
+        {% endif %}
+
+        {% if page.title %}
+        <header class="lab-article-head">
+          <h1 itemprop="headline">{{ page.title }}</h1>
+        </header>
+        {% endif %}
+
+        {% include translation-notice.html %}
+
+        <div class="lab-article-body" itemprop="text">
+          {{ content }}
+        </div>
+      </article>
+
+      {% if page.comments != false %}
+      <section class="lab-comments-section" aria-label="Comments">
+        <h3 data-i18n="Leave a Message">Leave a Message</h3>
+        {% include disqus.html %}
+      </section>
+      {% endif %}
     </div>
-    {% endif %}
-  </article>
-</div><!-- /#index -->
+  </div>
 
-<div class="footer-wrap">
-  <footer>
+  <footer class="lab-footer" role="contentinfo">
     {% include footer.html %}
   </footer>
-</div><!-- /.footer-wrap -->
+</main>
 
 {% include scripts.html %}
-
-
 </body>
 </html>

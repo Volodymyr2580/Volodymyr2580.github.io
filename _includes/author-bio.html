@@ -1,37 +1,29 @@
-<img src="{{ site.url }}/images/{{ site.owner.avatar }}" class="bio-photo" alt="{{ site.owner.name }} bio photo" width="100" height="100" style="object-fit: cover; object-position: center top;">
+<img src="{{ '/images/' | append: site.owner.avatar | relative_url }}" class="bio-photo" alt="{{ site.owner.name }} bio photo" width="100" height="100" style="object-fit: cover; object-position: center top;">
 
 <h4>{{ site.owner.name }}</h4>
 
 <p data-i18n="{{ site.owner.bio | escape }}">{{ site.owner.bio }}</p>
 
 <div class="social-links">
-{% if site.owner.email %}<p><a href="mailto:{{ site.owner.email }}" target="_blank"><i class="icon-mail"></i> <span data-i18n="Email">Email</span></a></p>{% endif %}
+{% if site.owner.email %}<p><a href="mailto:{{ site.owner.email }}" target="_blank" rel="noopener"><svg class="social-icon" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg><span data-i18n="Email">Email</span></a></p>{% endif %}
 
-{% if site.owner.cv %}<p><a href="{{ site.owner.cv }}"><img src="https://caihanlin.com/images/logo/icons8-cv-100.png" width="16.5" height="16.5"></i> <span data-i18n="My CV">My CV</span></a></p>{% endif %}
+{% if site.owner.cv %}<p><a href="{{ site.owner.cv }}"><img class="social-icon" src="{{ '/images/logo/icons8-cv-100.png' | relative_url }}" width="15" height="15" alt="" aria-hidden="true"><span data-i18n="My CV">My CV</span></a></p>{% endif %}
 
-{% if site.owner.twitter %}<p><a href="https://twitter.com/{{ site.owner.twitter }}"><i class="icon-twitter"></i> Twitter</a></p>{% endif %}
+{% if site.owner.twitter %}<p><a href="https://twitter.com/{{ site.owner.twitter }}" target="_blank" rel="noopener"><i class="icon-twitter" aria-hidden="true"></i><span>Twitter</span></a></p>{% endif %}
 
-{% if site.owner.facebook %}<p><a href="https://facebook.com/{{ site.owner.facebook }}"><i class="icon-facebook"></i> Facebook</a></p>{% endif %}
+{% if site.owner.facebook %}<p><a href="https://facebook.com/{{ site.owner.facebook }}" target="_blank" rel="noopener"><i class="icon-facebook" aria-hidden="true"></i><span>Facebook</span></a></p>{% endif %}
 
-{% if site.owner.google_plus %}<p><a href="{{ site.owner.google_plus }}"><i class="icon-google-plus"></i> Google+</a></p>{% endif %}
+{% if site.owner.linkedin %}<p><a href="https://linkedin.com/in/{{ site.owner.linkedin }}" target="_blank" rel="noopener"><i class="icon-linkedin" aria-hidden="true"></i><span>LinkedIn</span></a></p>{% endif %}
 
-{% if site.owner.linkedin %}<p><a href="https://linkedin.com/in/{{ site.owner.linkedin }}"><i class="icon-linkedin"></i> LinkedIn</a></p>{% endif %}
+{% if site.owner.instagram %}<p><a href="https://instagram.com/{{ site.owner.instagram }}" target="_blank" rel="noopener"><i class="icon-instagram" aria-hidden="true"></i><span>Instagram</span></a></p>{% endif %}
 
-{% if site.owner.instagram %}<p><a href="https://instagram.com/{{ site.owner.instagram }}"><i class="icon-instagram"></i> Instagram</a></p>{% endif %}
+{% if site.owner.github %}<p><a href="https://github.com/{{ site.owner.github }}" target="_blank" rel="noopener"><svg class="social-icon" viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2Z"/></svg><span>GitHub</span></a></p>{% endif %}
 
-{% if site.owner.github %}<p><a href="https://github.com/{{ site.owner.github }}"><i class="icon-github"></i> Github</a></p>{% endif %}
+{% if site.owner.scholar %}<p><a href="{{ site.owner.scholar }}" target="_blank" rel="noopener"><i class="ai ai-google-scholar-square" aria-hidden="true"></i><span>Google Scholar</span></a></p>{% endif %}
 
-{% if site.owner.lastfm %}<p><a href="https://lastfm.com/{{ site.owner.lastfm }}"><i class="icon-lastfm"></i> Last.fm</a></p>{% endif %}
+{% if site.owner.researchgate %}<p><a href="{{ site.owner.researchgate }}" target="_blank" rel="noopener"><img class="social-icon" src="{{ '/images/logo/icons8-rg.png' | relative_url }}" width="15" height="15" alt="" aria-hidden="true"><span>ResearchGate</span></a></p>{% endif %}
 
-{% if site.owner.tumblr %}<p><a href="https://{{ site.owner.tumblr }}.tumblr.com"><i class="icon-tumblr"></i> Tumblr</a></p>{% endif %}
+{% if site.owner.zhihu %}<p><a href="{{ site.owner.zhihu }}" target="_blank" rel="noopener"><svg class="social-icon" viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M5.721 0C2.251 0 0 2.25 0 5.719V18.28C0 21.751 2.252 24 5.721 24h12.56C21.751 24 24 21.75 24 18.281V5.72C24 2.249 21.75 0 18.281 0H5.72zm1.964 4.078c-.274 1.11-.65 2.094-1.084 2.912h3.586c.357 0 .616.215.616.588v.67H8.83v3.337h2.467c.357 0 .616.215.616.588v.672H8.81c-.075.887-.236 1.716-.484 2.487l2.43 2.573c.274.294.197.69-.067.92l-.44.384c-.258.225-.617.167-.85-.093l-1.69-1.89c-.666 1.15-1.572 2.04-2.707 2.68-.266.15-.598.067-.748-.195l-.298-.52c-.14-.245-.066-.562.172-.714 1.488-.946 2.387-2.422 2.695-4.426H4.19c-.356 0-.615-.214-.615-.588v-.672h3.31V8.248H5.88a9.89 9.89 0 0 1-.824 1.123c-.21.24-.568.267-.808.058l-.418-.364c-.23-.2-.26-.545-.07-.783 1.07-1.332 1.805-2.852 2.212-4.565.075-.314.388-.512.703-.444l.597.13c.32.07.515.382.413.675zm5.925 1.85h5.726c.385 0 .697.312.697.697v11.12c0 .385-.312.697-.697.697h-1.855l-1.923 1.54a.42.42 0 0 1-.683-.328v-1.212h-1.265a.697.697 0 0 1-.697-.697V6.625c0-.385.312-.697.697-.697zm.77 1.45v9.614h1.682c.246 0 .445.2.445.445v.56l.964-.774a.7.7 0 0 1 .438-.154h1.64V7.378h-5.17z"/></svg><span data-i18n="Zhihu">Zhihu</span></a></p>{% endif %}
 
-{% if site.owner.scholar%}<p><a href="{{ site.owner.scholar}}"><i class="ai ai-google-scholar-square"></i> Google Scholar</a></p>{% endif %}
-
-{% if site.owner.researchgate %}<p><a href="{{ site.owner.researchgate}}"><img src="https://caihanlin.com/images/logo/icons8-rg.png" width="14" height="14"></i> ResearchGate</a></p>{% endif %}
-
-{% if site.owner.zhihu %}<p><a href="{{ site.owner.zhihu }}"><img src="https://caihanlin.com/images/logo/icons8-zhihu-96.png" width="15.8" height="15.8"></i> <span data-i18n="Zhihu">Zhihu</span></a></p>{% endif %}
-
-{% if site.owner.bilibili %}<p><a href="https://space.bilibili.com/{{ site.owner.bilibili }}"><img src="https://caihanlin.com/images/logo/icons8-retro-tv-100.png" width="15" height="15"></i> Bilibili</a></p>{% endif %}
+{% if site.owner.bilibili %}<p><a href="https://space.bilibili.com/{{ site.owner.bilibili }}" target="_blank" rel="noopener"><img class="social-icon" src="{{ '/images/logo/icons8-retro-tv-100.png' | relative_url }}" width="15" height="15" alt="" aria-hidden="true"><span>Bilibili</span></a></p>{% endif %}
 </div>
-
-<!-- Lastly modified by Hanlin CAI in 2023/10/15 -->
