@@ -544,11 +544,28 @@ h1 {
   block-size: 1px;
   background: linear-gradient(90deg, transparent, rgba(107, 56, 26, .35) 16%, rgba(107, 56, 26, .35) 84%, transparent);
 }
-.letter-header img {
+.letter-stamp {
   flex: none;
-  rotate: 8deg;
-  opacity: .84;
-  filter: sepia(.28) contrast(.95);
+  display: block;
+  inline-size: 58px;
+  block-size: 58px;
+  padding: 3px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(111, 45, 32, .72);
+  outline: 1px dashed rgba(111, 45, 32, .45);
+  outline-offset: 2px;
+  background: #f1dfb9;
+  box-shadow: 0 2px 7px rgba(59, 39, 35, .22);
+  rotate: 6deg;
+}
+.letter-stamp img {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center 22%;
+  filter: sepia(.16) contrast(.98);
 }
 #letter-greeting {
   font: 700 clamp(2rem, 6.5vw, 2.65rem)/1.18 var(--script);
