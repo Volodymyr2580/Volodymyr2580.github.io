@@ -415,36 +415,26 @@ h1 {
   max-block-size: calc(100dvh - 2rem);
   overflow: auto;
   overscroll-behavior: contain;
-  padding: clamp(1.9rem, 7vw, 3.4rem) clamp(1.8rem, 7vw, 3.45rem);
-  padding-block-start: clamp(3rem, 7vw, 3.4rem);
-  border-radius: .24rem;
-  border: 1px solid #d5b88c;
-  background-color: #f3e4c8;
+  padding: clamp(2rem, 7vw, 3.5rem) clamp(1.9rem, 7.5vw, 3.6rem);
+  padding-block-start: clamp(3rem, 7vw, 3.5rem);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 245, 226, .48);
+  background-color: #f6ead4;
   background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E"),
-    linear-gradient(180deg, transparent 48%, rgba(122, 82, 46, .06) 49.6%, rgba(255, 250, 238, .22) 50.4%, transparent 52%),
-    radial-gradient(ellipse at 18% 12%, rgba(255, 249, 236, .75), transparent 55%),
-    radial-gradient(ellipse at 85% 90%, rgba(203, 165, 114, .34), transparent 58%),
-    radial-gradient(ellipse at center, #f6ebd4 38%, #e4cca2 100%);
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)' opacity='0.042'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse at 20% 10%, rgba(255, 251, 242, .88), transparent 58%),
+    radial-gradient(ellipse at 85% 92%, rgba(214, 178, 128, .28), transparent 62%),
+    radial-gradient(ellipse at center, #fbf3e4 42%, #ebd7b5 100%);
   box-shadow:
-    0 1.2rem 4.2rem #01050ab8,
-    inset 0 0 42px rgba(139, 92, 46, .24),
-    inset 0 0 0 1px rgba(255, 248, 233, .65);
+    0 24px 68px rgba(3, 8, 17, .62),
+    0 0 46px rgba(255, 212, 150, .14),
+    inset 0 0 58px rgba(158, 108, 56, .18),
+    inset 0 1px 0 rgba(255, 252, 244, .85);
   color: var(--ink);
-  font: 500 1.48rem/1.58 var(--hand);
+  font: 500 1.48rem/1.62 var(--hand);
   letter-spacing: .01em;
-  text-shadow: 0 0 .55px rgba(44, 29, 24, .32);
+  text-shadow: 0 0 .45px rgba(44, 29, 24, .26);
   animation: unfold .62s var(--ease) both;
-}
-.letter::before {
-  content: "";
-  position: absolute;
-  inset: 11px;
-  border: 1px solid rgba(132, 56, 41, .22);
-  outline: 1px solid rgba(132, 56, 41, .09);
-  outline-offset: 4px;
-  border-radius: .14rem;
-  pointer-events: none;
 }
 .quill-pen {
   position: absolute;
@@ -475,18 +465,25 @@ h1 {
   opacity: 1;
 }
 .letter-header {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  margin-block-end: 1.35rem;
-  padding-block-end: .85rem;
-  border-bottom: 1px solid rgba(132, 56, 41, .3);
+  margin-block-end: 1.45rem;
+  padding-block-end: .95rem;
   color: var(--wax);
   font-family: var(--sans);
   text-shadow: none;
 }
-.letter-header img { flex: none; rotate: 8deg; opacity: .92; }
+.letter-header::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  block-size: 1px;
+  background: linear-gradient(90deg, transparent, rgba(132, 56, 41, .26) 18%, rgba(132, 56, 41, .26) 82%, transparent);
+}
+.letter-header img { flex: none; rotate: 8deg; opacity: .9; }
 #letter-greeting {
   font: 700 clamp(2rem, 6.5vw, 2.65rem)/1.18 var(--script);
   color: #3a1f19;
@@ -495,14 +492,8 @@ h1 {
 #letter-greeting:focus { outline: none; }
 #letter-body {
   padding-block: .1rem;
-  background-image: repeating-linear-gradient(
-    to bottom,
-    transparent 0 calc(1.58em - 1px),
-    rgba(132, 56, 41, .11) calc(1.58em - 1px) 1.58em
-  );
-  background-position: 0 .18em;
 }
-#letter-body p + p { margin-block-start: .82em; }
+#letter-body p + p { margin-block-start: .85em; }
 .signature {
   margin-block-start: 1.45rem;
   font: 600 1.45rem/1.45 var(--hand);
@@ -512,14 +503,21 @@ h1 {
   color: var(--wax);
 }
 .letter-footer {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: .75rem 1rem;
-  margin-block-start: 1.25rem;
-  padding-block-start: .85rem;
-  border-top: 1px dashed rgba(132, 56, 41, .22);
+  margin-block-start: 1.35rem;
+  padding-block-start: .95rem;
+}
+.letter-footer::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  block-size: 1px;
+  background: linear-gradient(90deg, transparent, rgba(132, 56, 41, .18) 20%, rgba(132, 56, 41, .18) 80%, transparent);
 }
 .letter-date {
   margin: 0;

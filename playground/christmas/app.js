@@ -40,11 +40,11 @@
   let writeIndex = 0;
   let isWriting = false;
 
-  // Subtle Web Audio API quill-on-parchment & paper rustle synthesizer
+  // Subtle continuous Web Audio API quill-on-parchment ("沙沙") synthesizer
   let audioCtx = null;
   let noiseBuffer = null;
   let soundEnabled = true;
-  let lastStrokeAudio = 0;
+  let quillAudio = null;
 
   function ensureAudio() {
     if (!soundEnabled || motion.matches) return null;
@@ -54,15 +54,17 @@
       if (!audioCtx) {
         audioCtx = new Ctx();
         const sampleRate = audioCtx.sampleRate;
-        const length = Math.floor(sampleRate * 0.6);
+        const length = Math.floor(sampleRate * 2.4);
         noiseBuffer = audioCtx.createBuffer(1, length, sampleRate);
         const data = noiseBuffer.getChannelData(0);
-        // Pink-ish smoothed noise for soft paper texture (never harsh static)
-        let prev = 0;
         for (let i = 0; i < length; i += 1) {
-          const white = Math.random() * 2 - 1;
-          prev = (prev + 0.06 * white) / 1.06;
-          data[i] = prev * 3.2;
+          data[i] = Math.random() * 2 - 1;
+        }
+        // Smooth seam for completely click-free looping
+        const fade = Math.floor(sampleRate * 0.02);
+        for (let i = 0; i < fade; i += 1) {
+          const w = i / fade;
+          data[i] = data[i] * w + data[length - fade + i] * (1 - w);
         }
       }
       if (audioCtx.state === 'suspended') {
@@ -81,56 +83,92 @@
       const now = ctx.currentTime;
       const src = ctx.createBufferSource();
       src.buffer = noiseBuffer;
-      const filter = ctx.createBiquadFilter();
-      filter.type = 'bandpass';
-      filter.frequency.setValueAtTime(850, now);
-      filter.frequency.exponentialRampToValueAtTime(1450, now + 0.14);
-      filter.frequency.exponentialRampToValueAtTime(620, now + 0.36);
-      filter.Q.value = 1.4;
+
+      const hp = ctx.createBiquadFilter();
+      hp.type = 'highpass';
+      hp.frequency.value = 1800;
+
+      const bp = ctx.createBiquadFilter();
+      bp.type = 'bandpass';
+      bp.frequency.setValueAtTime(2600, now);
+      bp.frequency.exponentialRampToValueAtTime(3800, now + 0.16);
+      bp.frequency.exponentialRampToValueAtTime(2200, now + 0.42);
+      bp.Q.value = 0.8;
 
       const gain = ctx.createGain();
       gain.gain.setValueAtTime(0.0001, now);
-      gain.gain.linearRampToValueAtTime(0.055, now + 0.06);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.38);
+      gain.gain.linearRampToValueAtTime(0.024, now + 0.08);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.44);
 
-      src.connect(filter).connect(gain).connect(ctx.destination);
-      src.start(now, 0, 0.4);
+      src.connect(hp).connect(bp).connect(gain).connect(ctx.destination);
+      src.start(now, 0, 0.46);
     } catch {}
   }
 
-  function playQuillStroke(ch, nowMs) {
-    if (!soundEnabled || motion.matches || !ch || ch === ' ') return;
-    if (nowMs - lastStrokeAudio < 46) return;
-    lastStrokeAudio = nowMs;
+  function startQuillAudio() {
+    stopQuillAudio();
     const ctx = ensureAudio();
     if (!ctx || !noiseBuffer) return;
     try {
-      const t = ctx.currentTime;
-      const dur = 0.048 + Math.random() * 0.026;
-      const offset = Math.random() * Math.max(0.05, noiseBuffer.duration - dur - 0.02);
-
+      const now = ctx.currentTime;
       const src = ctx.createBufferSource();
       src.buffer = noiseBuffer;
+      src.loop = true;
 
-      const band = ctx.createBiquadFilter();
-      band.type = 'bandpass';
-      const baseFreq = ',.;:!?'.includes(ch) ? 1650 : 1950 + Math.random() * 650;
-      band.frequency.setValueAtTime(baseFreq, t);
-      band.frequency.linearRampToValueAtTime(baseFreq * (0.9 + Math.random() * 0.2), t + dur);
-      band.Q.value = 2.4;
+      const hp = ctx.createBiquadFilter();
+      hp.type = 'highpass';
+      hp.frequency.value = 2800;
 
-      const lowpass = ctx.createBiquadFilter();
-      lowpass.type = 'lowpass';
-      lowpass.frequency.value = 3400;
+      const bp = ctx.createBiquadFilter();
+      bp.type = 'bandpass';
+      bp.frequency.value = 4300;
+      bp.Q.value = 0.65;
+
+      const lp = ctx.createBiquadFilter();
+      lp.type = 'lowpass';
+      lp.frequency.value = 7600;
 
       const gain = ctx.createGain();
-      const peak = 0.032 + Math.random() * 0.015;
-      gain.gain.setValueAtTime(0.0001, t);
-      gain.gain.linearRampToValueAtTime(peak, t + 0.012);
-      gain.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      gain.gain.setValueAtTime(0.0001, now);
 
-      src.connect(band).connect(lowpass).connect(gain).connect(ctx.destination);
-      src.start(t, offset, dur + 0.01);
+      src.connect(hp).connect(bp).connect(lp).connect(gain).connect(ctx.destination);
+      src.start(now, Math.random() * 1.2);
+      quillAudio = { src, bp, gain };
+    } catch {}
+  }
+
+  function modulateQuillAudio(item, stepIndex) {
+    if (!soundEnabled || !quillAudio || !audioCtx) return;
+    try {
+      const now = audioCtx.currentTime;
+      const ch = item.ch;
+      if (item.pauseAfter || ',.;:!?'.includes(ch)) {
+        quillAudio.gain.gain.setTargetAtTime(0.0005, now, 0.045);
+      } else if (ch === ' ') {
+        quillAudio.gain.gain.setTargetAtTime(0.0035, now, 0.03);
+      } else {
+        // Gentle, continuous airy feather-on-paper whisper that swells smoothly with curves
+        const wave = 0.5 + 0.5 * Math.sin(stepIndex * 0.65);
+        const targetGain = 0.022 + wave * 0.014;
+        const targetFreq = 3900 + wave * 1200;
+        quillAudio.gain.gain.setTargetAtTime(targetGain, now, 0.04);
+        quillAudio.bp.frequency.setTargetAtTime(targetFreq, now, 0.06);
+      }
+    } catch {}
+  }
+
+  function stopQuillAudio() {
+    if (!quillAudio) return;
+    const active = quillAudio;
+    quillAudio = null;
+    try {
+      if (audioCtx) {
+        const now = audioCtx.currentTime;
+        active.gain.gain.setTargetAtTime(0.0001, now, 0.035);
+        active.src.stop(now + 0.14);
+      } else {
+        active.src.stop();
+      }
     } catch {}
   }
 
@@ -193,6 +231,7 @@
     cancelAnimationFrame(writeRaf);
     writeRaf = 0;
     isWriting = false;
+    stopQuillAudio();
   }
 
   function appendCharSpans(container, text, targetList) {
@@ -300,6 +339,7 @@
       if (!quillShown && now >= nextTime - 120) {
         lastPos = moveQuillToChar(writeChars[0].el, 0);
         quill.classList.add('is-writing');
+        startQuillAudio();
         quillShown = true;
       }
 
@@ -307,7 +347,7 @@
       while (writeIndex < writeChars.length && now >= nextTime && stepsThisFrame < 3) {
         const current = writeChars[writeIndex];
         current.el.classList.add('is-written');
-        playQuillStroke(current.ch, now);
+        modulateQuillAudio(current, writeIndex);
         const pos = moveQuillToChar(current.el, writeIndex);
         if (pos) lastPos = pos;
         nextTime += charDelay(current);
@@ -318,6 +358,7 @@
       if (writeIndex >= writeChars.length) {
         isWriting = false;
         writeRaf = 0;
+        stopQuillAudio();
         skipBtn.hidden = true;
         replayBtn.hidden = false;
         // Lift the quill gracefully off the parchment
@@ -393,7 +434,13 @@
     soundEnabled = !soundEnabled;
     soundBtn.setAttribute('aria-pressed', soundEnabled ? 'true' : 'false');
     soundBtn.textContent = soundEnabled ? 'Sound: On' : 'Sound: Off';
-    if (soundEnabled) ensureAudio();
+    if (!soundEnabled) {
+      stopQuillAudio();
+    } else if (isWriting) {
+      startQuillAudio();
+    } else {
+      ensureAudio();
+    }
   });
 
   skipBtn.addEventListener('click', () => {
