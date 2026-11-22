@@ -8,8 +8,8 @@
   <title>Volodymyr's Christmas Gift · Playground</title>
   <link rel="icon" href="postmark.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Dancing+Script:wght@600;700&display=swap" media="print" onload="this.media='all'">
-  <link rel="stylesheet" href="style.css?v=20261122f">
-  <script defer src="app.js?v=20261122f"></script>
+  <link rel="stylesheet" href="style.css?v=20261122g">
+  <script defer src="app.js?v=20261122g"></script>
 </head>
 <body>
   <main class="scene">
@@ -79,7 +79,17 @@
       </button>
       <p class="seal-hint">Tap the seal to open your letter</p>
     </div>
-    <article id="letter" class="letter" hidden aria-labelledby="letter-greeting">
+    <svg class="sr-only" aria-hidden="true">
+      <defs>
+        <filter id="parchment-edge" x="-6%" y="-6%" width="112%" height="112%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.032" numOctaves="4" seed="7" result="noise"/>
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="9" xChannelSelector="R" yChannelSelector="G"/>
+        </filter>
+      </defs>
+    </svg>
+    <div id="letter-wrap" class="letter-wrap" hidden>
+      <div class="letter-parchment" aria-hidden="true"></div>
+      <article id="letter" class="letter" aria-labelledby="letter-greeting">
       <div id="quill-pen" class="quill-pen" aria-hidden="true">
         <svg viewBox="0 0 72 72" width="66" height="66" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
@@ -125,7 +135,8 @@
           <button id="replay-writing" class="letter-action" type="button" hidden>↺ Replay writing</button>
         </div>
       </footer>
-    </article>
+      </article>
+    </div>
   </dialog>
 </body>
 </html>

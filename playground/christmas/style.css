@@ -452,32 +452,44 @@ h1 {
   font-size: .88rem;
   transition: opacity .28s var(--ease);
 }
+.letter-wrap {
+  position: relative;
+  animation: unfold .66s var(--ease) both;
+}
+.letter-parchment {
+  position: absolute;
+  inset: -4px;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: 3px;
+  background-color: #e6cca0;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23n)' opacity='0.11'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse at 14% 12%, rgba(168, 114, 54, .22), transparent 44%),
+    radial-gradient(ellipse at 86% 18%, rgba(154, 102, 46, .18), transparent 40%),
+    radial-gradient(ellipse at 18% 88%, rgba(146, 94, 40, .24), transparent 46%),
+    radial-gradient(ellipse at 82% 84%, rgba(162, 108, 48, .26), transparent 48%),
+    radial-gradient(ellipse at 50% 45%, #f4e4c1 22%, #e6cb9c 68%, #cfa86e 100%);
+  box-shadow:
+    inset 0 0 64px rgba(104, 62, 22, .42),
+    inset 0 0 22px rgba(78, 44, 14, .26),
+    inset 0 0 4px rgba(62, 34, 10, .35);
+  filter: url(#parchment-edge) drop-shadow(0 22px 46px rgba(3, 8, 17, .74));
+}
 .letter {
   position: relative;
+  z-index: 1;
   max-block-size: calc(100vh - 2rem);
   max-block-size: calc(100dvh - 2rem);
   overflow: auto;
   overscroll-behavior: contain;
-  padding: clamp(2rem, 7vw, 3.5rem) clamp(1.9rem, 7.5vw, 3.6rem);
-  padding-block-start: clamp(3rem, 7vw, 3.5rem);
-  border-radius: 16px;
-  border: 1px solid rgba(255, 245, 226, .48);
-  background-color: #f6ead4;
-  background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)' opacity='0.042'/%3E%3C/svg%3E"),
-    radial-gradient(ellipse at 20% 10%, rgba(255, 251, 242, .88), transparent 58%),
-    radial-gradient(ellipse at 85% 92%, rgba(214, 178, 128, .28), transparent 62%),
-    radial-gradient(ellipse at center, #fbf3e4 42%, #ebd7b5 100%);
-  box-shadow:
-    0 24px 68px rgba(3, 8, 17, .62),
-    0 0 46px rgba(255, 212, 150, .14),
-    inset 0 0 58px rgba(158, 108, 56, .18),
-    inset 0 1px 0 rgba(255, 252, 244, .85);
+  padding: clamp(2.1rem, 7vw, 3.6rem) clamp(2rem, 7.5vw, 3.7rem);
+  padding-block-start: clamp(3.1rem, 7vw, 3.6rem);
+  background: transparent;
   color: var(--ink);
   font: 500 1.48rem/1.62 var(--hand);
   letter-spacing: .01em;
-  text-shadow: 0 0 .45px rgba(44, 29, 24, .26);
-  animation: unfold .62s var(--ease) both;
+  text-shadow: 0 0 .55px rgba(44, 29, 24, .34);
 }
 .quill-pen {
   position: absolute;
@@ -490,7 +502,7 @@ h1 {
   pointer-events: none;
   opacity: 0;
   will-change: transform, opacity;
-  filter: drop-shadow(0 6px 8px rgba(59, 39, 35, .28));
+  filter: drop-shadow(0 6px 8px rgba(59, 39, 35, .34));
   transition: opacity .26s ease;
 }
 .quill-pen.is-writing {
@@ -514,22 +526,33 @@ h1 {
   justify-content: space-between;
   gap: 1rem;
   margin-block-end: 1.45rem;
-  padding-block-end: .95rem;
-  color: var(--wax);
-  font-family: var(--sans);
+  padding-block-end: .9rem;
+  color: #6f2d20;
+  font-family: var(--serif);
   text-shadow: none;
+}
+.letter-header .eyebrow {
+  font: italic 600 .95rem/1.2 var(--serif);
+  letter-spacing: .12em;
+  text-transform: none;
+  font-variant: small-caps;
 }
 .letter-header::after {
   content: "";
   position: absolute;
   inset: auto 0 0;
   block-size: 1px;
-  background: linear-gradient(90deg, transparent, rgba(132, 56, 41, .26) 18%, rgba(132, 56, 41, .26) 82%, transparent);
+  background: linear-gradient(90deg, transparent, rgba(107, 56, 26, .35) 16%, rgba(107, 56, 26, .35) 84%, transparent);
 }
-.letter-header img { flex: none; rotate: 8deg; opacity: .9; }
+.letter-header img {
+  flex: none;
+  rotate: 8deg;
+  opacity: .84;
+  filter: sepia(.28) contrast(.95);
+}
 #letter-greeting {
   font: 700 clamp(2rem, 6.5vw, 2.65rem)/1.18 var(--script);
-  color: #3a1f19;
+  color: #361d16;
   margin-block-end: 1rem;
 }
 #letter-greeting:focus { outline: none; }
@@ -543,7 +566,7 @@ h1 {
 }
 .signature em {
   font: 700 1.42em/1.15 var(--script);
-  color: var(--wax);
+  color: #6e2b1f;
 }
 .letter-footer {
   position: relative;
@@ -553,39 +576,41 @@ h1 {
   flex-wrap: wrap;
   gap: .75rem 1rem;
   margin-block-start: 1.35rem;
-  padding-block-start: .95rem;
+  padding-block-start: .9rem;
 }
 .letter-footer::before {
   content: "";
   position: absolute;
   inset: 0 0 auto;
   block-size: 1px;
-  background: linear-gradient(90deg, transparent, rgba(132, 56, 41, .18) 20%, rgba(132, 56, 41, .18) 80%, transparent);
+  background: linear-gradient(90deg, transparent, rgba(107, 56, 26, .28) 18%, rgba(107, 56, 26, .28) 82%, transparent);
 }
 .letter-date {
   margin: 0;
   font: 600 1.25rem/1.2 var(--hand);
-  color: var(--wax);
+  color: #6e2b1f;
 }
 .letter-controls {
   display: flex;
   align-items: center;
-  gap: .45rem;
+  gap: .75rem;
 }
 .letter-action {
-  padding: .28rem .72rem;
-  border: 1px solid #8438294d;
-  border-radius: 999px;
-  background: #fff7ea8c;
-  color: var(--wax);
-  font: 500 .78rem/1.3 var(--sans);
+  padding: .18rem .2rem;
+  border: 0;
+  border-bottom: 1px dashed rgba(110, 43, 31, .48);
+  border-radius: 0;
+  background: transparent;
+  color: #6e2b1f;
+  font: italic 500 .95rem/1.3 var(--serif);
   text-shadow: none;
-  transition: background-color .18s ease, border-color .18s ease, color .18s ease;
+  transition: color .18s ease, border-color .18s ease;
 }
 .letter-action:hover {
-  background: var(--wax);
-  border-color: var(--wax);
-  color: #fff6e6;
+  background: transparent;
+  border-bottom-style: solid;
+  border-bottom-color: #361d16;
+  color: #361d16;
 }
 .letter-action[aria-pressed="false"] {
   opacity: .68;

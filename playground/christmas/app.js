@@ -19,6 +19,7 @@
   const mail = pick('mail');
   const sealed = pick('sealed');
   const envelope = pick('break-seal');
+  const letterWrap = pick('letter-wrap');
   const letter = pick('letter');
   const greeting = pick('letter-greeting');
   const letterBody = pick('letter-body');
@@ -322,7 +323,7 @@
   function revealLetter() {
     clearOpenTimers();
     sealed.hidden = true;
-    letter.hidden = false;
+    letterWrap.hidden = false;
     greeting.focus({ preventScroll: true });
     startQuillWriting(560);
   }
@@ -342,7 +343,7 @@
     pick('envelope-recipient').textContent = 'To: ' + demo.recipient;
     writeChars = prepareLetterContent(demo.recipient, demo.paragraphs);
     sealed.hidden = false;
-    letter.hidden = true;
+    letterWrap.hidden = true;
     mail.showModal();
     pick('waiting-letter').hidden = true;
     deliver();
