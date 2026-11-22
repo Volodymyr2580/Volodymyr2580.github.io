@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0a1a2d">
+  <meta name="description" content="A little Christmas letter, written for you.">
+  <title>Volodymyr's Christmas Gift · Playground</title>
+  <link rel="icon" href="postmark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <main class="scene">
+    <picture class="scene-art">
+      <source media="(max-width: 720px) and (orientation: portrait)" srcset="art/post-office-portrait.webp">
+      <img id="post-office" src="art/post-office-wide.webp" alt="" fetchpriority="high">
+    </picture>
+    <div id="lantern" class="lantern" aria-hidden="true"></div>
+    <div id="waiting-letter" class="waiting-letter" aria-hidden="true"></div>
+    <canvas id="snow" aria-hidden="true"></canvas>
+    <div class="shade" aria-hidden="true"></div>
+
+    <header class="topline">
+      <a class="backlink" href="../"><span aria-hidden="true">‹</span> Playground</a>
+      <time datetime="2026-12">December 2026</time>
+    </header>
+
+    <section class="hero" aria-labelledby="title">
+      <p class="eyebrow christmas-wish">Merry Christmas~</p>
+      <h1 id="title">Volodymyr's<br>Christmas Gift</h1>
+      <p class="subtitle">A little Christmas letter, written for you.</p>
+      <form id="pickup">
+        <fieldset id="pickup-fields" disabled>
+          <legend class="sr-only">Find your letter</legend>
+          <div class="field">
+            <label for="recipient">Your name</label>
+            <input id="recipient" type="text" autocomplete="name" maxlength="80" required>
+          </div>
+          <div class="field">
+            <label for="pickup-code">Your secret code</label>
+            <input id="pickup-code" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="80" required>
+          </div>
+          <button class="pickup-button" type="submit">Open my letter <span aria-hidden="true">→</span></button>
+        </fieldset>
+        <p id="pickup-status" class="notice" role="status"></p>
+      </form>
+      <noscript><p class="notice">Turn on JavaScript to pick up your letter.</p></noscript>
+    </section>
+  </main>
+
+  <dialog id="mail" aria-labelledby="mail-title">
+    <form method="dialog" class="close-form">
+      <button class="close-button" type="submit" aria-label="Close letter">×</button>
+    </form>
+    <h2 id="mail-title" class="sr-only">Your Christmas letter</h2>
+    <div id="sealed" class="sealed">
+      <p class="delivery-note">Special delivery · December 2026</p>
+      <button id="break-seal" class="envelope" type="button" aria-label="Break the wax seal and read your letter" autofocus>
+        <span class="envelope-flap" aria-hidden="true"></span>
+        <span id="envelope-recipient" class="envelope-recipient" aria-hidden="true"></span>
+        <span class="wax" aria-hidden="true">❄</span>
+      </button>
+      <p class="seal-hint">Tap the seal to open your letter</p>
+    </div>
+    <article id="letter" class="letter" hidden aria-labelledby="letter-greeting">
+      <header class="letter-header">
+        <p class="eyebrow">Volodymyr's Christmas Gift</p>
+        <img src="postmark.svg" alt="" width="52" height="52">
+      </header>
+      <h3 id="letter-greeting" tabindex="-1"></h3>
+      <div id="letter-body"></div>
+      <p class="signature">Warm wishes,<br><em>Wenzhe</em></p>
+      <p class="letter-date">Christmas 2026</p>
+    </article>
+  </dialog>
+</body>
+</html>

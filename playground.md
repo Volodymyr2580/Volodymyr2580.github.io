@@ -35,5 +35,10 @@ lab_subtitle: interactive experiments
       <time data-i18n="Open experiment →">Open experiment →</time>
     </a>
     <p data-i18n="Shape a field of starlight into hearts, flowers, Saturn, and fireworks. Use the controls or enable camera gestures.">Shape a field of starlight into hearts, flowers, Saturn, and fireworks. Use the controls or enable camera gestures.</p>
+    <a class="lab-simple-item" href="{{ '/playground/christmas/' | relative_url }}">
+      <span data-i18n="Volodymyr's Christmas Gift">Volodymyr's Christmas Gift</span>
+      <time data-i18n="Pick up a letter →">Pick up a letter →</time>
+    </a>
+    <p data-i18n="Step into a snowy little post office to pick up a Christmas letter written for you.">Step into a snowy little post office to pick up a Christmas letter written for you.</p>
   </div>
 </section>
