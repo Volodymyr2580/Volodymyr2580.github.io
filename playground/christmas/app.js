@@ -57,11 +57,19 @@
         const length = Math.floor(sampleRate * 2.4);
         noiseBuffer = audioCtx.createBuffer(1, length, sampleRate);
         const data = noiseBuffer.getChannelData(0);
+        // Warm pink-brown noise (naturally mellow, zero harsh high-frequency hiss)
+        let b0 = 0;
+        let b1 = 0;
+        let b2 = 0;
         for (let i = 0; i < length; i += 1) {
-          data[i] = Math.random() * 2 - 1;
+          const white = Math.random() * 2 - 1;
+          b0 = 0.997 * b0 + white * 0.029;
+          b1 = 0.985 * b1 + white * 0.032;
+          b2 = 0.950 * b2 + white * 0.048;
+          data[i] = (b0 + b1 + b2 + white * 0.015) * 1.6;
         }
         // Smooth seam for completely click-free looping
-        const fade = Math.floor(sampleRate * 0.02);
+        const fade = Math.floor(sampleRate * 0.03);
         for (let i = 0; i < fade; i += 1) {
           const w = i / fade;
           data[i] = data[i] * w + data[length - fade + i] * (1 - w);
@@ -86,22 +94,26 @@
 
       const hp = ctx.createBiquadFilter();
       hp.type = 'highpass';
-      hp.frequency.value = 1800;
+      hp.frequency.value = 320;
 
       const bp = ctx.createBiquadFilter();
       bp.type = 'bandpass';
-      bp.frequency.setValueAtTime(2600, now);
-      bp.frequency.exponentialRampToValueAtTime(3800, now + 0.16);
-      bp.frequency.exponentialRampToValueAtTime(2200, now + 0.42);
-      bp.Q.value = 0.8;
+      bp.frequency.setValueAtTime(720, now);
+      bp.frequency.exponentialRampToValueAtTime(1180, now + 0.18);
+      bp.frequency.exponentialRampToValueAtTime(640, now + 0.44);
+      bp.Q.value = 0.7;
+
+      const lp = ctx.createBiquadFilter();
+      lp.type = 'lowpass';
+      lp.frequency.value = 1750;
 
       const gain = ctx.createGain();
       gain.gain.setValueAtTime(0.0001, now);
-      gain.gain.linearRampToValueAtTime(0.024, now + 0.08);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.44);
+      gain.gain.linearRampToValueAtTime(0.05, now + 0.09);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.46);
 
-      src.connect(hp).connect(bp).connect(gain).connect(ctx.destination);
-      src.start(now, 0, 0.46);
+      src.connect(hp).connect(bp).connect(lp).connect(gain).connect(ctx.destination);
+      src.start(now, 0, 0.48);
     } catch {}
   }
 
@@ -117,16 +129,16 @@
 
       const hp = ctx.createBiquadFilter();
       hp.type = 'highpass';
-      hp.frequency.value = 2800;
+      hp.frequency.value = 420;
 
       const bp = ctx.createBiquadFilter();
       bp.type = 'bandpass';
-      bp.frequency.value = 4300;
-      bp.Q.value = 0.65;
+      bp.frequency.value = 1050;
+      bp.Q.value = 0.55;
 
       const lp = ctx.createBiquadFilter();
       lp.type = 'lowpass';
-      lp.frequency.value = 7600;
+      lp.frequency.value = 2000;
 
       const gain = ctx.createGain();
       gain.gain.setValueAtTime(0.0001, now);
@@ -143,16 +155,16 @@
       const now = audioCtx.currentTime;
       const ch = item.ch;
       if (item.pauseAfter || ',.;:!?'.includes(ch)) {
-        quillAudio.gain.gain.setTargetAtTime(0.0005, now, 0.045);
+        quillAudio.gain.gain.setTargetAtTime(0.0005, now, 0.055);
       } else if (ch === ' ') {
-        quillAudio.gain.gain.setTargetAtTime(0.0035, now, 0.03);
+        quillAudio.gain.gain.setTargetAtTime(0.005, now, 0.04);
       } else {
-        // Gentle, continuous airy feather-on-paper whisper that swells smoothly with curves
-        const wave = 0.5 + 0.5 * Math.sin(stepIndex * 0.65);
-        const targetGain = 0.022 + wave * 0.014;
-        const targetFreq = 3900 + wave * 1200;
-        quillAudio.gain.gain.setTargetAtTime(targetGain, now, 0.04);
-        quillAudio.bp.frequency.setTargetAtTime(targetFreq, now, 0.06);
+        // Warm, mellow, low-mid paper friction whisper (zero harshness)
+        const wave = 0.5 + 0.5 * Math.sin(stepIndex * 0.55);
+        const targetGain = 0.036 + wave * 0.02;
+        const targetFreq = 860 + wave * 520;
+        quillAudio.gain.gain.setTargetAtTime(targetGain, now, 0.05);
+        quillAudio.bp.frequency.setTargetAtTime(targetFreq, now, 0.07);
       }
     } catch {}
   }
