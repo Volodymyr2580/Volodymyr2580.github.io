@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#101e30" />
+    <meta name="description" content="漫游 Volodymyr 的像素小星球，在雷达站、冰原、图书馆和营地发现研究、笔记与好奇心。" />
+    <title>Volodymyr's Planet · Playground</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath fill='%23101e30' d='M0 0h40v40H0z'/%3E%3Cpath fill='%2373b3ce' d='M15 7h12v4h5v5h3v12h-5v5H17v-3h-6v-5H7V14h8z'/%3E%3Cpath fill='%23b8e1e8' d='M15 7h12v4H16v5h-5v9H7V14h8zm13 10h7v5h-7z'/%3E%3Cpath fill='none' stroke='%23f3eddc' stroke-width='3' d='m5 28 11-3 12-8 7-7'/%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="./src/style.css" />
+    <noscript><style>html, body { height: auto; min-height: 100%; overflow: auto; } #planet { height: auto; min-height: 100dvh; overflow: visible; } #world, #loading, .world-menu, .movement-guide, .world-status, .view-controls, .joystick { display: none !important; } .world-header { position: relative; inset: auto; margin: 24px; }</style></noscript>
+  </head>
+  <body>
+    <main id="planet" aria-label="Volodymyr 的探索小岛">
+      <canvas id="world" tabindex="0" aria-label="像素探索小岛。使用 W A S D 或方向键移动，靠近地点后按 E 互动。也可以通过探索手册阅读全部内容。">
+        当前浏览器无法绘制探索小岛。你仍可使用探索手册查看研究、笔记和个人介绍。
+      </canvas>
+
+      <header class="world-header">
+        <div class="brand">
+          <a class="back-link" href="https://volodymyr2580.github.io/playground/" aria-label="返回 Playground">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M9 3 4 8l5 5M4 8h9" /></svg>
+            <span>返回 Playground</span>
+          </a>
+          <div class="brand-title">
+            <svg class="planet-emblem" viewBox="0 0 40 40" aria-hidden="true">
+              <path class="planet-ring" d="m5 28 6-6m17-10 7-2 1 3-5 6M5 28l-1 3 5 1 7-3" />
+              <path fill="#73b3ce" d="M15 7h12v4h5v5h3v12h-5v5H17v-3h-6v-5H7V14h8z" />
+              <path fill="#b8e1e8" d="M15 7h12v4H16v5h-5v9H7V14h8zm13 10h7v5h-7zm-11 9h7v7h-7z" />
+              <path class="planet-ring" d="m5 28 11-3 12-8 7-7" />
+            </svg>
+            <div>
+              <h1>Volodymyr's Planet</h1>
+              <p class="brand-subtitle">一座小岛，一些好奇心</p>
+            </div>
+          </div>
+        </div>
+
+        <nav class="world-menu" aria-label="探索工具">
+          <button id="map-button" class="hud-button" type="button" aria-controls="map-panel" aria-expanded="false">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m2 4 5-2 6 2 5-2v14l-5 2-6-2-5 2V4Zm5-2v14m6-12v14" /></svg>
+            <span>地图</span>
+          </button>
+          <button id="directory-button" class="hud-button" type="button" aria-haspopup="dialog">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 3h13v14H3zM6 3v14m3-10h4m-4 4h4" /></svg>
+            <span>探索手册</span>
+          </button>
+          <button id="language-button" class="hud-button square-button" type="button" aria-label="Switch to English">EN</button>
+          <button id="sound-button" class="hud-button square-button" type="button" aria-label="开启环境音" aria-pressed="false" title="开启环境音">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 7h4l4-4v14l-4-4H3zM15 8l4 4m0-4-4 4" /></svg>
+          </button>
+        </nav>
+      </header>
+
+      <noscript>
+        <section class="offline-guide pixel-panel" aria-labelledby="offline-title">
+          <span class="eyebrow">EXPLORER'S NOTEBOOK</span>
+          <h2 id="offline-title">Volodymyr's Planet</h2>
+          <p>互动小岛需要 JavaScript。你也可以沿着这些入口，直接发现岛上的研究与笔记。</p>
+          <nav class="place-links" aria-label="直接探索内容">
+            <a class="place-link" href="https://volodymyr2580.github.io/research/fwi/">雷达站 · 波形反演研究 <span aria-hidden="true">→</span></a>
+            <a class="place-link" href="https://volodymyr2580.github.io/notes/">林间图书馆 · 学习笔记 <span aria-hidden="true">→</span></a>
+            <a class="place-link" href="https://volodymyr2580.github.io/blogs/">旅行手记 · 博客 <span aria-hidden="true">→</span></a>
+            <a class="place-link" href="https://volodymyr2580.github.io/">营地 · 认识 Volodymyr <span aria-hidden="true">→</span></a>
+          </nav>
+        </section>
+      </noscript>
+
+      <section id="location-hint" class="location-hint pixel-panel" aria-labelledby="location-title" hidden>
+        <div class="location-copy">
+          <span class="eyebrow">停下来，发现一点什么</span>
+          <h2 id="location-title">营地</h2>
+          <p id="location-description">旅途从这里开始。</p>
+        </div>
+        <button id="interact-button" class="primary-button" type="button"><kbd>E</kbd><span>探索这里</span><span aria-hidden="true">→</span></button>
+      </section>
+
+      <aside id="map-panel" class="map-panel pixel-panel" aria-label="小岛地图" hidden>
+        <div class="panel-heading">
+          <div><span class="eyebrow">FIELD MAP</span><h2>岛上有什么</h2></div>
+          <button id="map-close" class="close-button" type="button" aria-label="关闭地图"><span aria-hidden="true">×</span></button>
+        </div>
+        <p class="map-description">选一个地点，让好奇心带路。</p>
+        <div id="map-destinations" class="map-destinations"></div>
+      </aside>
+
+      <div class="movement-guide" aria-hidden="true">
+        <span class="key-group"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></span>
+        <span>移动</span><span class="guide-separator"></span><span>点击小径，也能出发</span>
+      </div>
+
+      <div class="world-status">
+        <span class="status-light" aria-hidden="true"></span>
+        <span id="progress-label" aria-live="polite">已发现 0 / 4 个地点</span>
+      </div>
+
+      <div class="view-controls" aria-label="视图与动作">
+        <button id="reset-button" class="hud-button camp-button" type="button">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m2 16 8-13 8 13H2Zm8-13v13m-3 0 3-6 3 6" /></svg>
+          <span>回到营地</span>
+        </button>
+        <div class="zoom-controls">
+          <button id="zoom-out" class="hud-button square-button" type="button" aria-label="缩小视野" title="缩小视野">−</button>
+          <button id="zoom-in" class="hud-button square-button" type="button" aria-label="放大视野" title="放大视野">+</button>
+        </div>
+        <button id="motion-button" class="hud-button square-button" type="button" aria-label="暂停环境动画" aria-pressed="false" title="暂停环境动画">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M6 4v12M14 4v12" /></svg>
+        </button>
+      </div>
+
+      <div id="joystick" class="joystick" role="group" aria-label="触屏移动摇杆"><div class="joystick-cross" aria-hidden="true"></div><div id="joystick-knob" aria-hidden="true"></div></div>
+
+      <div id="loading" class="loading" role="status" aria-live="polite">
+        <div class="loading-card">
+          <span class="loading-star" aria-hidden="true"></span>
+          <p id="loading-label">正在为小岛点亮星光…</p>
+          <button id="retry-button" class="secondary-button" type="button" hidden>再试一次</button>
+        </div>
+      </div>
+      <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+    </main>
+
+    <dialog id="info-dialog" aria-label="小岛探索手册">
+      <button id="close-dialog" class="close-button" type="button" aria-label="关闭内容"><span aria-hidden="true">×</span></button>
+      <div id="dialog-content"></div>
+    </dialog>
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>

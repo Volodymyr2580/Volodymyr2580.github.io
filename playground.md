@@ -65,5 +65,14 @@ lab_subtitle: interactive experiments
       <p data-i18n="Step into a snowy little post office to pick up a Christmas letter written for you.">Step into a snowy little post office to pick up a Christmas letter written for you.</p>
       <span class="lab-project-cta" data-i18n="Pick up a letter →">Pick up a letter →</span>
     </a>
+    <a class="lab-project-card" href="{{ '/playground/little-planet/' | relative_url }}">
+      <div class="lab-project-top">
+        <span class="lab-project-tag" data-i18n="tag.story">Interactive Story</span>
+        <span class="lab-project-num">06</span>
+      </div>
+      <h2>Volodymyr's Planet</h2>
+      <p data-i18n="Walk through a pixel-art island of radar echoes, polar ice, books, and campfire stories. Explore with the keyboard, a tap, or the mobile joystick.">Walk through a pixel-art island of radar echoes, polar ice, books, and campfire stories. Explore with the keyboard, a tap, or the mobile joystick.</p>
+      <span class="lab-project-cta" data-i18n="Explore the island →">Explore the island →</span>
+    </a>
   </div>
 </section>
