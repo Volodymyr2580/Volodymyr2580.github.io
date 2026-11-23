@@ -8,8 +8,8 @@
   <title>Volodymyr's Christmas Gift · Playground</title>
   <link rel="icon" href="postmark.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Dancing+Script:wght@600;700&display=swap" media="print" onload="this.media='all'">
-  <link rel="stylesheet" href="style.css?v=20261123c">
-  <script defer src="app.js?v=20261123c"></script>
+  <link rel="stylesheet" href="style.css?v=20261123d">
+  <script defer src="app.js?v=20261123d"></script>
 </head>
 <body>
   <main class="scene">
@@ -71,10 +71,63 @@
           <span class="peek-line short"></span>
           <span class="peek-line"></span>
         </span>
-        <span class="envelope-pocket" aria-hidden="true"></span>
-        <span class="envelope-flap-wrap" aria-hidden="true">
-          <span class="envelope-flap"></span>
+        <span class="envelope-pocket" aria-hidden="true">
+          <svg class="envelope-folds" viewBox="0 0 420 276" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="env-left" x1="0" y1="0" x2="1" y2="0.4">
+                <stop offset="0%" stop-color="#f3e7d1"/>
+                <stop offset="100%" stop-color="#e3cfa9"/>
+              </linearGradient>
+              <linearGradient id="env-right" x1="1" y1="0" x2="0" y2="0.4">
+                <stop offset="0%" stop-color="#f0e3ca"/>
+                <stop offset="100%" stop-color="#dfca9f"/>
+              </linearGradient>
+              <linearGradient id="env-bottom" x1="0.5" y1="0" x2="0.5" y2="1">
+                <stop offset="0%" stop-color="#f7ecd8"/>
+                <stop offset="55%" stop-color="#efe0c4"/>
+                <stop offset="100%" stop-color="#e2cda6"/>
+              </linearGradient>
+              <filter id="fold-shadow" x="-5%" y="-10%" width="110%" height="120%">
+                <feDropShadow dx="0" dy="-2" stdDeviation="3" flood-color="#5d3b1b" flood-opacity="0.16"/>
+              </filter>
+            </defs>
+            <!-- Side folds -->
+            <polygon points="0,0 210,148 0,276" fill="url(#env-left)"/>
+            <polygon points="420,0 210,148 420,276" fill="url(#env-right)"/>
+            <!-- Bottom overlapping fold with soft depth -->
+            <path filter="url(#fold-shadow)" d="M0,276 L192,138 Q210,125 228,138 L420,276 Z" fill="url(#env-bottom)"/>
+            <!-- Subtle warm paper edge catchlight along bottom fold -->
+            <path d="M2,275 L192,139 Q210,126 228,139 L418,275" fill="none" stroke="#fffaf0" stroke-width="1.2" opacity="0.65"/>
+            <!-- Delicate antique gold inner hairline frame -->
+            <rect x="12" y="12" width="396" height="252" rx="2" fill="none" stroke="#b9904c" stroke-width="0.9" opacity="0.34"/>
+          </svg>
         </span>
+        <span class="envelope-flap-wrap" aria-hidden="true">
+          <span class="envelope-flap">
+            <svg class="envelope-flap-svg" viewBox="0 0 420 178" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="env-flap-fill" x1="0.35" y1="0" x2="0.65" y2="1">
+                  <stop offset="0%" stop-color="#fcf7ec"/>
+                  <stop offset="58%" stop-color="#f3e6ce"/>
+                  <stop offset="100%" stop-color="#e5d1ac"/>
+                </linearGradient>
+                <linearGradient id="gold-trim" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#d9b46e"/>
+                  <stop offset="50%" stop-color="#b48640"/>
+                  <stop offset="100%" stop-color="#dfc082"/>
+                </linearGradient>
+              </defs>
+              <!-- Softly pointed European stationery flap -->
+              <path d="M0,0 L420,0 L420,10 L226,162 Q210,174 194,162 L0,10 Z" fill="url(#env-flap-fill)"/>
+              <!-- Fine matte antique-gold hairline trim inside the flap -->
+              <path d="M16,8 L198,150 Q210,159 222,150 L404,8" fill="none" stroke="url(#gold-trim)" stroke-width="1.35" opacity="0.72"/>
+              <path d="M25,8 L200,144 Q210,151 220,144 L395,8" fill="none" stroke="url(#gold-trim)" stroke-width="0.65" opacity="0.45"/>
+              <!-- Top edge specular paper highlight -->
+              <line x1="0" y1="1" x2="420" y2="1" stroke="#ffffff" stroke-width="1.5" opacity="0.7"/>
+            </svg>
+          </span>
+        </span>
+        <span class="envelope-ribbon" aria-hidden="true"></span>
         <span id="envelope-recipient" class="envelope-recipient" aria-hidden="true"></span>
         <span class="wax" aria-hidden="true">
           <svg viewBox="0 0 120 120" width="84" height="84" fill="none" xmlns="http://www.w3.org/2000/svg">
