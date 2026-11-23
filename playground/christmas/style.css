@@ -268,7 +268,7 @@ h1 {
   animation: dusk .7s var(--ease) both;
 }
 @keyframes dusk { from { opacity: 0; } }
-.close-form { position: absolute; inset: .65rem .65rem auto auto; z-index: 2; }
+.close-form { position: absolute; inset: .65rem .65rem auto auto; z-index: 20; }
 .close-button {
   display: grid;
   place-items: center;
@@ -566,10 +566,14 @@ h1 {
 .letter {
   position: relative;
   z-index: 1;
-  max-block-size: calc(100vh - 2rem);
-  max-block-size: calc(100dvh - 2rem);
-  overflow: auto;
+  max-block-size: calc(100vh - 2.2rem);
+  max-block-size: calc(100dvh - 2.2rem);
+  overflow-y: auto;
+  overflow-x: hidden;
   overscroll-behavior: contain;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(110, 56, 26, .34) transparent;
   padding: clamp(2.1rem, 7vw, 3.6rem) clamp(2rem, 7.5vw, 3.7rem);
   padding-block-start: clamp(3.1rem, 7vw, 3.6rem);
   background: transparent;
@@ -577,6 +581,20 @@ h1 {
   font: 500 1.48rem/1.62 var(--hand);
   letter-spacing: .01em;
   text-shadow: 0 0 .55px rgba(44, 29, 24, .34);
+}
+.letter::-webkit-scrollbar {
+  inline-size: 7px;
+}
+.letter::-webkit-scrollbar-track {
+  background: transparent;
+  margin-block: 14px;
+}
+.letter::-webkit-scrollbar-thumb {
+  background: rgba(110, 56, 26, .28);
+  border-radius: 999px;
+}
+.letter::-webkit-scrollbar-thumb:hover {
+  background: rgba(110, 56, 26, .48);
 }
 .quill-pen {
   position: absolute;
@@ -671,6 +689,48 @@ h1 {
 .signature em {
   font: 700 1.42em/1.15 var(--script);
   color: #6e2b1f;
+}
+.letter-video {
+  margin: 1.6rem 0 0;
+  padding-block-start: 1.25rem;
+  position: relative;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity .55s var(--ease), transform .55s var(--ease);
+}
+.letter-video.is-visible {
+  opacity: 1;
+  transform: none;
+}
+.letter-video::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  block-size: 1px;
+  background: linear-gradient(90deg, transparent, rgba(107, 56, 26, .24) 20%, rgba(107, 56, 26, .24) 80%, transparent);
+}
+.letter-video-caption {
+  margin-block-end: .65rem;
+  color: #6f2d20;
+  font: italic 500 .96rem/1.35 var(--serif);
+  text-shadow: none;
+}
+.letter-video-caption:empty {
+  display: none;
+}
+.letter-video-frame {
+  padding: 7px;
+  border-radius: 4px;
+  border: 1px solid rgba(110, 56, 26, .28);
+  background: rgba(250, 240, 218, .66);
+  box-shadow: 0 8px 22px rgba(59, 32, 14, .18);
+}
+.letter-video video {
+  display: block;
+  inline-size: 100%;
+  max-block-size: 52vh;
+  border-radius: 2px;
+  background: #1a110c;
 }
 .letter-footer {
   position: relative;

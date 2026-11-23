@@ -2,6 +2,12 @@
   'use strict';
 
   // Public demo only. Real letters must not be stored here as readable text.
+  // Optional video attachment format for any letter:
+  //   video: {
+  //     src: 'videos/example.mp4',       // path to your MP4/WebM video file
+  //     poster: 'art/video-cover.jpg',   // optional preview cover image
+  //     caption: 'A little video for you',
+  //   }
   const demo = {
     recipient: 'Alex',
     code: 'SNOW-2026',
@@ -10,6 +16,7 @@
       'I hope this Christmas gives you a quiet moment to catch your breath, something warm to drink, and a good reason to look forward to the new year.',
       'Thank you for stopping by. Merry Christmas!',
     ],
+    video: null,
   };
 
   const pick = (id) => document.getElementById(id);
@@ -25,6 +32,9 @@
   const letterBody = pick('letter-body');
   const letterSignature = pick('letter-signature');
   const letterDate = pick('letter-date');
+  const letterVideoWrap = pick('letter-video-wrap');
+  const letterVideoCaption = pick('letter-video-caption');
+  const letterVideo = pick('letter-video');
   const quill = pick('quill-pen');
   const skipBtn = pick('skip-writing');
   const replayBtn = pick('replay-writing');
@@ -42,11 +52,14 @@
   let writeChars = [];
   let writeIndex = 0;
   let isWriting = false;
+  let currentVideo = null;
+  let userScrolledLetter = false;
 
   // Background music controller (Anson Seabra - Once Upon a Christmas Eve)
   const TARGET_BGM_VOLUME = 0.45;
   let bgmFadeRaf = 0;
   let userPausedBgm = false;
+  let bgmPausedForVideo = false;
 
   function syncBgmUi(playing) {
     if (!bgmToggle) return;
@@ -224,6 +237,63 @@
     return chars;
   }
 
+  function prepareVideoAttachment(videoConfig) {
+    currentVideo = videoConfig && videoConfig.src ? videoConfig : null;
+    if (!letterVideoWrap || !letterVideo) return;
+    letterVideo.pause();
+    letterVideo.removeAttribute('src');
+    letterVideo.removeAttribute('poster');
+    letterVideoWrap.classList.remove('is-visible');
+    letterVideoWrap.hidden = true;
+    if (!currentVideo) return;
+
+    letterVideo.src = currentVideo.src;
+    if (currentVideo.poster) letterVideo.poster = currentVideo.poster;
+    letterVideoCaption.textContent = currentVideo.caption || '';
+    letterVideo.load();
+  }
+
+  function revealVideoAttachment() {
+    if (!currentVideo || !letterVideoWrap) return;
+    letterVideoWrap.hidden = false;
+    requestAnimationFrame(() => {
+      letterVideoWrap.classList.add('is-visible');
+    });
+  }
+
+  function resetVideoAttachment() {
+    if (!letterVideo) return;
+    letterVideo.pause();
+    try { letterVideo.currentTime = 0; } catch {}
+    if (bgmPausedForVideo) {
+      bgmPausedForVideo = false;
+      if (!userPausedBgm) startBgm();
+    }
+  }
+
+  if (letterVideo) {
+    letterVideo.addEventListener('play', () => {
+      if (bgm && !bgm.paused) {
+        bgmPausedForVideo = true;
+        pauseBgm();
+      }
+    });
+    const resumeBgmAfterVideo = () => {
+      if (bgmPausedForVideo) {
+        bgmPausedForVideo = false;
+        if (!userPausedBgm) startBgm();
+      }
+    };
+    letterVideo.addEventListener('pause', resumeBgmAfterVideo);
+    letterVideo.addEventListener('ended', resumeBgmAfterVideo);
+  }
+
+  const markUserScroll = () => {
+    if (isWriting) userScrolledLetter = true;
+  };
+  letter.addEventListener('wheel', markUserScroll, { passive: true });
+  letter.addEventListener('touchstart', markUserScroll, { passive: true });
+
   function finishWritingImmediately() {
     stopWriting();
     for (const item of writeChars) {
@@ -233,6 +303,7 @@
     quill.classList.remove('is-writing', 'is-lifting');
     skipBtn.hidden = true;
     replayBtn.hidden = false;
+    revealVideoAttachment();
   }
 
   function moveQuillToChar(el, stepIndex) {
@@ -245,9 +316,11 @@
     const tilt = Math.cos(stepIndex * 1.15) * 4.5;
     quill.style.transform = `translate3d(${x.toFixed(1)}px, ${(y + strokeY).toFixed(1)}px, 0) rotate(${tilt.toFixed(1)}deg)`;
 
-    const visibleBottom = letter.scrollTop + letter.clientHeight - 44;
-    if (y > visibleBottom) {
-      letter.scrollTop = y - letter.clientHeight + 72;
+    if (!userScrolledLetter) {
+      const visibleBottom = letter.scrollTop + letter.clientHeight - 56;
+      if (y > visibleBottom) {
+        letter.scrollTop = y - letter.clientHeight + 88;
+      }
     }
     return { x, y };
   }
@@ -274,8 +347,13 @@
     }
 
     isWriting = true;
+    userScrolledLetter = false;
     skipBtn.hidden = false;
     replayBtn.hidden = true;
+    if (letterVideoWrap) {
+      letterVideoWrap.classList.remove('is-visible');
+      letterVideoWrap.hidden = true;
+    }
     quill.classList.remove('is-writing', 'is-lifting');
     letter.scrollTop = 0;
 
@@ -307,6 +385,7 @@
         writeRaf = 0;
         skipBtn.hidden = true;
         replayBtn.hidden = false;
+        revealVideoAttachment();
         if (lastPos) {
           quill.classList.add('is-lifting');
           quill.style.transform = `translate3d(${(lastPos.x + 18).toFixed(1)}px, ${(lastPos.y - 20).toFixed(1)}px, 0) rotate(14deg)`;
@@ -342,6 +421,7 @@
     stopWriting();
     pick('envelope-recipient').textContent = 'To: ' + demo.recipient;
     writeChars = prepareLetterContent(demo.recipient, demo.paragraphs);
+    prepareVideoAttachment(demo.video);
     sealed.hidden = false;
     letterWrap.hidden = true;
     mail.showModal();
@@ -386,6 +466,7 @@
     delivery = undefined;
     clearOpenTimers();
     stopWriting();
+    resetVideoAttachment();
     quill.classList.remove('is-writing', 'is-lifting');
     pick('waiting-letter').hidden = false;
   });

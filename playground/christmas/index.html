@@ -8,8 +8,8 @@
   <title>Volodymyr's Christmas Gift · Playground</title>
   <link rel="icon" href="postmark.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Dancing+Script:wght@600;700&display=swap" media="print" onload="this.media='all'">
-  <link rel="stylesheet" href="style.css?v=20261123e">
-  <script defer src="app.js?v=20261123e"></script>
+  <link rel="stylesheet" href="style.css?v=20261123f">
+  <script defer src="app.js?v=20261123f"></script>
 </head>
 <body>
   <main class="scene">
@@ -253,6 +253,12 @@
       <h3 id="letter-greeting" tabindex="-1"></h3>
       <div id="letter-body"></div>
       <p id="letter-signature" class="signature">Warm wishes,<br><em>Wenzhe</em></p>
+      <figure id="letter-video-wrap" class="letter-video" hidden>
+        <figcaption id="letter-video-caption" class="letter-video-caption"></figcaption>
+        <div class="letter-video-frame">
+          <video id="letter-video" controls playsinline preload="metadata"></video>
+        </div>
+      </figure>
       <footer class="letter-footer">
         <p id="letter-date" class="letter-date">Christmas 2026</p>
         <div class="letter-controls">
