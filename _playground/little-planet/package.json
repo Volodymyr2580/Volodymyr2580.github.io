@@ -1,0 +1,16 @@
+{
+  "name": "volodymyrs-planet",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A small pixel-art world for Volodymyr's academic homepage.",
+  "scripts": {
+    "dev": "node scripts/serve.mjs",
+    "build": "node scripts/build.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "check": "node --check src/main.js"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

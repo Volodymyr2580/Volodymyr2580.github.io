@@ -11,6 +11,14 @@
     "en": "Compute inverses and eigendecompositions for square matrices, or pseudoinverses and SVD for rectangular matrices. All calculations run locally in your browser.",
     "zh-CN": "方阵求逆与特征值分解，非方阵求伪逆与奇异值分解（SVD）。所有计算均在浏览器本地完成。"
   },
+  "Explore the island →": {
+    "en": "Explore the island →",
+    "zh-CN": "探索小岛 →"
+  },
+  "Walk through a pixel-art island of radar echoes, polar ice, books, and campfire stories. Explore with the keyboard, a tap, or the mobile joystick.": {
+    "en": "Walk through a pixel-art island of radar echoes, polar ice, books, and campfire stories. Explore with the keyboard, a tap, or the mobile joystick.",
+    "zh-CN": "漫游像素小岛，发现雷达回声、极地冰原、书屋与营火旁的故事。使用键盘、点击或手机摇杆自由探索。"
+  },
   "Language": {
     "en": "Language",
     "zh-CN": "语言"
