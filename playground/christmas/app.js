@@ -352,11 +352,13 @@
     });
 
     letterSignature.replaceChildren();
-    const sigPrefix = letterData.signaturePrefix || 'Warm wishes,';
+    const sigPrefix = letterData.signaturePrefix !== undefined ? String(letterData.signaturePrefix).trim() : 'Warm wishes,';
     const sigName = letterData.signatureName || 'Wenzhe';
-    appendCharSpans(letterSignature, sigPrefix, chars);
-    if (chars.length) chars[chars.length - 1].pauseAfter = 110;
-    letterSignature.appendChild(document.createElement('br'));
+    if (sigPrefix) {
+      appendCharSpans(letterSignature, sigPrefix, chars);
+      if (chars.length) chars[chars.length - 1].pauseAfter = 110;
+      letterSignature.appendChild(document.createElement('br'));
+    }
     const em = document.createElement('em');
     appendCharSpans(em, sigName, chars);
     if (chars.length) chars[chars.length - 1].pauseAfter = 130;
