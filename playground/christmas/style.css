@@ -6,9 +6,9 @@
   --gold: #ffcf91;
   --wax: #843829;
   --ink: #2c1d18;
-  --serif: Georgia, "Times New Roman", serif;
-  --hand: "Caveat", "Bradley Hand", "Kaiti SC", "STKaiti", Georgia, cursive;
-  --script: "Dancing Script", "Snell Roundhand", "Bradley Hand", "Kaiti SC", "STKaiti", Georgia, cursive;
+  --serif: Georgia, "Times New Roman", "Songti SC", "Noto Serif SC", serif;
+  --hand: "Caveat", "Ma Shan Zheng", "Bradley Hand", "Kaiti SC", "STKaiti", "KaiTi", Georgia, cursive;
+  --script: "Dancing Script", "Ma Shan Zheng", "Snell Roundhand", "Bradley Hand", "Kaiti SC", "STKaiti", "KaiTi", Georgia, cursive;
   --sans: system-ui, sans-serif;
   --ease: cubic-bezier(.2, .68, .22, 1);
 }
@@ -717,6 +717,12 @@ h1 {
 }
 .letter-video-caption:empty {
   display: none;
+}
+.letter-video-status {
+  margin: .3rem 0 .4rem;
+  color: #6f2d20;
+  font: italic 500 .95rem/1.4 var(--serif);
+  text-shadow: none;
 }
 .letter-video-frame {
   padding: 7px;

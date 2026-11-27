@@ -7,9 +7,9 @@
   <meta name="description" content="A little Christmas letter, written for you.">
   <title>Volodymyr's Christmas Gift · Playground</title>
   <link rel="icon" href="postmark.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Dancing+Script:wght@600;700&display=swap" media="print" onload="this.media='all'">
-  <link rel="stylesheet" href="style.css?v=20261123f">
-  <script defer src="app.js?v=20261123f"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Dancing+Script:wght@600;700&family=Ma+Shan+Zheng&display=swap" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="style.css?v=20261127a">
+  <script defer src="app.js?v=20261127a"></script>
 </head>
 <body>
   <main class="scene">
@@ -255,7 +255,8 @@
       <p id="letter-signature" class="signature">Warm wishes,<br><em>Wenzhe</em></p>
       <figure id="letter-video-wrap" class="letter-video" hidden>
         <figcaption id="letter-video-caption" class="letter-video-caption"></figcaption>
-        <div class="letter-video-frame">
+        <p id="letter-video-status" class="letter-video-status" hidden></p>
+        <div id="letter-video-frame" class="letter-video-frame" hidden>
           <video id="letter-video" controls playsinline preload="metadata"></video>
         </div>
       </figure>

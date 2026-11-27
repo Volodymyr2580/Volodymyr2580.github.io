@@ -1,0 +1,7 @@
+{
+  "version": 1,
+  "kdf": "PBKDF2-SHA256",
+  "iterations": 120000,
+  "saltB64": "lpvO/8aWlZAIq/FEK2gIyg==",
+  "slots": []
+}

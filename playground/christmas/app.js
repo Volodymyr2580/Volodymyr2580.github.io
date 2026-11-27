@@ -1,21 +1,20 @@
 (() => {
   'use strict';
 
-  // Public demo only. Real letters must not be stored here as readable text.
-  // Optional video attachment format for any letter:
-  //   video: {
-  //     src: 'videos/example.mp4',       // path to your MP4/WebM video file
-  //     poster: 'art/video-cover.jpg',   // optional preview cover image
-  //     caption: 'A little video for you',
-  //   }
+  // Public demo only. Real letters live encrypted in vault/ and are built from private-christmas/.
   const demo = {
     recipient: 'Alex',
     code: 'SNOW-2026',
+    envelopeRecipient: 'To: Alex',
+    greeting: 'Dear Alex,',
     paragraphs: [
       'If this letter found you, the little post office is doing its job.',
       'I hope this Christmas gives you a quiet moment to catch your breath, something warm to drink, and a good reason to look forward to the new year.',
       'Thank you for stopping by. Merry Christmas!',
     ],
+    signaturePrefix: 'Warm wishes,',
+    signatureName: 'Wenzhe',
+    date: 'Christmas 2026',
     video: null,
   };
 
@@ -34,10 +33,14 @@
   const letterDate = pick('letter-date');
   const letterVideoWrap = pick('letter-video-wrap');
   const letterVideoCaption = pick('letter-video-caption');
+  const letterVideoStatus = pick('letter-video-status');
+  const letterVideoFrame = pick('letter-video-frame');
   const letterVideo = pick('letter-video');
   const quill = pick('quill-pen');
   const skipBtn = pick('skip-writing');
   const replayBtn = pick('replay-writing');
+  const pickupForm = pick('pickup');
+  const pickupFields = pick('pickup-fields');
   const recipient = pick('recipient');
   const code = pick('pickup-code');
   const status = pick('pickup-status');
@@ -53,13 +56,139 @@
   let writeIndex = 0;
   let isWriting = false;
   let currentVideo = null;
+  let activeVideoObjectUrl = null;
+  let videoDecryptGeneration = 0;
   let userScrolledLetter = false;
+  let vaultIndexCache = null;
 
   // Background music controller (Anson Seabra - Once Upon a Christmas Eve)
   const TARGET_BGM_VOLUME = 0.45;
   let bgmFadeRaf = 0;
   let userPausedBgm = false;
   let bgmPausedForVideo = false;
+
+  function normalizeName(value) {
+    return (value || '').trim().normalize('NFKC').toLowerCase().replace(/\s+/g, '');
+  }
+
+  function normalizeCode(value) {
+    return (value || '').trim().normalize('NFKC').toUpperCase().replace(/\s+/g, '');
+  }
+
+  function b64ToBytes(b64) {
+    const bin = atob(b64);
+    const bytes = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i += 1) {
+      bytes[i] = bin.charCodeAt(i);
+    }
+    return bytes;
+  }
+
+  function bytesToHex(bytes) {
+    let hex = '';
+    for (let i = 0; i < bytes.length; i += 1) {
+      hex += bytes[i].toString(16).padStart(2, '0');
+    }
+    return hex;
+  }
+
+  async function deriveSlotKeys(normName, normCode, saltB64, iterations) {
+    const subtle = window.crypto && window.crypto.subtle;
+    if (!subtle) {
+      throw new Error('Secure context required for encrypted letters.');
+    }
+    const enc = new TextEncoder();
+    const secretBytes = enc.encode(`${normName}\0${normCode}`);
+    const baseKey = await subtle.importKey('raw', secretBytes, 'PBKDF2', false, ['deriveBits']);
+    const bits = await subtle.deriveBits(
+      {
+        name: 'PBKDF2',
+        salt: b64ToBytes(saltB64),
+        iterations,
+        hash: 'SHA-256',
+      },
+      baseKey,
+      96 * 8
+    );
+    const dk = new Uint8Array(bits);
+    const tagDigest = new Uint8Array(await subtle.digest('SHA-256', dk.slice(0, 32)));
+    return {
+      tag: bytesToHex(tagDigest).slice(0, 32),
+      encKey: dk.slice(32, 64),
+      macKey: dk.slice(64, 96),
+    };
+  }
+
+  async function decryptBlob(encKeyBytes, macKeyBytes, encryptedBytes) {
+    const subtle = window.crypto.subtle;
+    if (encryptedBytes.length < 48) {
+      throw new Error('Corrupted encrypted payload.');
+    }
+    const iv = encryptedBytes.slice(0, 16);
+    const macOffset = encryptedBytes.length - 32;
+    const dataToVerify = encryptedBytes.slice(0, macOffset);
+    const ciphertext = encryptedBytes.slice(16, macOffset);
+    const mac = encryptedBytes.slice(macOffset);
+
+    const macKey = await subtle.importKey(
+      'raw',
+      macKeyBytes,
+      { name: 'HMAC', hash: 'SHA-256' },
+      false,
+      ['verify']
+    );
+    const valid = await subtle.verify('HMAC', macKey, mac, dataToVerify);
+    if (!valid) {
+      throw new Error('Authentication failed.');
+    }
+
+    const encKey = await subtle.importKey('raw', encKeyBytes, 'AES-CTR', false, ['decrypt']);
+    const plaintextBuf = await subtle.decrypt(
+      { name: 'AES-CTR', counter: iv, length: 64 },
+      encKey,
+      ciphertext
+    );
+    return new Uint8Array(plaintextBuf);
+  }
+
+  async function loadVaultIndex() {
+    if (vaultIndexCache) return vaultIndexCache;
+    const res = await fetch('vault/index.json', { cache: 'no-store' });
+    if (res.status === 404) return null;
+    if (!res.ok) throw new Error('Failed to load vault index.');
+    vaultIndexCache = await res.json();
+    return vaultIndexCache;
+  }
+
+  async function unlockVaultLetter(rawName, rawCode) {
+    const index = await loadVaultIndex();
+    if (!index || !Array.isArray(index.slots) || !index.slots.length) {
+      return null;
+    }
+    const normName = normalizeName(rawName);
+    const normCode = normalizeCode(rawCode);
+    const { tag, encKey, macKey } = await deriveSlotKeys(
+      normName,
+      normCode,
+      index.saltB64,
+      index.iterations || 120000
+    );
+    const slot = index.slots.find((entry) => entry.tag === tag);
+    if (!slot) return null;
+
+    const slotPlain = await decryptBlob(encKey, macKey, b64ToBytes(slot.payload));
+    const slotInfo = JSON.parse(new TextDecoder().decode(slotPlain));
+    const letterRes = await fetch(slotInfo.letterFile, { cache: 'no-store' });
+    if (!letterRes.ok) throw new Error('Failed to load encrypted letter.');
+
+    const letterCombinedKey = b64ToBytes(slotInfo.letterKeyB64);
+    const letterPlain = await decryptBlob(
+      letterCombinedKey.slice(0, 32),
+      letterCombinedKey.slice(32, 64),
+      new Uint8Array(await letterRes.arrayBuffer())
+    );
+    return JSON.parse(new TextDecoder().decode(letterPlain));
+  }
 
   function syncBgmUi(playing) {
     if (!bgmToggle) return;
@@ -128,7 +257,6 @@
       }
     });
 
-    // Attempt gentle autoplay; if browser blocks before gesture, start smoothly on first interaction
     startBgm();
     const unlockBgm = () => {
       if (!userPausedBgm && bgm.paused) startBgm();
@@ -208,49 +336,100 @@
     }
   }
 
-  function prepareLetterContent(recipientName, paragraphs) {
+  function prepareLetterContent(letterData) {
     const chars = [];
     greeting.replaceChildren();
-    appendCharSpans(greeting, 'Dear ' + recipientName + ',', chars);
-    if (chars.length) chars[chars.length - 1].pauseAfter = 170;
+    appendCharSpans(greeting, letterData.greeting || '', chars);
+    if (chars.length) chars[chars.length - 1].pauseAfter = 190;
 
     letterBody.replaceChildren();
+    const paragraphs = Array.isArray(letterData.paragraphs) ? letterData.paragraphs : [];
     paragraphs.forEach((line, idx) => {
       const p = document.createElement('p');
-      appendCharSpans(p, line, chars);
-      if (chars.length) chars[chars.length - 1].pauseAfter = idx === paragraphs.length - 1 ? 180 : 140;
+      appendCharSpans(p, String(line), chars);
+      if (chars.length) chars[chars.length - 1].pauseAfter = idx === paragraphs.length - 1 ? 190 : 150;
       letterBody.appendChild(p);
     });
 
     letterSignature.replaceChildren();
-    appendCharSpans(letterSignature, 'Warm wishes,', chars);
+    const sigPrefix = letterData.signaturePrefix || 'Warm wishes,';
+    const sigName = letterData.signatureName || 'Wenzhe';
+    appendCharSpans(letterSignature, sigPrefix, chars);
     if (chars.length) chars[chars.length - 1].pauseAfter = 110;
     letterSignature.appendChild(document.createElement('br'));
     const em = document.createElement('em');
-    appendCharSpans(em, 'Wenzhe', chars);
-    if (chars.length) chars[chars.length - 1].pauseAfter = 120;
+    appendCharSpans(em, sigName, chars);
+    if (chars.length) chars[chars.length - 1].pauseAfter = 130;
     letterSignature.appendChild(em);
 
     letterDate.replaceChildren();
-    appendCharSpans(letterDate, 'Christmas 2026', chars);
+    appendCharSpans(letterDate, letterData.date || 'Christmas 2026', chars);
 
     return chars;
   }
 
+  function revokeActiveVideoUrl() {
+    if (activeVideoObjectUrl) {
+      URL.revokeObjectURL(activeVideoObjectUrl);
+      activeVideoObjectUrl = null;
+    }
+  }
+
   function prepareVideoAttachment(videoConfig) {
-    currentVideo = videoConfig && videoConfig.src ? videoConfig : null;
+    videoDecryptGeneration += 1;
+    const gen = videoDecryptGeneration;
+    currentVideo = videoConfig && (videoConfig.vaultFile || videoConfig.src) ? videoConfig : null;
+
     if (!letterVideoWrap || !letterVideo) return;
     letterVideo.pause();
     letterVideo.removeAttribute('src');
     letterVideo.removeAttribute('poster');
+    revokeActiveVideoUrl();
     letterVideoWrap.classList.remove('is-visible');
     letterVideoWrap.hidden = true;
-    if (!currentVideo) return;
+    letterVideoStatus.hidden = true;
+    letterVideoStatus.textContent = '';
+    letterVideoFrame.hidden = true;
 
-    letterVideo.src = currentVideo.src;
-    if (currentVideo.poster) letterVideo.poster = currentVideo.poster;
+    if (!currentVideo) return;
     letterVideoCaption.textContent = currentVideo.caption || '';
-    letterVideo.load();
+
+    if (currentVideo.src) {
+      letterVideo.src = currentVideo.src;
+      if (currentVideo.poster) letterVideo.poster = currentVideo.poster;
+      letterVideoFrame.hidden = false;
+      letterVideo.load();
+      return;
+    }
+
+    if (currentVideo.vaultFile && currentVideo.keyB64) {
+      letterVideoStatus.textContent = 'Preparing your attached video…';
+      letterVideoStatus.hidden = false;
+      (async () => {
+        try {
+          const res = await fetch(currentVideo.vaultFile, { cache: 'no-store' });
+          if (!res.ok) throw new Error('Video download failed');
+          const combinedKey = b64ToBytes(currentVideo.keyB64);
+          const decryptedBytes = await decryptBlob(
+            combinedKey.slice(0, 32),
+            combinedKey.slice(32, 64),
+            new Uint8Array(await res.arrayBuffer())
+          );
+          if (gen !== videoDecryptGeneration) return;
+          const blob = new Blob([decryptedBytes], { type: currentVideo.mimeType || 'video/mp4' });
+          activeVideoObjectUrl = URL.createObjectURL(blob);
+          letterVideo.src = activeVideoObjectUrl;
+          letterVideoStatus.hidden = true;
+          letterVideoStatus.textContent = '';
+          letterVideoFrame.hidden = false;
+          letterVideo.load();
+        } catch {
+          if (gen !== videoDecryptGeneration) return;
+          letterVideoStatus.textContent = 'Unable to load the attached video right now.';
+          letterVideoStatus.hidden = false;
+        }
+      })();
+    }
   }
 
   function revealVideoAttachment() {
@@ -262,9 +441,13 @@
   }
 
   function resetVideoAttachment() {
-    if (!letterVideo) return;
-    letterVideo.pause();
-    try { letterVideo.currentTime = 0; } catch {}
+    videoDecryptGeneration += 1;
+    if (letterVideo) {
+      letterVideo.pause();
+      try { letterVideo.currentTime = 0; } catch {}
+      letterVideo.removeAttribute('src');
+    }
+    revokeActiveVideoUrl();
     if (bgmPausedForVideo) {
       bgmPausedForVideo = false;
       if (!userPausedBgm) startBgm();
@@ -325,13 +508,23 @@
     return { x, y };
   }
 
+  function isCjk(ch) {
+    const codePoint = ch.codePointAt(0) || 0;
+    return (
+      (codePoint >= 0x4e00 && codePoint <= 0x9fff) ||
+      (codePoint >= 0x3400 && codePoint <= 0x4dbf) ||
+      (codePoint >= 0x3000 && codePoint <= 0x303f) ||
+      (codePoint >= 0xff00 && codePoint <= 0xffef)
+    );
+  }
+
   function charDelay(item) {
     if (item.pauseAfter) return item.pauseAfter;
     const ch = item.ch;
     if (ch === ' ') return 13;
-    if (',;'.includes(ch)) return 95;
-    if ('.!?'.includes(ch)) return 135;
-    return 24;
+    if (',;，、；：'.includes(ch)) return 120;
+    if ('.!?。！？…'.includes(ch)) return 185;
+    return isCjk(ch) ? 46 : 22;
   }
 
   function startQuillWriting(initialDelay = 140) {
@@ -407,26 +600,47 @@
     startQuillWriting(560);
   }
 
-  pick('pickup').addEventListener('submit', (event) => {
-    event.preventDefault();
-    const name = recipient.value.trim().normalize('NFKC').toLowerCase();
-    const token = code.value.trim().toUpperCase();
-    if (name !== demo.recipient.toLowerCase() || token !== demo.code) {
-      status.textContent = 'We couldn’t find that letter. Please check your name and secret code.';
-      return;
-    }
+  function openLetterDialog(letterData) {
     status.textContent = '';
     code.value = '';
     clearOpenTimers();
     stopWriting();
-    pick('envelope-recipient').textContent = 'To: ' + demo.recipient;
-    writeChars = prepareLetterContent(demo.recipient, demo.paragraphs);
-    prepareVideoAttachment(demo.video);
+    pick('envelope-recipient').textContent = letterData.envelopeRecipient || ('To: ' + demo.recipient);
+    writeChars = prepareLetterContent(letterData);
+    prepareVideoAttachment(letterData.video);
     sealed.hidden = false;
     letterWrap.hidden = true;
     mail.showModal();
     pick('waiting-letter').hidden = true;
     deliver();
+  }
+
+  pickupForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const rawName = recipient.value;
+    const rawCode = code.value;
+    const normName = normalizeName(rawName);
+    const normCode = normalizeCode(rawCode);
+
+    if (normName === normalizeName(demo.recipient) && normCode === normalizeCode(demo.code)) {
+      openLetterDialog(demo);
+      return;
+    }
+
+    pickupFields.disabled = true;
+    status.textContent = 'Checking the post office shelves…';
+    try {
+      const unlocked = await unlockVaultLetter(rawName, rawCode);
+      if (!unlocked) {
+        status.textContent = 'We couldn’t find that letter. Please check your name and secret code.';
+        return;
+      }
+      openLetterDialog(unlocked);
+    } catch {
+      status.textContent = 'We couldn’t open the mailbox right now. Please try again.';
+    } finally {
+      pickupFields.disabled = false;
+    }
   });
 
   for (const input of [recipient, code]) {
@@ -473,7 +687,7 @@
 
   artwork.addEventListener('load', placeSceneDetails);
   if (artwork.complete) placeSceneDetails();
-  pick('pickup-fields').disabled = false;
+  pickupFields.disabled = false;
 
   const canvas = pick('snow');
   const context = canvas.getContext('2d');
